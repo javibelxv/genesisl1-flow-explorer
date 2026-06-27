@@ -1,0 +1,814 @@
+{
+  "updated": "2026-06-27T16:43:27Z",
+  "total_liquid": 46197448.77837465,
+  "wallets": 622344,
+  "concentration": {
+    "top1": 51.83707124299134,
+    "top3": 75.54570181052685,
+    "top5": 79.09407887150653,
+    "top10": 81.27084168640086,
+    "top20": 83.23189527011098
+  },
+  "holders": [
+    {
+      "a": "genesis1fl48vsnmsdzcv85q5d2q4z5ajdha8yu3tjaeaz",
+      "v": 23947404
+    },
+    {
+      "a": "genesis1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8eks2d2",
+      "v": 8813077
+    },
+    {
+      "a": "genesis1tygms3xhhs3yv487phx3dw4a95jn7t7lljpgtk",
+      "v": 2139704
+    },
+    {
+      "a": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
+      "v": 1254785
+    },
+    {
+      "a": "genesis19tj0sa69cdp3qpd6hl7ff4dsc5yskqm9d62hyx",
+      "v": 384473
+    },
+    {
+      "a": "genesis1s6mdag35z5jn0xepmshunyp4dzg9mu3vprdj6f",
+      "v": 323963
+    },
+    {
+      "a": "genesis1vrkt9usz2afg9fmkep2nrnlkvups2z0wrfy73w",
+      "v": 240913
+    },
+    {
+      "a": "genesis1s8elzc7pltmwf3xfcdph44c09dvq7gsjljwrx6",
+      "v": 155744
+    },
+    {
+      "a": "genesis1pn3hkeyyr46q2ec4x5rzvuwgwrw5ulk7mlcjeh",
+      "v": 142987
+    },
+    {
+      "a": "genesis1qt09d5kqk0h4dgm5wfuqn04e2gsgrdrjlda58h",
+      "v": 142000
+    },
+    {
+      "a": "genesis18364g2y5k3y0x7l59v6u7wuveplr8a30mjttl3",
+      "v": 110097
+    },
+    {
+      "a": "genesis1e0wzg69yndukvmuadld8ugdqxrpnxd06pcakcx",
+      "v": 100001
+    },
+    {
+      "a": "genesis1hyucvvuvy5j9nxgmq83ccn2lyud22ukdfhx207",
+      "v": 99999
+    },
+    {
+      "a": "genesis1w25y5ntpthaawjkyrpm9el8nemm2xdnmzpnzdl",
+      "v": 99000
+    },
+    {
+      "a": "genesis1x4p6luc83xsqjl65x8w8dky77d8jj6f39002r0",
+      "v": 97505
+    },
+    {
+      "a": "genesis1px5hrplm5talh55j79gc6wsazeu05vgmf3rkkx",
+      "v": 93316
+    },
+    {
+      "a": "genesis1m5wlkvl28p4k8q96darmqcvzzvz5ry6vfyc9vv",
+      "v": 89687
+    },
+    {
+      "a": "genesis1qawq9fnx5rz7walpj5feryrhat7pjwkawrw2u2",
+      "v": 86728
+    },
+    {
+      "a": "genesis1huvdx7ank8ras26ze4f7j8wshntpyskd9rvdwu",
+      "v": 66567
+    },
+    {
+      "a": "genesis16x3fvvqjhm9u0284q4rygwdtv7xy3ym0jw3rdp",
+      "v": 63052
+    },
+    {
+      "a": "genesis1gk93fy27v5fy8t8cnszctx3z6h8lja4x5h59jf",
+      "v": 59998
+    },
+    {
+      "a": "genesis1dzmnc40xz64sewwt7sm55urx6qxnsn09gdsdrl",
+      "v": 56874
+    },
+    {
+      "a": "genesis1wqfvpdzudz3vqemyfwwnuhw6q6yjc62hg2ks0z",
+      "v": 51740
+    },
+    {
+      "a": "genesis1mytrxvvmmv9f9j7y7zx75u6t7axqxqry8u4g92",
+      "v": 51684
+    },
+    {
+      "a": "genesis1afvvw56w2uq64qmsurawkxdhu9r98e5uajuhsx",
+      "v": 50803
+    },
+    {
+      "a": "genesis1arn2sngceqr86w7hf624tpydz5q74cc28qmwq5",
+      "v": 49515
+    },
+    {
+      "a": "genesis1z9eg2jtv5j23q5t9l9qsfu7xrp0kn050p2m8vh",
+      "v": 45058
+    },
+    {
+      "a": "genesis1pn4ljqurzfw76wh8dc9lqmkw6ym5d89cfw6hea",
+      "v": 41996
+    },
+    {
+      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
+      "v": 41097
+    },
+    {
+      "a": "genesis10rx8lxl33tuz08jf94z7ullf6lxx7mg8844d65",
+      "v": 35873
+    },
+    {
+      "a": "genesis1hkh87f4xu54l93yfjan8zp48au6e8wfkg846nq",
+      "v": 34978
+    },
+    {
+      "a": "genesis1z6mhzw4s52fppehh39u84m3ufgyygcgzhk2q2f",
+      "v": 33530
+    },
+    {
+      "a": "genesis1a3jq78d7fslgsrrfexyv55ucq28hwqnxefwkph",
+      "v": 33432
+    },
+    {
+      "a": "genesis12wnme7z2eu6upc00m4nxvf57wpeuvtctqlv7yv",
+      "v": 33127
+    },
+    {
+      "a": "genesis1srnhcc6s89d569wztnes5876rwdy86pfq2r0lx",
+      "v": 32456
+    },
+    {
+      "a": "genesis1jlmmffemejesywfnqdpr8ka4q4u8kflynnecf5",
+      "v": 32000
+    },
+    {
+      "a": "genesis185grkae50u6ph9pcmxym722pcp2qfj5ef6t899",
+      "v": 31250
+    },
+    {
+      "a": "genesis1hks9cv4ddms48jx957xl5jxhhgjkjnl2ggp9vq",
+      "v": 31047
+    },
+    {
+      "a": "genesis1crvhvanzj2aufvgdpdr9ewzhcez65wp6sdlyre",
+      "v": 29675
+    },
+    {
+      "a": "genesis198gfafkd66yvm59cmm9scg6p88c307umpwlk4g",
+      "v": 28267
+    },
+    {
+      "a": "genesis19qqqkdx84pwncm3mdjujp0xlysspufvfgxfh9r",
+      "v": 28000
+    },
+    {
+      "a": "genesis19qqqlc8k267zww6k34h2arskc6yfhhlvqk8dwr",
+      "v": 28000
+    },
+    {
+      "a": "genesis1wwxpj2wxnd63h597pwtzmxavyzmrr2kx0xhph5",
+      "v": 26787
+    },
+    {
+      "a": "genesis1hgp002gnpvas3jz0xawh8ek39nghjycxk6qd47",
+      "v": 25188
+    },
+    {
+      "a": "genesis1vgmc0u87ldlwa653ycsljpxyvtwdxuy4pwwwjt",
+      "v": 25142
+    },
+    {
+      "a": "genesis173sm0ekvxskjjs3hnj44xvn8r49eamlwdqhmv4",
+      "v": 25005
+    },
+    {
+      "a": "genesis1036lpa7k6ym29wx5cmrwnv7c56tef803cmwzax",
+      "v": 24630
+    },
+    {
+      "a": "genesis1488e8hg2qhqyesdx9phaa30vv3mgq8wcasc637",
+      "v": 24408
+    },
+    {
+      "a": "genesis1rkvntk24dm9gn95vms9hzxtjhxnlqgmagkescf",
+      "v": 23825
+    },
+    {
+      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
+      "v": 23760
+    },
+    {
+      "a": "genesis1wxgewqgud88xd8hqga65e5yzuwrsatnm6xuquk",
+      "v": 22750
+    },
+    {
+      "a": "genesis1mwccg3txrpp36svskffljejwww7w2mf86pc9qt",
+      "v": 20858
+    },
+    {
+      "a": "genesis1l6xc2aw732vlngm2gs5dncq7gtdacw0w5ywgk7",
+      "v": 20000
+    },
+    {
+      "a": "genesis1550629ugmc9utdf54dxt5glsx20v25fv937ju3",
+      "v": 19953
+    },
+    {
+      "a": "genesis1eekx8q0cyatssn3a7ce09mdyx9qvk9h8chf5hz",
+      "v": 19679
+    },
+    {
+      "a": "genesis1vhvxmjl7ykqw70j5cyysjjsus6zs6f97pfspr8",
+      "v": 19609
+    },
+    {
+      "a": "genesis1y5lskyzt7yceu27k9en50326k9nmr8n63ml294",
+      "v": 19583
+    },
+    {
+      "a": "genesis1wr5f9n2tq27hrtam72ktsvca0hvpl7cvmchjre",
+      "v": 18498
+    },
+    {
+      "a": "genesis1chwg0d64q8f7xjvwxlxuudppw8aeqfq9ca8t8n",
+      "v": 17862
+    },
+    {
+      "a": "genesis1yj3a3jlx4vpffxrytc88q896jhn3hnwlna6her",
+      "v": 17655
+    },
+    {
+      "a": "genesis16rtes9amvynhd098q99dkvmapgpxfrfvv9e6r6",
+      "v": 15983
+    },
+    {
+      "a": "genesis1ze4ncv57vejnjexwlhzey4pmaejgt699nxapkt",
+      "v": 15404
+    },
+    {
+      "a": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
+      "v": 14842
+    },
+    {
+      "a": "genesis1c2w7sxnp423935c47zwv32rgmk2zmgt8d0hgpp",
+      "v": 14552
+    },
+    {
+      "a": "genesis1vtx40rl8czgp9xguzt3gunqw8k2dd7wdxyx0d5",
+      "v": 14099
+    },
+    {
+      "a": "genesis1u47h9qyxufvrgf27hqhu66j092as9upjr5dy4f",
+      "v": 14085
+    },
+    {
+      "a": "genesis1a5dxzk0zv7gly2nvuqu3xrfq3tp383qcrqedv0",
+      "v": 13957
+    },
+    {
+      "a": "genesis1322arrjrekzf88utfxxj9jfsaenfsju3yfw50y",
+      "v": 13854
+    },
+    {
+      "a": "genesis18kxuwzk3ss8jzh2q3aqndqans9w6d99394qg9h",
+      "v": 13683
+    },
+    {
+      "a": "genesis15rs6cpjw0pqgrkjk8tylc9hf67uzq3p9vnr7cx",
+      "v": 13650
+    },
+    {
+      "a": "genesis13eh4wpm3660gd0748qxwth8chtj79u92h6yr4u",
+      "v": 13376
+    },
+    {
+      "a": "genesis1qnru6d3la5z24azc3jzllnjqk0fe566c3nqzy9",
+      "v": 12852
+    },
+    {
+      "a": "genesis1cgtwjm09cjldad0wzm797a2s99lm3pvca3kqgy",
+      "v": 12183
+    },
+    {
+      "a": "genesis1q9u3nud7zyjtjgs36m8z8vd50wvs8pae4e6ady",
+      "v": 11987
+    },
+    {
+      "a": "genesis1ks67src8z7d7yntes3p53urn0ck82x6utzal57",
+      "v": 11763
+    },
+    {
+      "a": "genesis1aemxru5sy3rfxxp2kpwwxppqskf0gqjk56zrps",
+      "v": 11671
+    },
+    {
+      "a": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
+      "v": 11323
+    },
+    {
+      "a": "genesis1da4lpc7dnpstuv99ke3f9ryl32gxcg8y8439gy",
+      "v": 11278
+    },
+    {
+      "a": "genesis1msknwuq9kfhfmycdvgl6gm3lmctt63wcvmyage",
+      "v": 11179
+    },
+    {
+      "a": "genesis1tkc8p47a4fvwej0wcp5jd3y623mhctdnxyu4d2",
+      "v": 11060
+    },
+    {
+      "a": "genesis1y5ef6gun6qdyhpdddgjgsjh5evetlp8mg0vn34",
+      "v": 11000
+    },
+    {
+      "a": "genesis1za8ajsuan3093tqekyl7r7scvxex0achv5mpaa",
+      "v": 10773
+    },
+    {
+      "a": "genesis1kjmg9x7xzh5xr6nr725p7lgdrrtuex9yv5lgvy",
+      "v": 10728
+    },
+    {
+      "a": "genesis1v3um4h8ljp26frtjczzd0jse8gqhr82vsuta3u",
+      "v": 10705
+    },
+    {
+      "a": "genesis1y0a4kwx702xpfa6vjcfk5lejre8s7yk3s6fvrw",
+      "v": 10574
+    },
+    {
+      "a": "genesis1ag3m9luyulmkqqze70n8ss8vml740vkuk0pd64",
+      "v": 10506
+    },
+    {
+      "a": "genesis12ruv5cjffrj6ljtdweu3k3wltcshze6c0fghpj",
+      "v": 10415
+    },
+    {
+      "a": "genesis1cudykrm5j7ep6xvvaacj7qkdc35r2gad7ew054",
+      "v": 10405
+    },
+    {
+      "a": "genesis1r2tqqghgp7fxqpdgkg4v9te6afhsekjkskqw9f",
+      "v": 10300
+    },
+    {
+      "a": "genesis10d07y265gmmuvt4z0w9aw880jnsr700jyt8njx",
+      "v": 10099
+    },
+    {
+      "a": "genesis1kvuh5mlwmletnl8fegggdjcmm4shc94lyn5859",
+      "v": 10044
+    },
+    {
+      "a": "genesis1w6w4u6ltp9l2a0m3vnr8vrmh6p0apvzewevska",
+      "v": 10000
+    },
+    {
+      "a": "genesis1gketcc4ctu803svseq6q5rwfg06hyl68ukex03",
+      "v": 10000
+    },
+    {
+      "a": "genesis1fjt8vfdae56pgz4zaaq40lvgq398ecwg4ptaae",
+      "v": 10000
+    },
+    {
+      "a": "genesis1tcqmng7xsyn5nykp67rrdx7tj392flfmj4lk78",
+      "v": 10000
+    },
+    {
+      "a": "genesis13d8g5m66sdutgelrymku25rxm522x7psmpxm3w",
+      "v": 9950
+    },
+    {
+      "a": "genesis1npwzxuzlws2l6lddyvsz95wfr6tpm8pqhnqr7t",
+      "v": 9947
+    },
+    {
+      "a": "genesis1pgy8rsh2dujpf96cm3dazymdxdah73acccq7ls",
+      "v": 9824
+    },
+    {
+      "a": "genesis1vc0e9lze2qpqc745zz6ltwdr7s5lfxh9yetntg",
+      "v": 9397
+    },
+    {
+      "a": "genesis1ha85s8nl4f5wkep35ey754y6gxpppxmj4myufv",
+      "v": 9152
+    },
+    {
+      "a": "genesis1g2r2aa8jp995kpa3dvnjajhd2mgf7mpkpunzul",
+      "v": 9081
+    },
+    {
+      "a": "genesis1twk9jyqruy0dxknuagdc3muzdk2u506jc7x9ca",
+      "v": 8977
+    },
+    {
+      "a": "genesis180yl2xp42xuaxgl92xffzzfrnqxv2dh4t3pqh5",
+      "v": 8828
+    },
+    {
+      "a": "genesis1h9mxxdav8fg3yakvhrw4rwkkge4r3clvwrj0ee",
+      "v": 8607
+    },
+    {
+      "a": "genesis1xchgeynvgf63kuqlpzsnw20h393u4fxmmmkdru",
+      "v": 8511
+    },
+    {
+      "a": "genesis1j48sdx9llpuflr29j02waa307qcd7gyhutaufg",
+      "v": 8067
+    },
+    {
+      "a": "genesis1w5wehwhcma8ltrl62hfxxt8rx0eskr66mvyg8s",
+      "v": 7852
+    },
+    {
+      "a": "genesis1c5q6qdr83aaqh2fe6qkylf0h7yu9v4tpz499rq",
+      "v": 7817
+    },
+    {
+      "a": "genesis1l8wm4jgy6flkvgrazsxpefj846mpj2z4g4hftp",
+      "v": 7723
+    },
+    {
+      "a": "genesis1k4d82jtz9ae8ds3lxf4kgq8cp0sk6w5cz3702n",
+      "v": 7667
+    },
+    {
+      "a": "genesis16fc9u8cr55lq8edrwp2rzet0uykqcazf5zydy9",
+      "v": 7638
+    },
+    {
+      "a": "genesis1lucch767n6ykc6n087zxgpxph8xhkrj25xptes",
+      "v": 7599
+    },
+    {
+      "a": "genesis1hmyldrl0q4u8ayvn7v0djspu34wc2s06efudnm",
+      "v": 7345
+    },
+    {
+      "a": "genesis1hlk25xdu92u3e8nl0mg6txnzwwx2y30uzu69ww",
+      "v": 7275
+    },
+    {
+      "a": "genesis13qf553emjl570n7j9cqghlh3fe8j9resl4729c",
+      "v": 7196
+    },
+    {
+      "a": "genesis1tzcnvt97m009c8vcqg6wdg242wzr9xgs6j7dm7",
+      "v": 7117
+    },
+    {
+      "a": "genesis1573mwwykfymlsxqxw35l9et8s4vl8v6cgadjef",
+      "v": 7099
+    },
+    {
+      "a": "genesis1p94d0fqkr6y4hum7runvnydkl5kwqkzrhjc6tm",
+      "v": 7050
+    },
+    {
+      "a": "genesis1rzmm36z73rf3d7sqk5f830qnn6xwwxsvnhjxn7",
+      "v": 6910
+    },
+    {
+      "a": "genesis1l7nyelzjuszhf0mzp68vrw5xaywg3dzv8sd5sc",
+      "v": 6898
+    },
+    {
+      "a": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
+      "v": 6793
+    },
+    {
+      "a": "genesis13uup3md785lsd74aws4hx2et052mferw3paz0v",
+      "v": 6685
+    },
+    {
+      "a": "genesis1ej8y3lm9ztl0kwk0xt08zn2mvdrzhftyk4xnul",
+      "v": 6569
+    },
+    {
+      "a": "genesis13h09nm49lr7v697p0c5gsnasyk36nlr2w6yn6k",
+      "v": 6449
+    },
+    {
+      "a": "genesis12xq65fcdj5vyxfawpacdhl2v85e934qvpy6a6z",
+      "v": 6345
+    },
+    {
+      "a": "genesis1smzk2qhk229yhflj7rnqvevltwge8wvehsn292",
+      "v": 6226
+    },
+    {
+      "a": "genesis1vqqy6a7l3gs86pejvgwa904d3v3ksyuh7vz52q",
+      "v": 6000
+    },
+    {
+      "a": "genesis1d62f5wqxy5r5w7x768d92lf4w7xjxh3mqqyx3h",
+      "v": 6000
+    },
+    {
+      "a": "genesis1ldyysk2sw2fsee9x7q7z2kyr307rvyt3rzjd5k",
+      "v": 5955
+    },
+    {
+      "a": "genesis15ddkaj79evcwwyz8pgnt32xcufna2j46gzzrjm",
+      "v": 5881
+    },
+    {
+      "a": "genesis10pa4vm7n4gr9m3en6hegj0j5q05fpqqe3uf6af",
+      "v": 5642
+    },
+    {
+      "a": "genesis15yghnyhpvvkwjl24d6swta0mk3300e6hs6zqt4",
+      "v": 5549
+    },
+    {
+      "a": "genesis1j9s0y528cpquf5hexxlskyekm0fg3qmc2y832v",
+      "v": 5529
+    },
+    {
+      "a": "genesis1jmakfh8svs4h6pjw48drguwp8a5few8jzg4qf6",
+      "v": 5210
+    },
+    {
+      "a": "genesis1enhg3qfta2d69qs2lgtn0cjhwxvg6473fjqvwh",
+      "v": 5086
+    },
+    {
+      "a": "genesis1c8ljc46vzkvjtxqeesp3j4s2tfc9n8ttkvgv8j",
+      "v": 5007
+    },
+    {
+      "a": "genesis1lv33h4yun8tr0juq0c6uesfqqqkdn2a4s0muzm",
+      "v": 5000
+    },
+    {
+      "a": "genesis1jrhu4ch3xjtcs8eq22xttwa2ed6vdgy7hlhfp3",
+      "v": 5000
+    },
+    {
+      "a": "genesis16svdyfmu0pxnu6wmytsze08jsx7qrqrclquzxe",
+      "v": 4953
+    },
+    {
+      "a": "genesis1neryu46vc2cfk6g8d37xf7rvhpt695tch3x076",
+      "v": 4920
+    },
+    {
+      "a": "genesis1jqcr8xwje0h5vv8zrw47qvczqd2wgvuymr3yh2",
+      "v": 4890
+    },
+    {
+      "a": "genesis1tj4khe0u8rcrkz0pk9cej4g2n5g8w8espkwghu",
+      "v": 4888
+    },
+    {
+      "a": "genesis12jcfrw6el7ulc79lgftv8egtyrqzs56827muvq",
+      "v": 4800
+    },
+    {
+      "a": "genesis1yrhr3htv77uzhmvr36vmtrcryywxyalg009l6j",
+      "v": 4596
+    },
+    {
+      "a": "genesis1rdcu08fnxnz74gadksvq7ajyqxratcqkchy828",
+      "v": 4471
+    },
+    {
+      "a": "genesis1yj7p6f25k3zx7kc5ye4hzp4zyen7gh7ds77250",
+      "v": 4433
+    },
+    {
+      "a": "genesis1w7ywxh94fhgxnmd6qrdu9385jjc4nmx8m4vktv",
+      "v": 4344
+    },
+    {
+      "a": "genesis176dswhga7snu3czzy307d97apcjra3ey6eelrz",
+      "v": 4234
+    },
+    {
+      "a": "genesis10w7hkkvwyhfe6fp79m04l53j8wh6lt8t4zxktw",
+      "v": 4222
+    },
+    {
+      "a": "genesis1syv25ec59nmr440f7lm4tl37l3dg0y9hfafj80",
+      "v": 4050
+    },
+    {
+      "a": "genesis19xnq6rs4wkvuhucqtqawg4jljf6srj0phedklz",
+      "v": 4011
+    },
+    {
+      "a": "genesis1kahk9jyetg2r0x3ad4auhwyys3euvw3f3qmcl0",
+      "v": 4000
+    },
+    {
+      "a": "genesis17qxg4c5lfytne9mwpyn24dcex8xkgm86tvv56e",
+      "v": 3999
+    },
+    {
+      "a": "genesis1jht27hq95rl9nckad84g843jynph6qddfqchd8",
+      "v": 3950
+    },
+    {
+      "a": "genesis132swwds7lmctqstat3s78h6mgwzuxv06aw9mvm",
+      "v": 3816
+    },
+    {
+      "a": "genesis1wk4rrwdpw56lxnkd8u0tspl0aws8nqkzne7zyy",
+      "v": 3792
+    },
+    {
+      "a": "genesis1vmjdd0uh783h6068nvjsvw0uvs57v5h5evzh9f",
+      "v": 3676
+    },
+    {
+      "a": "genesis1nzh9t5ugwawa26s2d4pnpr80gscxsxdhkw8csc",
+      "v": 3634
+    },
+    {
+      "a": "genesis1a3ruy0y097gsec6dz8a0ar9ksal7ly3m8l5ljn",
+      "v": 3600
+    },
+    {
+      "a": "genesis1xxmhzwcum75da6y0ls90pjdpe8k2txk0q9qyez",
+      "v": 3539
+    },
+    {
+      "a": "genesis1nkr8q0vxez98xgt9xlua6p0a5lz5yuh7nfv2au",
+      "v": 3483
+    },
+    {
+      "a": "genesis1f8myycc3d9tmmdllwuhp3lte8vveq9dn3xenjl",
+      "v": 3468
+    },
+    {
+      "a": "genesis1zaav8ffg3n6v0hqvledjznwhkkf0urpgznkuls",
+      "v": 3467
+    },
+    {
+      "a": "genesis1lm59f9w6hte7wz83d4dxw5t40hz8cehznwjjc2",
+      "v": 3432
+    },
+    {
+      "a": "genesis1a3grths42nt9yj43mg6r75mzetq7sftj9k3z9m",
+      "v": 3364
+    },
+    {
+      "a": "genesis1tn8nxqnv6zucryarsyuderp34jk2z4upm6ja9q",
+      "v": 3330
+    },
+    {
+      "a": "genesis1cscuqemlgtvrlq6tt8kmekenju7vgj7r3k9s5j",
+      "v": 3281
+    },
+    {
+      "a": "genesis18jswu6pql9r3rpvswkdpr6h7wevpm2spx5mc0n",
+      "v": 3280
+    },
+    {
+      "a": "genesis1hcnrzm058xdfwcklynruzttpnvlv42dquuu05n",
+      "v": 3239
+    },
+    {
+      "a": "genesis1k0qvnqlugjf543vf6uf3cz98y4zwhwfw5hvdqx",
+      "v": 3217
+    },
+    {
+      "a": "genesis1r92u9vr49u0tn0jyfxt3phg9l3ady0u4mkhuwq",
+      "v": 3211
+    },
+    {
+      "a": "genesis1wykxleczd0cuvgvtm5x6safptlhlrx48dfqcxv",
+      "v": 3130
+    },
+    {
+      "a": "genesis1289wwwlxp422np459xr06mjxyj0strdzej5cj0",
+      "v": 3091
+    },
+    {
+      "a": "genesis1w7p0fqtmxa6r6uuwntuy90m5h4g0yq27nqe34a",
+      "v": 3072
+    },
+    {
+      "a": "genesis1jlhl7tt5n98z35aknv2s80vu9y4jmayqa9azdg",
+      "v": 3071
+    },
+    {
+      "a": "genesis18h839tuyf5sv27jt40fdfknyyzujyhj9mx6cyx",
+      "v": 3070
+    },
+    {
+      "a": "genesis1t8uhtpcwh8gf5l8w0uncjk02d70d2qlfk5krkh",
+      "v": 3034
+    },
+    {
+      "a": "genesis19c8e97zsxf738qtz00ce3mzrm0m4hnt0n08sp9",
+      "v": 3006
+    },
+    {
+      "a": "genesis19glne3dx35kj69feem8ycysm066fmq8sp754xh",
+      "v": 3001
+    },
+    {
+      "a": "genesis12yw72wkclgla3ertjwcy8hrda9cvm5supqw8ln",
+      "v": 3000
+    },
+    {
+      "a": "genesis1z4zspn9ee326pcusje4220lppe76zprazeapes",
+      "v": 2999
+    },
+    {
+      "a": "genesis1n7h60fux9tg7ukh7wl0py0n3xqsx2f6j8rwuvl",
+      "v": 2974
+    },
+    {
+      "a": "genesis10ynn8t0m7wve8y9vqcvqhffjthmqpp67td9g3y",
+      "v": 2946
+    },
+    {
+      "a": "genesis1eahcvgg3cnappme4qxyaywuzt64llf70773sgn",
+      "v": 2944
+    },
+    {
+      "a": "genesis12xduz0twxe2qdvy6u3sz290ql3aa7lkz3j0kcr",
+      "v": 2851
+    },
+    {
+      "a": "genesis1r807fa90sy7u3g3yw6l2zdc7ruqcpkfl7lwhqg",
+      "v": 2731
+    },
+    {
+      "a": "genesis1wsm4l2a8j5p9srpfqc2y4jv3z7j28ua4649e0v",
+      "v": 2701
+    },
+    {
+      "a": "genesis10hhjgz5ez4f9e2sk04yamw2w4enf43k32a583v",
+      "v": 2632
+    },
+    {
+      "a": "genesis1p6nv353ajsgchx57hn7mz9hn9fhaxfl7nfx8dz",
+      "v": 2623
+    },
+    {
+      "a": "genesis1gzyr2kk7v5l0l0u33uelkcj4ad692at70jqg36",
+      "v": 2576
+    },
+    {
+      "a": "genesis1crq4ua6hr66f9g562w6yct0wuz6fdy7tuhgfea",
+      "v": 2568
+    },
+    {
+      "a": "genesis15pxj5rvdtqrfmhnl7q0sqh5js72sp7efatglsx",
+      "v": 2553
+    },
+    {
+      "a": "genesis1vl800n88sqa82d72fg484f2tth2h0h4mawhjpn",
+      "v": 2522
+    },
+    {
+      "a": "genesis13cywj9h98ccsxglfqh2wqssh8jllnwse2ngwll",
+      "v": 2504
+    },
+    {
+      "a": "genesis1hm4rqzehq7mea8z8x0qxkp5esef5nfnu66tzez",
+      "v": 2499
+    },
+    {
+      "a": "genesis1fqj5rd8gmr35tck9cfqg5d395rumk87jdzpatf",
+      "v": 2463
+    },
+    {
+      "a": "genesis1ennvsflxv0ncfcprqmcdr25q5hj5qvwmruyfm9",
+      "v": 2404
+    },
+    {
+      "a": "genesis1mxc8syt73wkdvznr7mmheu4c4mm03wvtz2dv4l",
+      "v": 2400
+    },
+    {
+      "a": "genesis10kn3t58pvyayg878umwyjcga02jsuvddaze6pl",
+      "v": 2381
+    },
+    {
+      "a": "genesis1suys2447hdawcpl9udqfhxmg29mq58dz94rn4e",
+      "v": 2375
+    }
+  ]
+}
