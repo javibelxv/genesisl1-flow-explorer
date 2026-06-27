@@ -262,7 +262,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
       </div>
     </div>
     <div id="genList"><div class="empty">Loading Genesis balances…</div></div>
-    <div class="ohnote">Weekly snapshot of unstaked L1 balances on GenesisL1 (≈622k holders, too many to enumerate live). System module accounts (staking, distribution) excluded. The bulk is dormant airdrop dust spread across hundreds of thousands of tiny wallets; the real overhang is the few hundred active wallets shown. Table lists the largest above the threshold.</div>
+    <div class="ohnote" id="genNote">Daily snapshot of unstaked L1 balances on GenesisL1 (≈622k holders, too many to enumerate live). System module accounts (staking, distribution) excluded. The bulk is dormant airdrop dust spread across hundreds of thousands of tiny wallets; the real overhang is the few hundred active wallets shown. Table lists the largest above the threshold.</div>
   </div>
 
   <div class="grid">
@@ -803,6 +803,13 @@ function renderGenHolders(snap){
   if(OVERHANG_L1!=null) $("genTotalOh").textContent="~"+fmt(OVERHANG_L1+active)+" L1";
   const when=snap.updated?(" · "+snap.updated.slice(0,10)):"";
   $("genConcPill").textContent="snapshot"+when+(GENH_ERR?" · cached":"");
+  // nota al pie con fecha/hora exacta de actualización
+  if(snap.updated){
+    const dt=new Date(snap.updated);
+    const ago=Math.floor((Date.now()-dt.getTime())/3600000);
+    const agoTxt=ago<1?"less than an hour ago":ago<24?ago+"h ago":Math.floor(ago/24)+"d ago";
+    $("genNote").innerHTML='Daily snapshot of unstaked L1 on GenesisL1 — <b>last updated '+dt.toISOString().slice(0,16).replace("T"," ")+' UTC ('+agoTxt+')</b>. ≈622k holders, too many to enumerate live, so this is generated daily from a full node. System module accounts (staking, distribution) excluded. The bulk is dormant airdrop dust across hundreds of thousands of tiny wallets; the real overhang is the few hundred active wallets shown.';
+  }
   // concentración (del snapshot, calculada sobre todos los holders)
   const cr=$("genConcRow");cr.innerHTML="";
   [["Top 1",c.top1],["Top 3",c.top3],["Top 5",c.top5],["Top 10",c.top10],["Top 20",c.top20]].forEach(([lbl,v])=>{
