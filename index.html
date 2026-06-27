@@ -136,6 +136,15 @@ footer{margin-top:28px;padding-bottom:8px;text-align:center;color:var(--faint);f
 .scrim.open{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,93vw);background:var(--bg2);border-left:1px solid var(--line2);transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:50;padding:22px;overflow:auto}
 .drawer.open{transform:none}
+.infodrawer{width:min(560px,95vw)}
+.infodrawer .dhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.infodrawer .ip{font-size:13px;line-height:1.6;color:var(--muted);margin:0 0 12px}
+.infodrawer .ip a{color:var(--teal);text-decoration:none}.infodrawer .ip a:hover{text-decoration:underline}
+.ihead{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);margin:20px 0 10px;padding-top:14px;border-top:1px solid var(--line)}
+.idl{margin:0;display:grid;gap:11px}
+.idl dt{font-family:var(--mono);font-size:12.5px;color:var(--ink);font-weight:600}
+.idl dd{margin:2px 0 0;font-size:12.5px;line-height:1.55;color:var(--faint)}
+footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decoration:underline;color:var(--teal)}
 .drawer h2{font-family:var(--display);font-size:16px;letter-spacing:.04em;margin:0 0 4px}
 .drawer .grp{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
 .drawer p.hint{color:var(--faint);font-size:12px;margin:0 0 4px;line-height:1.5}
@@ -166,6 +175,7 @@ footer{margin-top:28px;padding-bottom:8px;text-align:center;color:var(--faint);f
     <span class="hstatus" id="hstatus" title="last update"></span>
     <button class="iconbtn live" id="liveBtn" data-on="0"><span class="dot"></span>Live</button>
     <button class="iconbtn" id="refreshBtn">↻</button>
+    <button class="iconbtn" id="infoBtn" title="What is this? Explains each box">ⓘ</button>
     <button class="iconbtn" id="settingsBtn">⚙</button>
   </header>
 
@@ -248,11 +258,38 @@ footer{margin-top:28px;padding-bottom:8px;text-align:center;color:var(--faint);f
   <div class="status" id="status"></div>
 
   <footer>
-    <span class="hexmini">⬢</span> Built by <b>JLO (FirstBlock)</b> <span class="hexmini">⬢</span><br>
+    <span class="hexmini">⬢</span> Built by <b>JLO (FirstBlock)</b> <span class="hexmini">⬢</span> · <a href="https://github.com/javibelxv/genesisl1-flow-explorer" target="_blank" rel="noopener">View on GitHub</a><br>
     Huge thanks to <b>ZEN (anodeofzen)</b> 🌙 for the late-night help building the holder endpoint — this section wouldn't exist without you. RPC &amp; explorer infrastructure by <b>lesnik13utsa (UTSA)</b> 🛰️
   </footer>
 
 </div>
+
+<aside class="drawer infodrawer" id="infoDrawer" aria-hidden="true">
+  <div class="dhead"><b>About this tool</b><button class="iconbtn" id="infoClose">✕</button></div>
+  <p class="ip">A serverless dashboard for <b>L1 supply &amp; flow on Osmosis</b>. Everything runs in your browser — no backend, no keys. It reads the chains directly from public endpoints.</p>
+  <p class="ip"><b>The overhang thesis:</b> most bridged L1 sits in wallets, not in the pools. That supply is latent — unpriced until someone sells it. This tool surfaces what's flowing now, what's sitting latent, and what's about to unlock.</p>
+  <div class="ihead">What each box means</div>
+  <dl class="idl">
+    <dt>Market stats (top)</dt><dd>Live L1 price, 24h change, volume, and market cap (price × on-chain total supply).</dd>
+    <dt>Net pressure</dt><dd>L1 sold vs bought over the chosen window. Routing swaps are excluded so pass-through trades don't inflate it.</dd>
+    <dt>Sell / buy ratio</dt><dd>Balance of selling vs buying, plus unique sellers vs buyers.</dd>
+    <dt>Top wallet concentration</dt><dd>Share of all selling coming from a single wallet — flags when one actor drives a move.</dd>
+    <dt>Price spread · slippage</dt><dd>Traded USD price range (p10–p90 of swaps ≥100 L1), a proxy for how much the thin pool moves per trade.</dd>
+    <dt>🛢 Overhang</dt><dd>Total L1 on Osmosis minus pool reserves: the latent wallet-held supply, as an absolute, a % of all L1 on Osmosis, and a multiple of pool liquidity.</dd>
+    <dt>Holder concentration</dt><dd>Top 1/3/5/10/20 share of total, the 15 largest holders, and a configurable "wallets holding ≥ X L1" histogram. Full live holder set.</dd>
+    <dt>🎯 Top sellers</dt><dd>Sellers over the window, aggregated per wallet.</dd>
+    <dt>⚠ Watchlist selling</dt><dd>Watchlisted wallets that are selling. The watchlist auto-adds receivers of large inbound IBC transfers — freshly bridged supply is the likeliest to sell next.</dd>
+    <dt>🟡 IBC out → Osmosis</dt><dd>Outbound L1 from GenesisL1, decoded from the packet. A leading signal of supply heading to market.</dd>
+    <dt>🟢 IBC in ← Osmosis</dt><dd>L1 bridging back to GenesisL1 — the counterweight.</dd>
+    <dt>📅 Unstaking calendar</dt><dd>Each unbonding as its own row (amount, delegator, USD, completion, days left), sorted by completion. ≥50k unlocks flagged.</dd>
+    <dt>🔴 Sells / 🟢 Buys</dt><dd>The raw, timestamped swap feed behind the net-pressure number.</dd>
+    <dt>💧 Pool depth</dt><dd>Price impact of a 1,000 L1 sell per pool.</dd>
+    <dt>🔀 Multi-hop audit</dt><dd>Every routing tx excluded from net pressure, so the headline is verifiable by hand.</dd>
+  </dl>
+  <div class="ihead">Sources &amp; credits</div>
+  <p class="ip">Holder data served keyless by <b>ZEN (anodeofzen)</b>. RPC &amp; explorer infrastructure by <b>lesnik13utsa (UTSA)</b>. Built by <b>JLO (FirstBlock)</b>.</p>
+  <p class="ip"><a href="https://github.com/javibelxv/genesisl1-flow-explorer" target="_blank" rel="noopener">View source on GitHub →</a></p>
+</aside>
 
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
@@ -838,7 +875,10 @@ async function run(){
 // settings
 function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgHours").value=cfg.hours;$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
 function closeDrawer(){$("scrim").classList.remove("open");$("drawer").classList.remove("open");}
-$("settingsBtn").onclick=openDrawer;$("closeBtn").onclick=closeDrawer;$("scrim").onclick=closeDrawer;
+$("settingsBtn").onclick=openDrawer;$("closeBtn").onclick=closeDrawer;$("scrim").onclick=()=>{closeDrawer();closeInfo();};
+function openInfo(){$("scrim").classList.add("open");$("infoDrawer").classList.add("open");}
+function closeInfo(){$("scrim").classList.remove("open");$("infoDrawer").classList.remove("open");}
+$("infoBtn").onclick=openInfo;$("infoClose").onclick=closeInfo;
 document.querySelectorAll(".presets button").forEach(b=>b.onclick=()=>$(b.dataset.t).value=b.dataset.v);
 $("clearAuto").onclick=()=>{auto={};saveAuto(auto);$("autoCount").textContent=0;};
 $("histThresh").addEventListener("input",updateHist);
