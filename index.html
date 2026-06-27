@@ -262,7 +262,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
       </div>
     </div>
     <div id="genList"><div class="empty">Loading Genesis balances…</div></div>
-    <div class="ohnote" id="genNote">Daily snapshot of unstaked L1 balances on GenesisL1 (≈622k holders, too many to enumerate live). System module accounts (staking, distribution) excluded. The bulk is dormant airdrop dust spread across hundreds of thousands of tiny wallets; the real overhang is the few hundred active wallets shown. Table lists the largest above the threshold.</div>
+    <div class="ohnote" id="genNote">Daily snapshot of unstaked L1 balances on GenesisL1 (≈622k holders, too many to enumerate live). System module accounts and the IBC escrow are excluded. Most small holders are structured airdrop allocations (11 L1 per ATOM staker, 5 per Evmos staker), mostly untouched; the real overhang is the few hundred active wallets shown. Table lists the largest above the threshold.</div>
   </div>
 
   <div class="grid">
@@ -796,7 +796,7 @@ function renderGenHolders(snap){
   const c=snap.concentration||{};
   // cabecera: total + desglose
   $("genBig").textContent="~"+fmt(active)+" L1"+(L1_USD?" · ≈$"+fmt(active*L1_USD):"");
-  $("genSub").textContent="~"+fmt(active)+" L1 in "+fmt(snap.active_wallets||0)+" active wallets (≥100 L1) is the real overhang. A further ~"+fmt(dormant)+" L1 sits dormant across "+fmt(snap.dormant_wallets||0)+" tiny airdrop wallets (unlikely to move).";
+  $("genSub").textContent="~"+fmt(active)+" L1 in "+fmt(snap.active_wallets||0)+" active wallets (≥100 L1) is the real overhang. A further ~"+fmt(dormant)+" L1 sits across "+fmt(snap.dormant_wallets||0)+" tiny wallets — structured airdrop allocations (11 L1 per ATOM staker, 5 per Evmos staker), mostly untouched. IBC escrow excluded (that L1 is counted on the Osmosis side).";
   $("genBig2").textContent=fmt(total)+" L1";
   $("genWallets").textContent=fmt(snap.active_wallets||0);
   // total latente ambas cadenas: overhang Osmosis + ACTIVO de Genesis (no el dormido)
@@ -808,7 +808,7 @@ function renderGenHolders(snap){
     const dt=new Date(snap.updated);
     const ago=Math.floor((Date.now()-dt.getTime())/3600000);
     const agoTxt=ago<1?"less than an hour ago":ago<24?ago+"h ago":Math.floor(ago/24)+"d ago";
-    $("genNote").innerHTML='Daily snapshot of unstaked L1 on GenesisL1 — <b>last updated '+dt.toISOString().slice(0,16).replace("T"," ")+' UTC ('+agoTxt+')</b>. ≈622k holders, too many to enumerate live, so this is generated daily from a full node. System module accounts (staking, distribution) excluded. The bulk is dormant airdrop dust across hundreds of thousands of tiny wallets; the real overhang is the few hundred active wallets shown.';
+    $("genNote").innerHTML='Daily snapshot of unstaked L1 on GenesisL1 — <b>last updated '+dt.toISOString().slice(0,16).replace("T"," ")+' UTC ('+agoTxt+')</b>. ≈622k holders, too many to enumerate live, so this is generated daily from a full node. System module accounts (staking, distribution) and the IBC escrow account are excluded — the latter holds L1 bridged to Osmosis, already counted on the Osmosis side. Most small holders are structured airdrop allocations (11 L1 per ATOM staker, 5 per Evmos staker); the real overhang is the few hundred active wallets shown.';
   }
   // concentración (del snapshot, calculada sobre todos los holders)
   const cr=$("genConcRow");cr.innerHTML="";
