@@ -1,7 +1,11 @@
 {
-  "updated": "2026-06-27T16:56:12Z",
+  "updated": "2026-06-27T17:01:31Z",
   "total_liquid": 11287161.880123055,
   "wallets": 622340,
+  "active_liquid": 5935342.096901942,
+  "active_wallets": 584,
+  "dormant_liquid": 5351819.783221113,
+  "dormant_wallets": 621756,
   "concentration": {
     "top1": 11.11692813984436,
     "top3": 17.393417037340544,
