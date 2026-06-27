@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenesisL1 Flow Explorer — on-chain buy/sell &amp; IBC flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b16;--bg2:#0b1120;--panel:#101829;--panel2:#131d31;
+  --line:#1e2942;--line2:#2a3a5c;
+  --ink:#e8edf9;--muted:#8492ad;--faint:#5a6884;
+  --teal:#2dd4bf;--teal-dim:#15564f;
+  --sell:#ff5c7a;--sell-dim:#3a1622;--buy:#3ecf8e;--buy-dim:#0f3527;
+  --warn:#ffc24b;--warn-dim:#3a2e10;--node:#5b8cff;--amber:#f5a623;
+  --display:'Space Grotesk',system-ui,sans-serif;--body:'Inter',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:radial-gradient(1200px 600px at 80% -10%,#0e1830 0,transparent 60%),radial-gradient(900px 500px at 0% 0%,#0c1426 0,transparent 55%),var(--bg);
+  color:var(--ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:1140px;margin:0 auto;padding:22px 18px 60px}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}
+button{font-family:var(--body);cursor:pointer}
+.mono{font-family:var(--mono);font-variant-ligatures:none}
+
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:11px}
+.hex{width:30px;height:30px;color:var(--teal);flex:0 0 auto;filter:drop-shadow(0 0 9px rgba(45,212,191,.35))}
+.brand h1{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.04em;margin:0;line-height:1}
+.brand .sub{font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:3px}
+.spacer{flex:1}
+.tf{display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:5px 10px}
+.tf label{font-size:11px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase}
+.tf input{width:48px;background:transparent;border:0;color:var(--ink);font-family:var(--mono);font-size:14px;text-align:right;outline:none}
+.tf .u{font-size:12px;color:var(--muted)}
+.ticker{font-family:var(--mono);font-size:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:7px 12px;display:flex;align-items:center;gap:9px}
+.ticker .lab{color:var(--faint);font-size:11px;letter-spacing:.1em}.ticker b{font-weight:600;color:var(--teal)}
+.hstatus{font-family:var(--mono);font-size:12px;color:var(--faint);white-space:nowrap;display:flex;align-items:center;gap:6px}.hstatus.ok::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--buy);box-shadow:0 0 7px var(--buy)}.hstatus.err::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--sell)}.hstatus.load::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.controlbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.tfbtns{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:3px;gap:2px}
+.tfbtns button{background:transparent;border:0;color:var(--muted);font-family:var(--mono);font-size:13px;padding:6px 12px;border-radius:8px;transition:.13s}
+.tfbtns button:hover{color:var(--ink)}
+.tfbtns button[data-on="1"]{background:var(--teal-dim);color:var(--teal)}
+.spacer2{flex:1}
+.mstats{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-left:auto;font-family:var(--mono);font-size:13.5px}
+.mstats .ms{color:var(--muted)}.mstats .k{color:var(--faint);font-size:11px;letter-spacing:.06em}
+.mstats b{color:var(--ink);font-weight:600}.mstats #price{color:var(--teal)}
+.mstats .chg{font-size:12.5px}.mstats .chg.up{color:var(--buy)}.mstats .chg.down{color:var(--sell)}
+.iconbtn{background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:10px;height:38px;padding:0 13px;font-size:13px;display:inline-flex;align-items:center;gap:7px;transition:.15s}
+.iconbtn:hover{border-color:var(--line2);color:var(--ink)}
+.iconbtn.live[data-on="1"]{color:var(--buy);border-color:var(--buy-dim)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.iconbtn.live[data-on="1"] .dot{background:var(--buy);box-shadow:0 0 8px var(--buy);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.35}}
+
+.hero{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:18px;padding:24px 26px 20px}
+.hero .eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.netrow{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap}
+.netnum{font-family:var(--display);font-weight:700;font-size:clamp(32px,6.5vw,52px);line-height:.95;letter-spacing:-.01em}
+.netnum.sellc{color:var(--sell)}.netnum.buyc{color:var(--buy)}.netnum.flat{color:var(--muted)}
+.nettag{font-family:var(--mono);font-size:13px;padding:4px 10px;border-radius:999px}
+.nettag.sellc{color:var(--sell);background:var(--sell-dim)}.nettag.buyc{color:var(--buy);background:var(--buy-dim)}.nettag.flat{color:var(--muted);background:var(--panel2)}
+.beam{margin-top:18px;height:15px;border-radius:8px;background:var(--panel2);display:flex;overflow:hidden;border:1px solid var(--line)}
+.beam .s{background:linear-gradient(90deg,var(--sell-dim),var(--sell));transition:width .5s cubic-bezier(.4,0,.2,1)}
+.beam .b{background:linear-gradient(90deg,var(--buy),var(--buy-dim));transition:width .5s cubic-bezier(.4,0,.2,1);margin-left:auto}
+.beamlabels{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--mono);font-size:12.5px}
+.beamlabels .sv{color:var(--sell)}.beamlabels .bv{color:var(--buy)}
+.meta{margin-top:14px;display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--faint)}
+.meta b{color:var(--ink);font-weight:600}.meta .mono{color:var(--muted)}
+
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.mcard{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
+.mcard .ml{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
+.mcard .mv{font-family:var(--display);font-size:24px;font-weight:600;line-height:1}
+.mcard .ms{font-size:11.5px;color:var(--muted);margin-top:5px;font-family:var(--mono)}
+.mcard .mv.warn{color:var(--warn)}
+
+.overhang{margin-top:13px;background:linear-gradient(180deg,#13182a,var(--bg2));border:1px solid var(--warn-dim);border-radius:16px;padding:18px 20px 8px}
+.ohhead{display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap}
+.ohleft{flex:1;min-width:230px}
+.ohlabel{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--warn);margin-bottom:8px}
+.ohbig{font-family:var(--display);font-weight:700;font-size:clamp(26px,5vw,40px);line-height:1;color:var(--ink)}
+.ohsub{font-size:12.5px;color:var(--muted);margin-top:8px;max-width:560px;line-height:1.5}
+.ohbreakdown{display:flex;gap:22px;flex-wrap:wrap}
+.ohstat{display:flex;flex-direction:column;gap:3px}
+.ohstat b{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--ink)}
+.ohstat label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.ohtitle{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:16px 0 2px;display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:13px}
+.ohtitle .pill{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:none;letter-spacing:0}
+.ohnote{font-size:11px;color:var(--faint);margin:0 0 4px;line-height:1.45;max-width:640px}
+.conc{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 14px}
+.concbox{flex:1;min-width:88px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.concbox b{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--warn);display:block}
+.concbox label{font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.htabs{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:13px;margin-top:4px}
+.htitle{font-family:var(--display);font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.htitle .pill{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:none;letter-spacing:0}
+.hgroup{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.hglabel{font-size:11.5px;color:var(--faint)}
+.hgroup input{width:90px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:12.5px;padding:5px 8px}
+.hgroup b{font-family:var(--mono);color:var(--node);font-size:13px}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:13px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 16px 5px}
+.panel.full{grid-column:1/-1}
+.ptitle{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.ptitle .pill{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:none;letter-spacing:0}
+.ptitle.click{cursor:pointer}.ptitle.click:hover{color:var(--ink)}
+.row{display:flex;align-items:center;gap:10px;padding:8px 2px;border-top:1px solid var(--line);font-size:13px}
+.row:first-of-type{border-top:0}
+.row .amt{font-family:var(--mono);font-weight:600;min-width:76px}
+.row .amt.s{color:var(--sell)}.row .amt.b{color:var(--buy)}.row .amt.o{color:var(--amber)}
+.row .w{font-family:var(--mono);font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.row .w.lbl{color:var(--teal)}
+.row .side{font-family:var(--mono);font-size:11.5px;color:var(--faint);white-space:nowrap}
+.row .ct{font-family:var(--mono);font-size:11.5px;color:var(--faint);white-space:nowrap}
+.row.warn{background:linear-gradient(90deg,rgba(255,194,75,.07),transparent);margin:0 -16px;padding:8px 16px}
+.row .arrow{color:var(--faint)}
+.empty{color:var(--faint);font-size:13px;padding:13px 2px 15px}.empty b{color:var(--muted)}
+.collapsed{display:none}
+.depth{display:flex;flex-direction:column;gap:0}
+.dbar{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-top:5px}
+.dbar i{display:block;height:100%;background:linear-gradient(90deg,var(--node),var(--teal))}
+.calbar{flex:1;height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;max-width:220px;margin:0 6px}
+.calbar i{display:block;height:100%;background:linear-gradient(90deg,var(--warn-dim),var(--warn))}
+
+.status{margin-top:15px;font-size:12px;color:var(--faint);display:flex;gap:14px;align-items:center;flex-wrap:wrap;min-height:18px}
+.status .err{color:var(--sell)}.status .ok{color:var(--buy)}.status .warnc{color:var(--warn)}
+.spin{width:13px;height:13px;border:2px solid var(--line2);border-top-color:var(--teal);border-radius:50%;animation:rot .7s linear infinite;display:inline-block}
+@keyframes rot{to{transform:rotate(360deg)}}
+footer{margin-top:28px;padding-bottom:8px;text-align:center;color:var(--faint);font-size:11.5px;line-height:1.7}.hexmini{color:var(--teal-dim)}footer b{color:var(--muted);font-weight:600}
+
+.scrim{position:fixed;inset:0;background:rgba(3,6,14,.6);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.2s;z-index:40}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,93vw);background:var(--bg2);border-left:1px solid var(--line2);transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:50;padding:22px;overflow:auto}
+.drawer.open{transform:none}
+.drawer h2{font-family:var(--display);font-size:16px;letter-spacing:.04em;margin:0 0 4px}
+.drawer .grp{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.drawer p.hint{color:var(--faint);font-size:12px;margin:0 0 4px;line-height:1.5}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:var(--panel);border:1px solid var(--line2);color:var(--ink);border-radius:9px;padding:9px 11px;font-family:var(--mono);font-size:12.5px;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal)}
+.field textarea{min-height:70px;resize:vertical;line-height:1.5}
+.field .sub{font-size:11px;color:var(--faint);margin-top:5px;font-family:var(--body)}
+.presets{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.presets button{font-size:11px;font-family:var(--mono);background:var(--panel2);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:5px 8px}
+.presets button:hover{border-color:var(--teal);color:var(--ink)}
+.save{width:100%;background:var(--teal);color:#04221f;border:0;border-radius:10px;padding:11px;font-weight:600;font-size:14px;margin-top:14px}
+.save:hover{filter:brightness(1.08)}
+.closex{position:absolute;top:18px;right:18px;background:none;border:0;color:var(--muted);font-size:20px}
+@media(max-width:820px){.metrics{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="hex" viewBox="0 0 24 24" fill="none"><path d="M12 1.6l9 5.2v10.4l-9 5.2-9-5.2V6.8z" stroke="currentColor" stroke-width="1.4"/><path d="M12 6.2l4.8 2.8v5.6L12 17.4 7.2 14.6V9z" fill="currentColor" opacity=".18"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/></svg>
+      <div><h1>GenesisL1 Flow Explorer</h1><div class="sub">L1 supply &amp; flow on Osmosis</div></div>
+    </div>
+    <div class="spacer"></div>
+    <span class="hstatus" id="hstatus" title="last update"></span>
+    <button class="iconbtn live" id="liveBtn" data-on="0"><span class="dot"></span>Live</button>
+    <button class="iconbtn" id="refreshBtn">↻</button>
+    <button class="iconbtn" id="settingsBtn">⚙</button>
+  </header>
+
+  <div class="controlbar">
+    <div class="tfbtns" id="tfbtns">
+      <button data-h="1">1h</button><button data-h="12">12h</button><button data-h="24">24h</button><button data-h="48">48h</button><button data-h="72">72h</button><button data-h="168">1w</button>
+    </div>
+    <div class="mstats">
+      <span class="ms"><span class="k">L1</span> <b id="price">—</b> <span id="chg24" class="chg"></span></span>
+      <span class="ms"><span class="k">Vol <span id="volWin">24h</span></span> <b id="vol24">—</b></span>
+      <span class="ms"><span class="k">MCap</span> <b id="mcap">—</b></span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">Net pressure · last <span id="winLabel">—</span></div>
+    <div class="netrow"><div class="netnum flat" id="netNum">—</div><div class="nettag flat" id="netTag">awaiting data</div></div>
+    <div class="beam"><div class="s" id="beamS" style="width:0"></div><div class="b" id="beamB" style="width:0"></div></div>
+    <div class="beamlabels"><span class="sv">▼ <span id="soldV">0</span> L1 sold</span><span class="bv"><span id="boughtV">0</span> L1 bought ▲</span></div>
+    <div class="meta">
+      <span><span class="mono" id="blkRange">—</span></span>
+      <span><b id="swapCount">0</b> swaps</span>
+      <span>min <b id="thLabel">—</b> L1</span>
+      <span id="routingMeta" hidden><b id="routingN">0</b> multi-hop routes excluded</span>
+    </div>
+  </section>
+
+  <div class="metrics">
+    <div class="mcard"><div class="ml">Sell / Buy ratio</div><div class="mv" id="m_ratio">—</div><div class="ms" id="m_uniq">—</div></div>
+    <div class="mcard"><div class="ml">Top wallet concentration</div><div class="mv" id="m_conc">—</div><div class="ms">of all L1 sold</div></div>
+    <div class="mcard"><div class="ml">Price spread · slippage</div><div class="mv" id="m_price">—</div><div class="ms" id="m_spread">—</div></div>
+  </div>
+
+  <div class="overhang" id="overhangPanel">
+    <div class="ohhead">
+      <div class="ohleft">
+        <div class="ohlabel">🛢 OVERHANG · latent L1 on Osmosis</div>
+        <div class="ohbig" id="ohBig">—</div>
+        <div class="ohsub" id="ohSub">L1 sitting in wallets, outside the pools — supply that can still hit the market.</div>
+      </div>
+      <div class="ohbreakdown">
+        <div class="ohstat"><b id="ohTotal">—</b><label>total on Osmosis</label></div>
+        <div class="ohstat"><b id="ohPools">—</b><label>in pools</label></div>
+        <div class="ohstat"><b id="ohRatio">—</b><label>vs pool liquidity</label></div>
+      </div>
+    </div>
+    <div class="ohtitle">Holder concentration <span class="pill" id="concPill"></span></div>
+    <div class="conc" id="concRow"></div>
+    <div class="htabs">
+      <div class="htitle">Largest holders <span class="pill" id="holdPill"></span></div>
+      <div class="hgroup">
+        <span class="hglabel">wallets holding ≥</span>
+        <input id="histThresh" type="number" min="1" value="1000" spellcheck="false">
+        <span class="hglabel">L1:</span>
+        <b id="histOut">—</b>
+      </div>
+    </div>
+    <div id="holdList"><div class="empty">Loading holders…</div></div>
+    <div class="ohnote" id="holdNote">Live holder set from a community Osmosis full node, served keyless by <b>ZEN (anodeofzen)</b> — <span id="holdSrc"></span>. Updated every few minutes.</div>
+  </div>
+
+  <div class="grid">
+    <div class="panel"><div class="ptitle">🎯 Top sellers <span class="pill" id="topPill"></span></div><div id="topList"><div class="empty">No sells yet.</div></div></div>
+    <div class="panel"><div class="ptitle">⚠ Watchlist selling <span class="pill" id="wlPill"></span></div><div id="wlList"><div class="empty">No watched wallets selling.</div></div></div>
+
+    <div class="panel full"><div class="ptitle">🟡 IBC out → Osmosis <span class="pill" id="ibcPill">leaving GenesisL1</span></div><div id="ibcList"><div class="empty">Connect a GenesisL1 RPC in Settings to track outbound L1.</div></div></div>
+
+    <div class="panel full"><div class="ptitle">🟢 IBC in ← Osmosis <span class="pill" id="ibcInPill">returning to GenesisL1</span></div><div id="ibcInList"><div class="empty">L1 coming back from Osmosis — supply leaving the market.</div></div></div>
+
+    <div class="panel full"><div class="ptitle">📅 Unstaking calendar <span class="pill" id="calPill">L1 unlocking by date</span></div><div id="calList"><div class="empty">Loading unbonding schedule…</div></div></div>
+
+    <div class="panel"><div class="ptitle">🔴 Sells <span class="pill">L1 → market</span></div><div id="sellList"><div class="empty">No sells above threshold.</div></div></div>
+    <div class="panel"><div class="ptitle">🟢 Buys <span class="pill">market → L1</span></div><div id="buyList"><div class="empty">No buys above threshold.</div></div></div>
+
+    <div class="panel full"><div class="ptitle">💧 Pool depth <span class="pill" id="depthPill">price impact of a 1,000 L1 sell</span></div><div id="depthList"><div class="empty">Loading reserves…</div></div></div>
+
+    <div class="panel full"><div class="ptitle click" id="auditTitle">🔀 Multi-hop audit <span class="pill" id="auditPill">click to expand</span></div><div id="auditList" class="collapsed"><div class="empty">No routing detected.</div></div></div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <footer>
+    <span class="hexmini">⬢</span> Built by <b>JLO (FirstBlock)</b> <span class="hexmini">⬢</span><br>
+    Huge thanks to <b>ZEN (anodeofzen)</b> 🌙 for the late-night help building the holder endpoint — this section wouldn't exist without you. RPC infrastructure by <b>UTSA</b> 🛰️
+  </footer>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="closex" id="closeBtn">✕</button>
+  <h2>Settings</h2>
+  <p class="hint">Stored locally in this browser. Save the page anywhere and point it at any RPC.</p>
+
+  <div class="grp">Endpoints</div>
+  <div class="field"><label>Osmosis RPC (swaps)</label><input id="cfgOsmoRpc" spellcheck="false">
+    <div class="presets"><button data-t="cfgOsmoRpc" data-v="https://osmosis-rpc.publicnode.com">publicnode</button><button data-t="cfgOsmoRpc" data-v="https://rpc.osmosis.zone">osmosis.zone</button></div></div>
+  <div class="field"><label>GenesisL1 RPC (CometBFT — for IBC out)</label><input id="cfgGl1Rpc" spellcheck="false">
+    <div class="presets"><button data-t="cfgGl1Rpc" data-v="https://genesisl1.rpc.utsa.tech">utsa</button></div>
+    <div class="sub">Must be a CometBFT RPC (not the EVM RPC). Leave blank to disable the on-chain panel.</div></div>
+  <div class="field"><label>Osmosis LCD (pool depth)</label><input id="cfgOsmoLcd" spellcheck="false">
+    <div class="sub">Optional. Used for pool reserves. If it errors, depth falls back to window volume.</div></div>
+
+  <div class="grp">Filters</div>
+  <div class="field"><label>Min swap size (L1)</label><input id="cfgThreshold" type="number" min="0">
+    <div class="sub">L1 liquidity is thin — 1,000 L1 already moves price.</div></div>
+  <div class="field"><label>IBC out → watchlist threshold (L1)</label><input id="cfgIbcThreshold" type="number" min="0">
+    <div class="sub">Outbound transfers to Osmosis above this auto-add the receiver to the watchlist.</div></div>
+  <div class="field"><label>L1 pools</label><input id="cfgPools" spellcheck="false"><div class="sub">Comma-separated pool IDs.</div></div>
+  <div class="field"><label>GenesisL1 LCD (supply / market cap)</label><input id="cfgGl1Lcd" spellcheck="false">
+    <div class="presets"><button data-t="cfgGl1Lcd" data-v="https://genesisl1.api.utsa.tech">utsa</button></div>
+    <div class="sub">Market cap = price × on-chain total supply, read live from this LCD.</div></div>
+  <div class="field"><label>Holders source (Osmosis denom-owners JSON)</label><input id="cfgHoldersUrl" spellcheck="false">
+    <div class="sub">Keyless JSON endpoint serving <code>denom_owners</code> for L1 on Osmosis. Powers the concentration panel. Leave blank to disable.</div></div>
+  <div class="field"><label>Custom timeframe (hours)</label><input id="cfgHours" type="number" min="1" max="168"><div class="sub">Overrides the quick buttons. 1–168h. Use for non-standard windows (e.g. 6h, 36h).</div></div>
+
+  <div class="grp">Watchlist &amp; labels</div>
+  <div class="field"><label>Manual watchlist — osmo addresses</label><textarea id="cfgWatch" spellcheck="false" placeholder="osmo1...&#10;osmo1..."></textarea>
+    <div class="sub">One per line. Auto-discovered IBC receivers are added on top of these.</div></div>
+  <div class="field"><label>Labels — addr=name (optional)</label><textarea id="cfgLabels" spellcheck="false" placeholder="osmo1abc...=Exchange hot wallet&#10;osmo1def...=Team distributor"></textarea>
+    <div class="sub">One per line, address=label. Works for osmo and genesis addresses.</div></div>
+  <div class="field"><button class="iconbtn" id="clearAuto" style="width:100%;justify-content:center">Clear auto-discovered watchlist (<span id="autoCount">0</span>)</button></div>
+
+  <button class="save" id="saveBtn">Save and refresh</button>
+</aside>
+
+<script>
+"use strict";
+/* ===== verified analysis core (mirrors analysis.mjs, tested in Node) ===== */
+// ============ Lógica compartida de la dapp (verificable en Node) ============
+const L1HASH = "F16FDC11A7662B86BC0B9CE61871CBACF7C20606F95E86260FD38915184B75B4";
+const DEC = 18n;
+
+// ---- helpers de cantidad ----
+function parseAmount(s){ const m=s&&s.match(/^(\d+)(.*)$/); return m?{base:BigInt(m[1]),denom:m[2]}:null; }
+function toHuman(base){ return Number(base/(10n**DEC)); }
+function shortDenom(d){ return d.startsWith("ibc/")?d.slice(0,10):d.replace(/^u/,"").toUpperCase(); }
+function counterHuman(c){ return c.denom==="uosmo"?{v:Number(c.base)/1e6,sym:"OSMO",isOsmo:true}:{v:Number(c.base),sym:shortDenom(c.denom),isOsmo:false}; }
+
+// ---- IBC out: decodificar packet_data_hex -> {receiver, amount, denom} ----
+function hexToStr(hex){ let s=""; for(let i=0;i<hex.length;i+=2) s+=String.fromCharCode(parseInt(hex.substr(i,2),16)); return s; }
+function decodeIbcOut(events){
+  // busca send_packet con packet_dst_channel=channel-253 (a Osmosis) y decodifica el JSON
+  const out=[];
+  for(const ev of events){
+    if(ev.type!=="send_packet") continue;
+    const a={}; for(const at of ev.attributes) a[at.key]=at.value;
+    if(a.packet_dst_channel!=="channel-253") continue;          // solo a Osmosis
+    if(!a.packet_data_hex) continue;
+    try{
+      const data=JSON.parse(hexToStr(a.packet_data_hex));        // {denom,amount,sender,receiver,memo}
+      if(data.denom!=="el1") continue;                           // solo L1
+      out.push({receiver:data.receiver, sender:data.sender, amount:toHuman(BigInt(data.amount))});
+    }catch{}
+  }
+  return out;
+}
+function decodeIbcIn(events){
+  // busca recv_packet con packet_src_channel=channel-253 (desde Osmosis); denom = transfer/channel-253/el1
+  const out=[];
+  for(const ev of events){
+    if(ev.type!=="recv_packet") continue;
+    const a={}; for(const at of ev.attributes) a[at.key]=at.value;
+    if(a.packet_src_channel!=="channel-253") continue;          // solo desde Osmosis
+    if(!a.packet_data_hex) continue;
+    try{
+      const data=JSON.parse(hexToStr(a.packet_data_hex));        // {denom,amount,sender,receiver}
+      if(!String(data.denom||"").endsWith("el1")) continue;      // L1 que vuelve
+      out.push({receiver:data.receiver, sender:data.sender, amount:toHuman(BigInt(data.amount))});
+    }catch{}
+  }
+  return out;
+}
+
+// ---- swaps de Osmosis: clasificar + excluir multi-hop ----
+function classify(events){
+  const hops=[];
+  for(const e of events){
+    const tin=parseAmount(e.tokens_in), tout=parseAmount(e.tokens_out);
+    if(!tin||!tout) continue;
+    let dir,l1,counter;
+    if(tin.denom.includes(L1HASH)){dir="S";l1=tin;counter=tout;}
+    else if(tout.denom.includes(L1HASH)){dir="B";l1=tout;counter=tin;}
+    else continue;
+    hops.push({hash:e.hash,pool:e.pool,dir,l1:toHuman(l1.base),sender:e.sender,counter:counterHuman(counter),height:e.height});
+  }
+  const byHash={}; for(const h of hops)(byHash[h.hash]??=[]).push(h);
+  const passthru=new Set(Object.entries(byHash).filter(([,hs])=>hs.some(x=>x.dir==="S")&&hs.some(x=>x.dir==="B")).map(([h])=>h));
+  return {hops, byHash, passthru};
+}
+
+// ---- análisis + 4 métricas curadas ----
+function analyze(events, threshold){
+  const {hops,byHash}=classify(events);
+  // NETEAR por tx: una operación = L1 que SALE menos L1 que ENTRA en la misma tx.
+  // Un arbitraje (compra X, vende ~X) netea ~0 y se descarta. Una venta grande con un
+  // tramo de routing inverso netea a la venta real (antes se perdía entera). El umbral
+  // se aplica al neto. Una compra/venta troceada en varios pools queda agregada.
+  const sells=[],buys=[]; let totV=0,totC=0;
+  const excluded=new Set(); const routes=[];
+  for(const [hash,hs] of Object.entries(byHash)){
+    let net=0; for(const h of hs) net += (h.dir==="B"? h.l1 : -h.l1);   // + = compra neta, - = venta neta
+    const l1=Math.abs(net);
+    const bothDirs = hs.some(h=>h.dir==="B") && hs.some(h=>h.dir==="S");
+    if(l1<threshold){                              // neto despreciable: routing/arbitraje o sub-umbral
+      excluded.add(hash);
+      if(bothDirs) routes.push({hash, pools:[...new Set(hs.map(x=>x.pool))], hops:hs.map(x=>({dir:x.dir,l1:x.l1,pool:x.pool}))});
+      continue;
+    }
+    const pools=[...new Set(hs.map(h=>h.pool))];
+    const e={hash,l1,sender:hs[0].sender,height:Math.max(...hs.map(h=>h.height)),pools,routed:bothDirs};
+    if(net<0){sells.push(e);totV+=l1;} else {buys.push(e);totC+=l1;}
+  }
+  sells.sort((a,b)=>b.height-a.height); buys.sort((a,b)=>b.height-a.height);
+  // top sellers (sobre operaciones agregadas)
+  const agg={}; for(const s of sells){(agg[s.sender]??={tot:0,n:0});agg[s.sender].tot+=s.l1;agg[s.sender].n++;}
+  const topSellers=Object.entries(agg).map(([w,v])=>({wallet:w,...v})).sort((a,b)=>b.tot-a.tot);
+
+  // MÉTRICA 1: buy/sell ratio + únicos
+  const uniqSellers=new Set(sells.map(s=>s.sender)).size;
+  const uniqBuyers=new Set(buys.map(b=>b.sender)).size;
+  const sellBuyRatio= totC>0 ? totV/totC : (totV>0?Infinity:0);
+  // MÉTRICA 4: concentración del top vendedor
+  const topConc = totV>0 ? (topSellers[0]?.tot||0)/totV : 0;
+  // MÉTRICA 3: precio implícito (OSMO/L1) + slippage. Solo swaps >=100 L1 pareados con
+  // OSMO, y percentil 10-90 en vez de min/max para descartar outliers de slippage.
+  const PRICE_MIN=100;
+  const priced=hops.filter(h=>!excluded.has(h.hash)&&h.counter.isOsmo&&h.l1>=PRICE_MIN).map(h=>h.counter.v/h.l1);
+  let impl=null;
+  if(priced.length){
+    priced.sort((a,b)=>a-b);
+    const q=(p)=>priced[Math.min(priced.length-1,Math.round(p*(priced.length-1)))];
+    const med=q(0.5),p10=q(0.1),p90=q(0.9);
+    impl={median:med,p10,p90,spreadPct:med>0?(p90-p10)/med*100:0,n:priced.length};
+  }
+  // MÉTRICA 2 (profundidad por pool) se calcula aparte con reservas; aquí volumen por pool como fallback
+  const volByPool={}; for(const h of hops){ if(excluded.has(h.hash))continue; volByPool[h.pool]=(volByPool[h.pool]||0)+h.l1; }
+
+  // VOLUMEN bruto de L1 en la ventana (USD se calcula en render con el precio)
+  let grossL1=0; for(const h of hops){ if(excluded.has(h.hash))continue; grossL1+=h.l1; }
+  // CAMBIO % sobre la ventana: precio implícito OSMO/L1 (patas OSMO >=PRICE_MIN), antiguos vs recientes
+  const seq=hops.filter(h=>!excluded.has(h.hash)&&h.counter.isOsmo&&h.l1>=PRICE_MIN)
+                .sort((a,b)=>a.height-b.height).map(h=>h.counter.v/h.l1);
+  let change=null;
+  if(seq.length>=4){
+    const k=Math.max(1,Math.floor(seq.length*0.2));
+    const med=(arr)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.floor(s.length/2)];};
+    const oldP=med(seq.slice(0,k)), newP=med(seq.slice(-k));
+    change=oldP>0?(newP-oldP)/oldP*100:null;
+  }
+
+  return {sells,buys,topSellers,totV,totC,net:totV-totC,
+          metrics:{uniqSellers,uniqBuyers,sellBuyRatio,topConc,impl,volByPool,grossL1,change},
+          routes, routingRoutes:routes.length, tracked:hops.length};
+}
+
+// ---- calibración de block time (hours -> cutoff height) ----
+function secsPerBlock(hLatest,tLatest,hOld,tOld){ return (tLatest-tOld)/(hLatest-hOld); }
+function cutoffHeight(latest,hours,spb){ return Math.floor(latest - (hours*3600/spb)); }
+
+/* ===== app ===== */
+const $=(id)=>document.getElementById(id);
+const EXP_OSMO="https://www.mintscan.io/osmosis";
+const EXP_GL1="https://exp.utsa.tech/genesis";
+const L1_IBC="ibc/"+L1HASH;
+
+const DEFAULTS={
+  osmoRpc:"https://osmosis-rpc.publicnode.com",
+  gl1Rpc:"https://genesisl1.rpc.utsa.tech",
+  osmoLcd:"https://osmosis-rest.publicnode.com",
+  pools:"732,2894,2849,3456,3435,2947",
+  threshold:1, ibcThreshold:10000, hours:24, gl1Lcd:"https://genesisl1.api.utsa.tech",
+  holdersUrl:"https://osmosisl1.zenode.app/",
+  watch:"", labels:"",
+};
+function loadCfg(){try{return {...DEFAULTS,...JSON.parse(localStorage.getItem("l1p_cfg")||"{}")};}catch{return {...DEFAULTS};}}
+function saveCfg(c){localStorage.setItem("l1p_cfg",JSON.stringify(c));}
+let cfg=loadCfg();
+function loadAuto(){try{return JSON.parse(localStorage.getItem("l1p_auto")||"{}");}catch{return {};}}
+function saveAuto(a){localStorage.setItem("l1p_auto",JSON.stringify(a));}
+let auto=loadAuto();   // {osmoAddr:{amount,date,sender}}
+
+function manualWatch(){return new Set(cfg.watch.split(/\s+/).map(s=>s.trim()).filter(Boolean));}
+function labelMap(){const m={};cfg.labels.split("\n").forEach(l=>{const i=l.indexOf("=");if(i>0)m[l.slice(0,i).trim()]=l.slice(i+1).trim();});return m;}
+
+async function rpcGet(base,path){const r=await fetch(base.replace(/\/$/,"")+path,{headers:{accept:"application/json"}});if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}
+function attrs(list){const p={};for(const a of list)p[a.key]=a.value;if(p.pool_id!==undefined||p.packet_dst_channel!==undefined)return p;const d={};for(const a of list){try{d[atob(a.key)]=atob(a.value);}catch{d[a.key]=a.value;}}return d;}
+
+async function blockTime(base,h){const j=await rpcGet(base,"/block?height="+h);return Date.parse(j.result.block.header.time);}
+async function calibrate(base){           // secs/block, self-calibrating
+  const st=await rpcGet(base,"/status");
+  const latest=Number(st.result.sync_info.latest_block_height);
+  const old=latest-2000;
+  const [tL,tO]=await Promise.all([blockTime(base,latest),blockTime(base,old)]);
+  return {latest, spb:Math.max(0.3,secsPerBlock(latest,tL/1000,old,tO/1000)), tLatest:tL};
+}
+let OSMO_CAL=null, GL1_CAL=null;   // calibración por cadena, para estimar la hora de cualquier bloque
+function tsFmt(cal,h){ if(!cal)return "#"+h; const t=cal.tLatest-(cal.latest-h)*cal.spb*1000;
+  return new Date(t).toLocaleString([], {month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}); }
+
+async function fetchOsmoSwaps(pool,lastH){
+  const out=[];let page=1;
+  while(page<=80){
+    const q=encodeURIComponent(`token_swapped.pool_id='${pool}'`);
+    const j=await rpcGet(cfg.osmoRpc,`/tx_search?query="${q}"&order_by="desc"&per_page=100&page=${page}`);
+    const txs=j?.result?.txs||[];if(!txs.length)break;let done=false;
+    for(const tx of txs){const h=Number(tx.height);if(h<=lastH){done=true;break;}
+      for(const ev of (tx.tx_result?.events||[])){
+        const t=ev.type==="token_swapped"?ev.type:(()=>{try{return atob(ev.type)}catch{return ev.type}})();
+        if(t!=="token_swapped")continue;const a=attrs(ev.attributes||[]);if(a.pool_id!==pool)continue;
+        out.push({hash:tx.hash,pool,sender:a.sender,tokens_in:a.tokens_in,tokens_out:a.tokens_out,height:h});}}
+    if(done||txs.length<100)break;page++;}
+  return out;
+}
+async function fetchIbcOut(lastH){
+  const out=[];let page=1;
+  while(page<=40){
+    const q=encodeURIComponent("message.action='/ibc.applications.transfer.v1.MsgTransfer'");
+    const j=await rpcGet(cfg.gl1Rpc,`/tx_search?query="${q}"&order_by="desc"&per_page=100&page=${page}`);
+    const txs=j?.result?.txs||[];if(!txs.length)break;let done=false;
+    for(const tx of txs){const h=Number(tx.height);if(h<=lastH){done=true;break;}
+      for(const d of decodeIbcOut(tx.tx_result?.events||[])) out.push({...d,height:h,hash:tx.hash});}
+    if(done||txs.length<100)break;page++;}
+  return out;
+}
+async function fetchIbcIn(lastH){
+  const out=[];let page=1;
+  while(page<=40){
+    const q=encodeURIComponent("message.action='/ibc.core.channel.v1.MsgRecvPacket'");
+    const j=await rpcGet(cfg.gl1Rpc,`/tx_search?query="${q}"&order_by="desc"&per_page=100&page=${page}`);
+    const txs=j?.result?.txs||[];if(!txs.length)break;let done=false;
+    for(const tx of txs){const h=Number(tx.height);if(h<=lastH){done=true;break;}
+      for(const d of decodeIbcIn(tx.tx_result?.events||[])) out.push({...d,height:h,hash:tx.hash});}
+    if(done||txs.length<100)break;page++;}
+  return out;
+}
+const DENOM_SYM={
+ "uosmo":"OSMO",
+ "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2":"ATOM",
+ "ibc/498A0751C798A0D9A389AA3691123DADA57DAA4FE165D5C75894505B876BA6E4":"USDC",
+ "ibc/E6931F78057F7CC5DA0FD6CEF82FF39373A6E0452BF1FD76910B93292CF356C1":"CRO",
+ "ibc/D79E7D83AB399BFFF93433E54FAA480C191248FC556924A2A8351AE2638B3877":"TIA",
+};
+function symOf(d){if(!d)return "?";if(DENOM_SYM[d])return DENOM_SYM[d];
+  if(d.startsWith("factory/")){let seg=d.split("/").pop();return seg.replace(/^all/i,"").toUpperCase();}  // alloyed (allETH->ETH)
+  if(d.startsWith("ibc/"))return d.slice(0,9)+"…";return d.replace(/^u/,"").toUpperCase();}
+function parsePool(pj){
+  // defensive: find pool id + denom/amount pairs in ANY response shape (SQS/LCD)
+  let id=null;(function fid(o){if(!o||typeof o!=="object"||id)return;for(const k in o){if((k==="id"||k==="pool_id")&&(typeof o[k]==="number"||/^\d+$/.test(String(o[k])))){id=String(o[k]);return;}if(o[k]&&typeof o[k]==="object")fid(o[k]);}})(pj);
+  const das=[];(function fd(o){if(!o||typeof o!=="object")return;if(typeof o.denom==="string"&&o.amount!==undefined&&/^\d+$/.test(String(o.amount)))das.push({denom:o.denom,amount:o.amount});for(const k in o){if(o[k]&&typeof o[k]==="object")fd(o[k]);}})(pj);
+  let l1=null,cd=null,cAmt=-1;
+  for(const da of das){const isL1=da.denom.includes(L1HASH);
+    if(isL1){if(l1===null)l1=Number(da.amount)/1e18;continue;}
+    if(da.denom.startsWith("gamm/"))continue;        // excluir LP shares (no son reservas)
+    const v=Number(da.amount);if(v>cAmt){cAmt=v;cd=da.denom;}}   // mayor reserva real = par
+  return (id&&l1)?{id,l1,counterDenom:cd,impact1k:1000/(l1+1000)*100}:null;
+}
+async function fetchDepth(pools){
+  // SQS pools endpoint is CORS-open (same host as the price ticker). Defensive parse.
+  const res={};const want=new Set(pools);
+  try{
+    const j=await(await fetch(`https://sqs.osmosis.zone/pools?IDs=${pools.join(",")}`,{headers:{accept:"application/json"}})).json();
+    const arr=Array.isArray(j)?j:(j.pools||Object.values(j||{}));
+    for(const pj of arr){const r=parsePool(pj);if(r&&want.has(r.id))res[r.id]={l1:r.l1,pair:symOf(r.counterDenom)+"/L1",impact1k:r.impact1k};}
+  }catch{}
+  return res;
+}
+async function fetchOsmoL1Total(){   // L1 total que existe en Osmosis (overhang agregado)
+  try{
+    const j=await(await fetch(cfg.osmoLcd.replace(/\/$/,"")+"/cosmos/bank/v1beta1/supply/by_denom?denom="+encodeURIComponent(L1_IBC),{headers:{accept:"application/json"}})).json();
+    const a=j?.amount?.amount; if(a&&/^\d+$/.test(a)) return Number(a)/1e18;
+  }catch{}
+  return null;
+}
+async function fetchOsmoBalance(addr){ // balance L1 de una wallet en Osmosis (overhang por wallet)
+  try{
+    const j=await(await fetch(cfg.osmoLcd.replace(/\/$/,"")+"/cosmos/bank/v1beta1/balances/"+addr+"/by_denom?denom="+encodeURIComponent(L1_IBC),{headers:{accept:"application/json"}})).json();
+    const a=j?.balance?.amount; if(a!==undefined&&/^\d+$/.test(a)) return Number(a)/1e18;
+  }catch{}
+  return null;
+}
+
+const fmt=(n)=>Math.round(n).toLocaleString("en-US");
+function nameOf(addr){const lm=labelMap();if(lm[addr])return {txt:lm[addr],lbl:true};return {txt:addr.slice(0,9)+"…"+addr.slice(-4),lbl:false};}
+function walletEl(addr,explorer){const n=nameOf(addr);const e=document.createElement(explorer?"a":"span");e.className="w"+(n.lbl?" lbl":"");e.textContent=n.txt;e.title=addr;if(explorer){e.href=explorer+"/"+addr;e.target="_blank";e.rel="noopener";}return e;}
+
+function render(a,ibc,ibcIn,depth,curH,lastH,gl1ok){
+  const win=cfg.hours+"h";$("winLabel").textContent=win;$("thLabel").textContent=fmt(cfg.threshold);
+  $("blkRange").textContent="blocks "+lastH+"–"+curH;$("swapCount").textContent=a.tracked;
+  $("soldV").textContent=fmt(a.totV);$("boughtV").textContent=fmt(a.totC);
+  const total=a.totV+a.totC;$("beamS").style.width=total?(a.totV/total*100)+"%":"0";$("beamB").style.width=total?(a.totC/total*100)+"%":"0";
+  const net=a.net,num=$("netNum"),tag=$("netTag");num.className="netnum";tag.className="nettag";
+  if(total===0){num.textContent="—";num.classList.add("flat");tag.textContent="no flow in window";tag.classList.add("flat");}
+  else if(net>0){num.textContent="▼ "+fmt(net)+" L1";num.classList.add("sellc");tag.textContent="net selling pressure";tag.classList.add("sellc");}
+  else if(net<0){num.textContent="▲ "+fmt(-net)+" L1";num.classList.add("buyc");tag.textContent="net buying pressure";tag.classList.add("buyc");}
+  else{num.textContent="0 L1";num.classList.add("flat");tag.textContent="balanced";tag.classList.add("flat");}
+  if(a.routingRoutes>0){$("routingMeta").hidden=false;$("routingN").textContent=a.routingRoutes;}else $("routingMeta").hidden=true;
+
+  // metrics
+  const m=a.metrics;
+  // market stats bar: volumen (ventana), market cap, cambio %
+  $("volWin").textContent=win;
+  $("vol24").textContent = L1_USD ? "$"+fmt(m.grossL1*L1_USD) : fmt(m.grossL1)+" L1";
+  $("mcap").textContent = L1_USD ? "$"+(L1_USD*(L1_SUPPLY||SUPPLY_FALLBACK)/1e6).toFixed(2)+"M" : "—";
+  const ch=$("chg24");
+  if(m.change!==null&&m.change!==undefined){const s=m.change>=0?"+":"";ch.textContent="("+s+m.change.toFixed(1)+"% "+win+")";ch.className="chg "+(m.change>=0?"up":"down");}
+  else{ch.textContent="";ch.className="chg";}
+  $("m_ratio").textContent=m.sellBuyRatio===Infinity?"∞":(m.sellBuyRatio>=1?m.sellBuyRatio.toFixed(1)+"×":(1/m.sellBuyRatio).toFixed(1)+"× buy");
+  $("m_ratio").style.color=m.sellBuyRatio>=1?"var(--sell)":"var(--buy)";
+  $("m_uniq").textContent=m.uniqSellers+" sellers · "+m.uniqBuyers+" buyers";
+  const conc=Math.round(m.topConc*100);$("m_conc").textContent=a.totV>0?conc+"%":"—";
+  $("m_conc").className="mv"+(conc>=60?" warn":"");
+  if(m.impl){const sp=m.impl.spreadPct;$("m_price").textContent=sp.toFixed(0)+"%";$("m_price").style.color=sp>30?"var(--sell)":(sp>15?"var(--warn)":"var(--ink)");
+    if(OSMO_USD){const u=(x)=>"$"+(x*OSMO_USD).toFixed(4);$("m_spread").textContent="L1 "+u(m.impl.p10)+"–"+u(m.impl.p90)+" · median "+u(m.impl.median);}
+    else $("m_spread").textContent=m.impl.n+" swaps priced · USD range needs OSMO price";}
+  else{$("m_price").textContent="—";$("m_price").style.color="";$("m_spread").textContent="no priced swaps";}
+
+  // top sellers
+  const top=$("topList");top.innerHTML="";$("topPill").textContent=a.topSellers.length?"by wallet":"";
+  if(!a.topSellers.length)top.innerHTML='<div class="empty">No sells yet.</div>';
+  else a.topSellers.slice(0,6).forEach(s=>{const r=document.createElement("div");r.className="row";
+    const am=document.createElement("span");am.className="amt s";am.textContent=fmt(s.tot)+" L1";
+    const n=document.createElement("span");n.className="side";n.textContent=s.n+" swap"+(s.n>1?"s":"");
+    r.append(am,walletEl(s.wallet,EXP_OSMO+"/address"),n);top.appendChild(r);});
+
+  // watchlist (manual ∪ auto)
+  const wl=$("wlList");wl.innerHTML="";const ws=new Set([...manualWatch(),...Object.keys(auto)]);
+  $("wlPill").textContent=ws.size?ws.size+" watched":"";
+  const flagged=a.topSellers.filter(s=>ws.has(s.wallet));
+  if(!ws.size)wl.innerHTML='<div class="empty">No watched wallets yet. <b>Big IBC out auto-adds them.</b></div>';
+  else if(!flagged.length)wl.innerHTML='<div class="empty">None of '+ws.size+' watched wallets are selling now. <b>Quiet is good.</b></div>';
+  else flagged.forEach(s=>{const r=document.createElement("div");r.className="row warn";
+    const ic=document.createElement("span");ic.textContent="⚠";ic.style.color="var(--warn)";
+    const am=document.createElement("span");am.className="amt s";am.textContent=fmt(s.tot)+" L1";
+    r.append(ic,am,walletEl(s.wallet,EXP_OSMO+"/address"));
+    if(auto[s.wallet]){const t=document.createElement("span");t.className="side";t.textContent="IBC "+fmt(auto[s.wallet].amount)+" L1 "+auto[s.wallet].date;r.append(t);}
+    wl.appendChild(r);});
+
+  // IBC out panel
+  const il=$("ibcList");il.innerHTML="";
+  if(!cfg.gl1Rpc){il.innerHTML='<div class="empty">No GenesisL1 RPC set.</div>';}
+  else if(!gl1ok){il.innerHTML='<div class="empty">Couldn\'t read the GenesisL1 RPC. Check the endpoint in Settings.</div>';}
+  else if(!ibc.length){il.innerHTML='<div class="empty">No L1 left for Osmosis in this window.</div>';}
+  else{$("ibcPill").textContent=ibc.length+" transfers";
+    ibc.slice(0,12).forEach(t=>{const r=document.createElement("div");r.className="row"+(t.amount>=cfg.ibcThreshold?" warn":"");
+      const am=document.createElement("span");am.className="amt o";am.textContent=fmt(t.amount)+" L1";
+      const sw=walletEl(t.sender,EXP_GL1+"/account");const ar=document.createElement("span");ar.className="arrow";ar.textContent="→";
+      const rw=walletEl(t.receiver,EXP_OSMO+"/address");
+      const lk=document.createElement("a");lk.className="side";lk.textContent=tsFmt(GL1_CAL,t.height);lk.href=EXP_GL1+"/tx/"+t.hash;lk.target="_blank";lk.rel="noopener";
+      r.append(am,sw,ar,rw,lk);il.appendChild(r);});}
+
+  // IBC in panel (L1 volviendo de Osmosis)
+  const iil=$("ibcInList");iil.innerHTML="";
+  if(cfg.gl1Rpc&&gl1ok){
+    if(!ibcIn||!ibcIn.length){iil.innerHTML='<div class="empty">No L1 returned from Osmosis in this window.</div>';}
+    else{$("ibcInPill").textContent=ibcIn.length+" transfers";
+      ibcIn.slice(0,12).forEach(t=>{const r=document.createElement("div");r.className="row";
+        const am=document.createElement("span");am.className="amt b";am.textContent=fmt(t.amount)+" L1";
+        const sw=walletEl(t.sender,EXP_OSMO+"/address");const ar=document.createElement("span");ar.className="arrow";ar.textContent="→";
+        const rw=walletEl(t.receiver,EXP_GL1+"/account");
+        const lk=document.createElement("a");lk.className="side";lk.textContent=tsFmt(GL1_CAL,t.height);lk.href=EXP_GL1+"/tx/"+t.hash;lk.target="_blank";lk.rel="noopener";
+        r.append(am,sw,ar,rw,lk);iil.appendChild(r);});}
+  }
+
+  renderRows($("sellList"),a.sells,"s");renderRows($("buyList"),a.buys,"b");
+
+  // depth
+  const dl=$("depthList");dl.innerHTML="";const dk=Object.keys(depth);
+  if(dk.length){$("depthPill").textContent="price impact of a 1,000 L1 sell";
+    dk.sort((x,y)=>depth[y].l1-depth[x].l1).forEach(p=>{const d=depth[p];const r=document.createElement("div");r.className="row";
+    const nm=document.createElement("span");nm.className="amt";nm.style.color="var(--node)";nm.textContent="#"+p;
+    const pr=document.createElement("span");pr.className="side";pr.style.color="var(--teal)";pr.style.minWidth="72px";pr.textContent=d.pair;
+    const rv=document.createElement("span");rv.className="w";rv.textContent=fmt(d.l1)+" L1 depth";
+    const im=document.createElement("span");im.className="side";im.style.color=d.impact1k>5?"var(--sell)":"var(--muted)";im.textContent="−"+d.impact1k.toFixed(1)+"% / 1k";
+    r.append(nm,pr,rv,im);dl.appendChild(r);});}
+  else{const vp=a.metrics.volByPool;const vk=Object.keys(vp);
+    if(!vk.length){dl.innerHTML='<div class="empty">No pool data.</div>';}
+    else{$("depthPill").textContent="window volume (reserves unavailable)";
+      vk.sort((x,y)=>vp[y]-vp[x]).forEach(p=>{const r=document.createElement("div");r.className="row";
+      const nm=document.createElement("span");nm.className="amt";nm.style.color="var(--node)";nm.textContent="#"+p;
+      const rv=document.createElement("span");rv.className="w";rv.textContent=fmt(vp[p])+" L1 traded in window";
+      r.append(nm,rv);dl.appendChild(r);});}}
+
+  // multi-hop audit
+  const au=$("auditList");au.innerHTML="";$("auditPill").textContent=a.routes.length?a.routes.length+" routes":"none";
+  if(!a.routes.length)au.innerHTML='<div class="empty">No multi-hop routing detected — every swap is a clean buy or sell.</div>';
+  else a.routes.slice(0,20).forEach(rt=>{const r=document.createElement("div");r.className="row";
+    const h=document.createElement("a");h.className="amt";h.style.color="var(--faint)";h.textContent=rt.hash.slice(0,8);h.href=EXP_OSMO+"/tx/"+rt.hash;h.target="_blank";h.rel="noopener";
+    const desc=document.createElement("span");desc.className="w";desc.textContent=rt.hops.map(x=>(x.dir==="S"?"−":"+")+fmt(x.l1)+" @"+x.pool).join("  ");
+    const pl=document.createElement("span");pl.className="side";pl.textContent="pools "+rt.pools.join(",");
+    r.append(h,desc,pl);au.appendChild(r);});
+}
+function renderOverhang(osmoTotal,inPools){
+  if(osmoTotal===null){
+    $("ohBig").textContent="—";$("ohSub").textContent="Couldn't read L1 supply on Osmosis. Check the Osmosis LCD in Settings.";
+    $("ohTotal").textContent="—";$("ohPools").textContent=fmt(inPools);$("ohRatio").textContent="—";return;
+  }
+  const inWallets=Math.max(0,osmoTotal-inPools);
+  const pct=osmoTotal>0?inWallets/osmoTotal*100:0;
+  $("ohBig").textContent="~"+fmt(inWallets)+" L1"+(L1_USD?"  ·  ≈$"+fmt(inWallets*L1_USD):"");
+  $("ohSub").textContent=pct.toFixed(0)+"% of all L1 on Osmosis sits in wallets, outside the pools — latent supply that can still hit the market.";
+  $("ohTotal").textContent=fmt(osmoTotal);
+  $("ohPools").textContent=fmt(inPools);
+  $("ohRatio").textContent=inPools>0?(inWallets/inPools).toFixed(0)+"×":"—";
+}
+let HOLDERS_VIEW=null;   // lista cacheada para el input del histograma
+function renderHolders(list){
+  const lc=$("holdList");
+  if(!cfg.holdersUrl){ lc.innerHTML='<div class="empty">No holders source configured.</div>'; return; }
+  if(!list||!list.length){
+    if(HOLDERS_ERR) lc.innerHTML='<div class="empty">Holder source temporarily unavailable (the node may be rotating its snapshot — back in ~30 min). Showing nothing for now.</div>';
+    else lc.innerHTML='<div class="empty">Loading holders…</div>';
+    $("concPill").textContent="";$("holdPill").textContent="";return;
+  }
+  HOLDERS_VIEW=list;
+  const total=list.reduce((s,h)=>s+h.amt,0);
+  const cum=(n)=>list.slice(0,n).reduce((s,h)=>s+h.amt,0)/total*100;
+  $("concPill").textContent=list.length+" holders"+(HOLDERS_ERR?" · cached":"");
+  // concentración
+  const cr=$("concRow");cr.innerHTML="";
+  [["Top 1",cum(1)],["Top 3",cum(3)],["Top 5",cum(5)],["Top 10",cum(10)],["Top 20",cum(20)]].forEach(([lbl,v])=>{
+    const d=document.createElement("div");d.className="concbox";
+    d.innerHTML='<b>'+v.toFixed(0)+'%</b><label>'+lbl+'</label>';cr.appendChild(d);
+  });
+  // tabla top-15
+  $("holdPill").textContent="top 15 of "+list.length;
+  const hl=$("holdList");hl.innerHTML="";
+  list.slice(0,15).forEach((h,i)=>{
+    const r=document.createElement("div");r.className="row";
+    const rk=document.createElement("span");rk.className="side";rk.style.minWidth="22px";rk.textContent="#"+(i+1);
+    const am=document.createElement("span");am.className="amt o";am.style.minWidth="96px";am.textContent=fmt(h.amt)+" L1";
+    const usd=document.createElement("span");usd.className="ct";usd.textContent=L1_USD?"≈$"+fmt(h.amt*L1_USD):"";
+    const pc=document.createElement("span");pc.className="side";pc.textContent=(h.amt/total*100).toFixed(1)+"% of holders";
+    r.append(rk,am,walletEl(h.addr,EXP_OSMO+"/address"),usd,pc);hl.appendChild(r);
+  });
+  $("holdSrc").textContent=cfg.holdersUrl.replace(/^https?:\/\//,"").replace(/\/$/,"");
+  updateHist();
+}
+function updateHist(){
+  if(!HOLDERS_VIEW||!HOLDERS_VIEW.length){$("histOut").textContent="—";return;}
+  const x=Number($("histThresh").value)||0;
+  const n=HOLDERS_VIEW.filter(h=>h.amt>=x).length;
+  $("histOut").textContent=n+" wallets ("+(n/HOLDERS_VIEW.length*100).toFixed(1)+"%)";
+}
+function renderCalendar(cal){
+  const c=$("calList");c.innerHTML="";
+  if(cal===null){c.innerHTML='<div class="empty">Couldn\'t read staking data from the GenesisL1 LCD.</div>';$("calPill").textContent="";return;}
+  if(!cal.length){c.innerHTML='<div class="empty">No active unstaking right now. <b>Nothing unlocking.</b></div>';$("calPill").textContent="";return;}
+  const total=cal.reduce((s,e)=>s+e.balance,0);
+  $("calPill").textContent=cal.length+" unbonds · "+fmt(total)+" L1"+(L1_USD?" · ≈$"+fmt(total*L1_USD):"");
+  cal.slice(0,40).forEach(e=>{
+    const r=document.createElement("div");r.className="row"+(e.balance>=50000?" warn":"");
+    const amt=document.createElement("span");amt.className="amt";amt.style.color=e.balance>=50000?"var(--warn)":"var(--node)";amt.style.minWidth="96px";amt.textContent=fmt(e.balance)+" L1";
+    const w=walletEl(e.delegator,EXP_GL1+"/account");
+    const usd=document.createElement("span");usd.className="ct";usd.textContent=L1_USD?"≈$"+fmt(e.balance*L1_USD):"";
+    const dt=new Date(e.completion_time);
+    const daysAway=Math.ceil((dt-Date.now())/86400000);
+    const when=document.createElement("span");when.className="side";
+    when.textContent=dt.toLocaleString([],{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"})+(daysAway>=0?" · in "+daysAway+"d":"");
+    r.append(amt,w,usd,when);c.appendChild(r);
+  });
+}
+function renderRows(c,list,side){c.innerHTML="";if(!list.length){c.innerHTML='<div class="empty">No '+(side==="s"?"sells":"buys")+' above threshold.</div>';return;}
+  list.slice(0,40).forEach(h=>{const r=document.createElement("div");r.className="row";
+    const am=document.createElement("span");am.className="amt "+side;am.textContent=fmt(h.l1)+" L1";
+    const ct=document.createElement("span");ct.className="ct";
+    ct.textContent=L1_USD?("↔ ≈$"+fmt(h.l1*L1_USD)):(h.pools.length>1?"⤳ "+h.pools.length+" pools":"");
+    const bl=document.createElement("span");bl.className="side";
+    bl.textContent=(h.pools.length>1?"⤳"+h.pools.length+"· ":"")+tsFmt(OSMO_CAL,h.height);
+    r.append(am,walletEl(h.sender,EXP_OSMO+"/address"),ct,bl);c.appendChild(r);});}
+
+let OSMO_USD=null, L1_USD=null, L1_SUPPLY=null;
+const SUPPLY_FALLBACK=46180000;   // respaldo si el LCD no responde (total supply on-chain)
+async function fetchSupply(){
+  try{
+    const j=await(await fetch(cfg.gl1Lcd.replace(/\/$/,"")+"/cosmos/bank/v1beta1/supply/by_denom?denom=el1",{headers:{accept:"application/json"}})).json();
+    const amt=j?.amount?.amount; if(amt&&/^\d+$/.test(amt)) L1_SUPPLY=Number(amt)/1e18;
+  }catch{}
+}
+let CALENDAR=null, CALENDAR_T=0;
+// Holders: endpoint del ecosistema (nodo Osmosis con estado de ZEN). Keyless, CORS abierto.
+// Defensivo: puede dar 500 o estar ~30min fuera al rotar snapshot -> cacheamos el último bueno.
+let HOLDERS=null, HOLDERS_T=0, HOLDERS_ERR=false;
+async function fetchHolders(){
+  if(HOLDERS && Date.now()-HOLDERS_T<300000) return HOLDERS;   // caché 5 min
+  if(!cfg.holdersUrl){ HOLDERS_ERR=false; return null; }
+  try{
+    const r=await fetch(cfg.holdersUrl,{headers:{accept:"application/json"}});
+    if(!r.ok) throw new Error("status "+r.status);
+    const j=await r.json();
+    const arr=j?.denom_owners;
+    if(!Array.isArray(arr)) throw new Error("forma inesperada");
+    const list=arr.map(h=>({addr:h.address, amt:Number(h.balance?.amount||0)/1e18}))
+                  .filter(h=>h.amt>0).sort((a,b)=>b.amt-a.amt);
+    HOLDERS=list; HOLDERS_T=Date.now(); HOLDERS_ERR=false;
+    return list;
+  }catch(e){
+    HOLDERS_ERR=true;
+    return HOLDERS; // si hay caché previa, la devolvemos aunque ahora falle (degradación elegante)
+  }
+}
+async function fetchCalendar(){
+  if(CALENDAR&&Date.now()-CALENDAR_T<300000) return CALENDAR;   // caché 5 min
+  const LCD=cfg.gl1Lcd.replace(/\/$/,"");
+  try{
+    const v=await(await fetch(LCD+"/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=300",{headers:{accept:"application/json"}})).json();
+    const vals=(v?.validators||[]).map(x=>x.operator_address);
+    const entries=[];
+    for(let i=0;i<vals.length;i+=12){                              // lotes de 12 en paralelo
+      const batch=vals.slice(i,i+12);
+      const res=await Promise.all(batch.map(async va=>{
+        try{const u=await(await fetch(LCD+"/cosmos/staking/v1beta1/validators/"+va+"/unbonding_delegations?pagination.limit=300",{headers:{accept:"application/json"}})).json();return u?.unbonding_responses||[];}catch{return [];}
+      }));
+      for(const ur of res) for(const resp of ur) for(const e of (resp.entries||[]))
+        if(/^\d+$/.test(String(e.balance))) entries.push({completion_time:e.completion_time, balance:Number(e.balance)/1e18, delegator:resp.delegator_address, validator:resp.validator_address});
+    }
+    // cada unbonding por separado, ordenado por fecha de liberación
+    CALENDAR=entries.filter(e=>e.completion_time).sort((a,b)=>a.completion_time<b.completion_time?-1:1);
+    CALENDAR_T=Date.now();
+  }catch{ CALENDAR=null; }
+  return CALENDAR;
+}
+async function sqsPrice(base){const r=await fetch(`https://sqs.osmosis.zone/tokens/prices?base=${encodeURIComponent(base)}`,{headers:{accept:"application/json"}});const j=await r.json();let p=null;const walk=(o)=>{for(const k in o){const v=o[k];if(typeof v==="object"&&v)walk(v);else if(p===null&&!isNaN(parseFloat(v)))p=parseFloat(v);}};walk(j);return p;}
+function priceFmt(p){return "$"+(p<0.1?p.toFixed(6):p<10?p.toFixed(4):p.toFixed(2));}
+async function loadPrice(){try{const p=await sqsPrice(L1_IBC);if(p!==null){L1_USD=p;$("price").textContent=priceFmt(p);}}catch{} try{const o=await sqsPrice("uosmo");if(o!==null)OSMO_USD=o;}catch{}}
+
+let busy=false;
+async function run(){
+  if(busy)return;busy=true;
+  const st=$("status");st.innerHTML='<span class="spin"></span> Reading chains…';
+  $("hstatus").className="hstatus load";$("hstatus").textContent="updating…";
+  loadPrice();
+  if(L1_SUPPLY===null) fetchSupply();
+  cfg.hours=Math.min(168,Math.max(1,cfg.hours||24));
+  let notes=[];
+  try{
+    // Osmosis
+    const oc=await calibrate(cfg.osmoRpc);OSMO_CAL=oc;
+    const lastH=cutoffHeight(oc.latest,cfg.hours,oc.spb);
+    const pools=cfg.pools.split(",").map(s=>s.trim()).filter(Boolean);
+    let swaps=[];for(const p of pools)swaps=swaps.concat(await fetchOsmoSwaps(p,lastH));
+    const a=analyze(swaps,Number(cfg.threshold));
+    // GenesisL1 IBC out (best effort)
+    let ibc=[],ibcIn=[],gl1ok=false;
+    if(cfg.gl1Rpc){try{
+      const gc=await calibrate(cfg.gl1Rpc);GL1_CAL=gc;
+      const glLast=cutoffHeight(gc.latest,cfg.hours,gc.spb);
+      ibc=await fetchIbcOut(glLast);ibcIn=await fetchIbcIn(glLast);gl1ok=true;
+      // auto-watchlist: receivers over threshold
+      let added=0;for(const t of ibc){if(t.amount>=Number(cfg.ibcThreshold)&&t.receiver&&!auto[t.receiver]){auto[t.receiver]={amount:Math.round(t.amount),date:new Date().toISOString().slice(0,10),sender:t.sender};added++;}}
+      if(added){saveAuto(auto);}
+    }catch(e){notes.push("on-chain panel: "+e.message);}}
+    // depth (best effort)
+    let depth={};if(cfg.osmoLcd){depth=await fetchDepth(pools);}
+    render(a,ibc,ibcIn,depth,oc.latest,lastH,gl1ok);
+    // overhang: total L1 en Osmosis - reservas en pools = en wallets (agregado, todas las wallets)
+    let inPools=0;for(const id in depth) inPools+=depth[id].l1;
+    let osmoTotal=null;
+    if(cfg.osmoLcd) osmoTotal=await fetchOsmoL1Total();
+    renderOverhang(osmoTotal,inPools);
+    fetchHolders().then(renderHolders);
+    if(cfg.gl1Rpc){ try{ renderCalendar(await fetchCalendar()); }catch{ renderCalendar(null); } }
+    const now=new Date().toLocaleTimeString();
+    st.innerHTML=`<span class="ok">●</span> ${now} · ${pools.length} pools · ${a.tracked} swaps`+(cfg.hours>72?' · <span class="warnc">large window</span>':'')+(notes.length?' · <span class="warnc">'+notes.join(" · ")+'</span>':'');
+    $("hstatus").className="hstatus ok";$("hstatus").textContent=now;
+  }catch(e){st.innerHTML=`<span class="err">●</span> Osmosis RPC error (${e.message}). Try another endpoint in Settings.`;}
+  finally{busy=false;}
+}
+
+// settings
+function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgHours").value=cfg.hours;$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
+function closeDrawer(){$("scrim").classList.remove("open");$("drawer").classList.remove("open");}
+$("settingsBtn").onclick=openDrawer;$("closeBtn").onclick=closeDrawer;$("scrim").onclick=closeDrawer;
+document.querySelectorAll(".presets button").forEach(b=>b.onclick=()=>$(b.dataset.t).value=b.dataset.v);
+$("clearAuto").onclick=()=>{auto={};saveAuto(auto);$("autoCount").textContent=0;};
+$("histThresh").addEventListener("input",updateHist);
+$("saveBtn").onclick=()=>{cfg={osmoRpc:$("cfgOsmoRpc").value.trim(),gl1Rpc:$("cfgGl1Rpc").value.trim(),osmoLcd:$("cfgOsmoLcd").value.trim(),pools:$("cfgPools").value.trim(),threshold:Number($("cfgThreshold").value)||0,ibcThreshold:Number($("cfgIbcThreshold").value)||0,hours:Math.min(168,Math.max(1,Number($("cfgHours").value)||24)),gl1Lcd:$("cfgGl1Lcd").value.trim()||cfg.gl1Lcd,holdersUrl:$("cfgHoldersUrl").value.trim(),watch:$("cfgWatch").value.trim(),labels:$("cfgLabels").value.trim()};saveCfg(cfg);L1_SUPPLY=null;HOLDERS=null;markTf();closeDrawer();run();};
+$("refreshBtn").onclick=run;
+// botones de timeframe rápido
+function markTf(){document.querySelectorAll("#tfbtns button").forEach(b=>b.dataset.on=(Number(b.dataset.h)===cfg.hours)?"1":"0");}
+document.querySelectorAll("#tfbtns button").forEach(b=>b.onclick=()=>{cfg.hours=Number(b.dataset.h);saveCfg(cfg);markTf();run();});
+$("auditTitle").onclick=()=>$("auditList").classList.toggle("collapsed");
+let liveTimer=null;$("liveBtn").onclick=()=>{const b=$("liveBtn"),on=b.dataset.on==="1";b.dataset.on=on?"0":"1";if(on){clearInterval(liveTimer);liveTimer=null;}else{run();liveTimer=setInterval(run,30000);}};
+markTf();loadPrice();run();
+</script>
+</body>
+</html>
