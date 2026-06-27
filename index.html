@@ -245,8 +245,8 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
         <div class="ohsub" id="genSub">L1 held in Genesis wallets but not staked — liquid supply that could bridge out and sell. Counterpart to the Osmosis overhang.</div>
       </div>
       <div class="ohbreakdown">
-        <div class="ohstat"><b id="genWallets">—</b><label>wallets (≥1 L1)</label></div>
-        <div class="ohstat"><b id="genBig2">—</b><label>liquid in Genesis</label></div>
+        <div class="ohstat"><b id="genWallets">—</b><label>active wallets (≥100 L1)</label></div>
+        <div class="ohstat"><b id="genBig2">—</b><label>total unstaked</label></div>
         <div class="ohstat"><b id="genTotalOh">—</b><label>total latent (both chains)</label></div>
       </div>
     </div>
@@ -262,7 +262,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
       </div>
     </div>
     <div id="genList"><div class="empty">Loading Genesis balances…</div></div>
-    <div class="ohnote">Liquid (unstaked) L1 balances read live from the GenesisL1 LCD. Module accounts excluded. Most small holders are dormant airdrop dust; the concentration sits in the top wallets. Table shows holders above the threshold.</div>
+    <div class="ohnote">Weekly snapshot of unstaked L1 balances on GenesisL1 (≈622k holders, too many to enumerate live). System module accounts (staking, distribution) excluded. The bulk is dormant airdrop dust spread across hundreds of thousands of tiny wallets; the real overhang is the few hundred active wallets shown. Table lists the largest above the threshold.</div>
   </div>
 
   <div class="grid">
@@ -343,6 +343,8 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   <div class="field"><label>GenesisL1 LCD (supply / market cap)</label><input id="cfgGl1Lcd" spellcheck="false">
     <div class="presets"><button data-t="cfgGl1Lcd" data-v="https://genesisl1.api.utsa.tech">utsa</button></div>
     <div class="sub">Market cap = price × on-chain total supply, read live from this LCD.</div></div>
+  <div class="field"><label>Genesis snapshot (weekly holders JSON)</label><input id="cfgGenSnapshotUrl" spellcheck="false">
+    <div class="sub">URL of the weekly Genesis unstaked-holders snapshot (raw JSON). Powers the GenesisL1 overhang panel.</div></div>
   <div class="field"><label>Holders source (Osmosis denom-owners JSON)</label><input id="cfgHoldersUrl" spellcheck="false">
     <div class="sub">Keyless JSON endpoint serving <code>denom_owners</code> for L1 on Osmosis. Powers the concentration panel. Leave blank to disable.</div></div>
   <div class="field"><label>Custom timeframe (hours)</label><input id="cfgHours" type="number" min="1" max="168"><div class="sub">Overrides the quick buttons. 1–168h. Use for non-standard windows (e.g. 6h, 36h).</div></div>
@@ -504,6 +506,7 @@ const DEFAULTS={
   pools:"732,2894,2849,3456,3435,2947",
   threshold:1, ibcThreshold:10000, hours:24, gl1Lcd:"https://genesisl1.api.utsa.tech",
   holdersUrl:"https://osmosisl1.zenode.app/",
+  genSnapshotUrl:"https://raw.githubusercontent.com/javibelxv/genesisl1-flow-explorer/main/genesis_holders.json",
   watch:"", labels:"",
 };
 function loadCfg(){try{return {...DEFAULTS,...JSON.parse(localStorage.getItem("l1p_cfg")||"{}")};}catch{return {...DEFAULTS};}}
@@ -778,41 +781,46 @@ function updateHist(){
   $("histOut").textContent=n+" wallets ("+(n/HOLDERS_VIEW.length*100).toFixed(1)+"%)";
 }
 let GENH_VIEW=null;
-function renderGenHolders(list){
+function renderGenHolders(snap){
   const lc=$("genList");
-  if(!list||!list.length){
-    if(GENH_ERR) lc.innerHTML='<div class="empty">GenesisL1 LCD temporarily unavailable. Showing nothing for now.</div>';
-    else lc.innerHTML='<div class="empty">Loading Genesis balances…</div>';
+  if(!snap||!snap._list){
+    if(GENH_ERR) lc.innerHTML='<div class="empty">Genesis snapshot unavailable right now.</div>';
+    else lc.innerHTML='<div class="empty">Loading Genesis snapshot…</div>';
     $("genConcPill").textContent="";$("genHoldPill").textContent="";return;
   }
+  const list=snap._list;          // top 200 wallets del snapshot
   GENH_VIEW=list;
-  const total=list.reduce((s,h)=>s+h.amt,0);
-  const cum=(n)=>list.slice(0,n).reduce((s,h)=>s+h.amt,0)/total*100;
-  // cabecera
-  $("genBig").textContent="~"+fmt(total)+" L1"+(L1_USD?" · ≈$"+fmt(total*L1_USD):"");
+  const total=snap.total_liquid||0;
+  const active=snap.active_liquid||0;
+  const dormant=snap.dormant_liquid||0;
+  const c=snap.concentration||{};
+  // cabecera: total + desglose
+  $("genBig").textContent="~"+fmt(active)+" L1"+(L1_USD?" · ≈$"+fmt(active*L1_USD):"");
+  $("genSub").textContent="~"+fmt(active)+" L1 in "+fmt(snap.active_wallets||0)+" active wallets (≥100 L1) is the real overhang. A further ~"+fmt(dormant)+" L1 sits dormant across "+fmt(snap.dormant_wallets||0)+" tiny airdrop wallets (unlikely to move).";
   $("genBig2").textContent=fmt(total)+" L1";
-  $("genWallets").textContent=fmt(list.length);
-  // total latente ambas cadenas (Osmosis overhang + Genesis unstaked)
-  if(OVERHANG_L1!=null) $("genTotalOh").textContent="~"+fmt(OVERHANG_L1+total)+" L1";
-  $("genConcPill").textContent=fmt(list.length)+" wallets"+(GENH_ERR?" · cached":"");
-  // concentración
+  $("genWallets").textContent=fmt(snap.active_wallets||0);
+  // total latente ambas cadenas: overhang Osmosis + ACTIVO de Genesis (no el dormido)
+  if(OVERHANG_L1!=null) $("genTotalOh").textContent="~"+fmt(OVERHANG_L1+active)+" L1";
+  const when=snap.updated?(" · "+snap.updated.slice(0,10)):"";
+  $("genConcPill").textContent="snapshot"+when+(GENH_ERR?" · cached":"");
+  // concentración (del snapshot, calculada sobre todos los holders)
   const cr=$("genConcRow");cr.innerHTML="";
-  [["Top 1",cum(1)],["Top 3",cum(3)],["Top 5",cum(5)],["Top 10",cum(10)],["Top 20",cum(20)]].forEach(([lbl,v])=>{
+  [["Top 1",c.top1],["Top 3",c.top3],["Top 5",c.top5],["Top 10",c.top10],["Top 20",c.top20]].forEach(([lbl,v])=>{
     const d=document.createElement("div");d.className="concbox";
-    d.innerHTML='<b>'+v.toFixed(0)+'%</b><label>'+lbl+'</label>';cr.appendChild(d);
+    d.innerHTML='<b>'+(v!=null?v.toFixed(0):"—")+'%</b><label>'+lbl+'</label>';cr.appendChild(d);
   });
   // tabla: top 15 por encima del umbral
   const TH=Number($("genHistThresh").value)||1000;
   const big=list.filter(h=>h.amt>=TH);
   $("genHoldPill").textContent="top 15 of "+fmt(big.length)+" ≥ "+fmt(TH);
   const hl=$("genList");hl.innerHTML="";
-  if(!big.length){ hl.innerHTML='<div class="empty">No wallets above '+fmt(TH)+' L1.</div>'; }
+  if(!big.length){ hl.innerHTML='<div class="empty">No wallets above '+fmt(TH)+' L1 in the snapshot.</div>'; }
   big.slice(0,15).forEach((h,i)=>{
     const r=document.createElement("div");r.className="row";
     const rk=document.createElement("span");rk.className="side";rk.style.minWidth="22px";rk.textContent="#"+(i+1);
     const am=document.createElement("span");am.className="amt o";am.style.minWidth="96px";am.textContent=fmt(h.amt)+" L1";
     const usd=document.createElement("span");usd.className="ct";usd.textContent=L1_USD?"≈$"+fmt(h.amt*L1_USD):"";
-    const pc=document.createElement("span");pc.className="side";pc.textContent=(h.amt/total*100).toFixed(1)+"% of liquid";
+    const pc=document.createElement("span");pc.className="side";pc.textContent=(total>0?(h.amt/total*100).toFixed(1):"0")+"% of liquid";
     r.append(rk,am,walletEl(h.addr,EXP_GL1+"/account"),usd,pc);hl.appendChild(r);
   });
   updateGenHist();
@@ -821,7 +829,7 @@ function updateGenHist(){
   if(!GENH_VIEW||!GENH_VIEW.length){$("genHistOut").textContent="—";return;}
   const x=Number($("genHistThresh").value)||0;
   const n=GENH_VIEW.filter(h=>h.amt>=x).length;
-  $("genHistOut").textContent=fmt(n)+" wallets ("+(n/GENH_VIEW.length*100).toFixed(1)+"%)";
+  $("genHistOut").textContent=fmt(n)+" of top 200";
 }
 function renderCalendar(cal){
   const c=$("calList");c.innerHTML="";
@@ -880,27 +888,21 @@ async function fetchHolders(){
     return HOLDERS; // si hay caché previa, la devolvemos aunque ahora falle (degradación elegante)
   }
 }
-// Holders de L1 en Genesis (balance líquido, sin stakear). LCD de Genesis soporta denom_owners.
-let GENH=null, GENH_T=0, GENH_ERR=false;
-const isGenModule=(a)=>/q{8,}/.test(a);   // cuentas de módulo: largas tiras de 'q'
+// Holders de L1 sin stakear en Genesis. Hay ~622k holders (airdrop masivo), inviable
+// paginar en vivo, así que se lee un snapshot semanal pre-procesado (generado por el nodo).
+let GENH=null, GENH_T=0, GENH_ERR=false;   // GENH = objeto snapshot completo
 async function fetchGenHolders(){
   if(GENH && Date.now()-GENH_T<300000) return GENH;   // caché 5 min
-  const LCD=cfg.gl1Lcd.replace(/\/$/,"");
+  if(!cfg.genSnapshotUrl){ GENH_ERR=false; return null; }
   try{
-    let all=[], key="";
-    for(let p=0;p<40;p++){   // hasta 40 páginas de 1000 (cubre ~30k+ holders)
-      const url=LCD+"/cosmos/bank/v1beta1/denom_owners/el1?pagination.limit=1000"+(key?"&pagination.key="+encodeURIComponent(key):"");
-      const r=await fetch(url,{headers:{accept:"application/json"}});
-      if(!r.ok) throw new Error("status "+r.status);
-      const j=await r.json();
-      all=all.concat(j?.denom_owners||[]);
-      key=j?.pagination?.next_key||""; if(!key) break;
-    }
-    const list=all.map(h=>({addr:h.address, amt:Number(h.balance?.amount||0)/1e18}))
-                  .filter(h=>h.amt>0 && !isGenModule(h.addr))
-                  .sort((a,b)=>b.amt-a.amt);
-    GENH=list; GENH_T=Date.now(); GENH_ERR=false;
-    return list;
+    const r=await fetch(cfg.genSnapshotUrl,{headers:{accept:"application/json"}});
+    if(!r.ok) throw new Error("status "+r.status);
+    const j=await r.json();
+    if(!j||!Array.isArray(j.holders)) throw new Error("forma inesperada");
+    // normalizar la lista de holders {a,v} -> {addr,amt}
+    j._list=j.holders.map(h=>({addr:h.a, amt:h.v})).sort((a,b)=>b.amt-a.amt);
+    GENH=j; GENH_T=Date.now(); GENH_ERR=false;
+    return j;
   }catch(e){
     GENH_ERR=true;
     return GENH;
@@ -976,7 +978,7 @@ async function run(){
 }
 
 // settings
-function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgHours").value=cfg.hours;$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
+function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgGenSnapshotUrl").value=cfg.genSnapshotUrl;$("cfgHours").value=cfg.hours;$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
 function closeDrawer(){$("scrim").classList.remove("open");$("drawer").classList.remove("open");}
 $("settingsBtn").onclick=openDrawer;$("closeBtn").onclick=closeDrawer;$("scrim").onclick=()=>{closeDrawer();closeInfo();};
 function openInfo(){$("scrim").classList.add("open");$("infoDrawer").classList.add("open");}
@@ -985,8 +987,8 @@ $("infoBtn").onclick=openInfo;$("infoClose").onclick=closeInfo;
 document.querySelectorAll(".presets button").forEach(b=>b.onclick=()=>$(b.dataset.t).value=b.dataset.v);
 $("clearAuto").onclick=()=>{auto={};saveAuto(auto);$("autoCount").textContent=0;};
 $("histThresh").addEventListener("input",updateHist);
-$("genHistThresh").addEventListener("input",()=>{ if(GENH_VIEW) renderGenHolders(GENH_VIEW); });
-$("saveBtn").onclick=()=>{cfg={osmoRpc:$("cfgOsmoRpc").value.trim(),gl1Rpc:$("cfgGl1Rpc").value.trim(),osmoLcd:$("cfgOsmoLcd").value.trim(),pools:$("cfgPools").value.trim(),threshold:Number($("cfgThreshold").value)||0,ibcThreshold:Number($("cfgIbcThreshold").value)||0,hours:Math.min(168,Math.max(1,Number($("cfgHours").value)||24)),gl1Lcd:$("cfgGl1Lcd").value.trim()||cfg.gl1Lcd,holdersUrl:$("cfgHoldersUrl").value.trim(),watch:$("cfgWatch").value.trim(),labels:$("cfgLabels").value.trim()};saveCfg(cfg);L1_SUPPLY=null;HOLDERS=null;GENH=null;markTf();closeDrawer();run();};
+$("genHistThresh").addEventListener("input",()=>{ if(GENH) renderGenHolders(GENH); });
+$("saveBtn").onclick=()=>{cfg={osmoRpc:$("cfgOsmoRpc").value.trim(),gl1Rpc:$("cfgGl1Rpc").value.trim(),osmoLcd:$("cfgOsmoLcd").value.trim(),pools:$("cfgPools").value.trim(),threshold:Number($("cfgThreshold").value)||0,ibcThreshold:Number($("cfgIbcThreshold").value)||0,hours:Math.min(168,Math.max(1,Number($("cfgHours").value)||24)),gl1Lcd:$("cfgGl1Lcd").value.trim()||cfg.gl1Lcd,holdersUrl:$("cfgHoldersUrl").value.trim(),genSnapshotUrl:$("cfgGenSnapshotUrl").value.trim()||cfg.genSnapshotUrl,watch:$("cfgWatch").value.trim(),labels:$("cfgLabels").value.trim()};saveCfg(cfg);L1_SUPPLY=null;HOLDERS=null;GENH=null;markTf();closeDrawer();run();};
 $("refreshBtn").onclick=run;
 // botones de timeframe rápido
 function markTf(){document.querySelectorAll("#tfbtns button").forEach(b=>b.dataset.on=(Number(b.dataset.h)===cfg.hours)?"1":"0");}
