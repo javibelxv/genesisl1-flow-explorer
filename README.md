@@ -87,7 +87,7 @@ Built by **JLO (FirstBlock)**.
 
 Special thanks to **ZEN (anodeofzen)** 🌙 — per-wallet holder data on Osmosis isn't exposed by any public API, and ZEN built and hosts the keyless endpoint that makes the holder-concentration section possible. Put together late at night as a favor to the ecosystem, and this tool wouldn't be complete without it.
 
-RPC and explorer infrastructure by **UTSA** 🛰️.
+RPC and explorer infrastructure by **lesnik13utsa (UTSA)** 🛰️.
 
 ---
 
