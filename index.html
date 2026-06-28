@@ -92,6 +92,15 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .ohnote{font-size:11px;color:var(--faint);margin:0 0 4px;line-height:1.45;max-width:640px}
 .conc{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 14px}
 .concbox{flex:1;min-width:88px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.airwrap{display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.aircard{flex:1;min-width:240px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.airhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.airhead b{font-size:15px}
+.airhead .pct{font-size:22px;font-weight:700;color:var(--accent)}
+.airbar{height:9px;border-radius:6px;background:var(--line);overflow:hidden;margin:8px 0}
+.airbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2,#6aa3ff));border-radius:6px}
+.airmeta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:6px}
+.airsum{margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.5}
 .concbox b{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--warn);display:block}
 .concbox label{font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
 .htabs{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:13px;margin-top:4px}
@@ -252,6 +261,8 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     </div>
     <div class="ohtitle">Holder concentration <span class="pill" id="genConcPill"></span></div>
     <div class="conc" id="genConcRow"></div>
+    <div class="ohtitle" style="margin-top:18px">Airdrop status <span class="pill">genesis.gift · 2022</span></div>
+    <div id="genAirdrop" class="airwrap"><div class="empty">Loading airdrop cross-reference…</div></div>
     <div class="htabs">
       <div class="htitle">Largest unstaked holders <span class="pill" id="genHoldPill"></span></div>
       <div class="hgroup">
@@ -816,6 +827,8 @@ function renderGenHolders(snap){
     const d=document.createElement("div");d.className="concbox";
     d.innerHTML='<b>'+(v!=null?v.toFixed(0):"—")+'%</b><label>'+lbl+'</label>';cr.appendChild(d);
   });
+  // sub-panel del airdrop (genesis.gift)
+  renderAirdrop(snap.airdrop);
   // tabla: top 15 por encima del umbral
   const TH=Number($("genHistThresh").value)||1000;
   const big=list.filter(h=>h.amt>=TH);
@@ -831,6 +844,29 @@ function renderGenHolders(snap){
     r.append(rk,am,walletEl(h.addr,EXP_GL1+"/account"),usd,pc);hl.appendChild(r);
   });
   updateGenHist();
+}
+function renderAirdrop(air){
+  const el=$("genAirdrop");
+  if(!air||!air.atom){ el.innerHTML='<div class="empty">Airdrop cross-reference not in this snapshot yet.</div>'; return; }
+  const card=(label,d,gift)=>{
+    const pct=d.intact_pct!=null?d.intact_pct:(d.total?d.intact/d.total*100:0);
+    const movedTotal=(d.moved||0)+(d.increased||0);
+    return '<div class="aircard">'+
+      '<div class="airhead"><b>'+label+'</b><span class="pct">'+pct.toFixed(1)+'%</span></div>'+
+      '<div class="airbar"><i style="width:'+pct.toFixed(1)+'%"></i></div>'+
+      '<div class="airmeta"><span>'+fmt(d.intact)+' / '+fmt(d.total)+' wallets untouched</span><span>'+gift+' L1 each</span></div>'+
+      '<div class="airsum">'+
+        '<b>'+fmt(d.intact_l1)+' L1</b> still sitting at exactly '+gift+' (never touched since 2022). '+
+        fmt(movedTotal)+' wallets became active, '+fmt(d.emptied)+' emptied out.'+
+      '</div></div>';
+  };
+  el.innerHTML = card("ATOM stakers", air.atom, 11) + card("Evmos stakers", air.evmos, 5);
+  // línea de conclusión bajo los dos bloques
+  const fossil=(air.atom.intact_l1||0)+(air.evmos.intact_l1||0);
+  const note=document.createElement("div");
+  note.className="airsum";note.style.flexBasis="100%";note.style.marginTop="2px";
+  note.innerHTML='<b>~'+fmt(fossil)+' L1</b> across '+fmt((air.atom.intact||0)+(air.evmos.intact||0))+' wallets has sat untouched since the 2022 airdrop — supply that exists on paper but realistically never enters circulation. Cross-referenced against the genesis.gift distribution lists.';
+  el.appendChild(note);
 }
 function updateGenHist(){
   if(!GENH_VIEW||!GENH_VIEW.length){$("genHistOut").textContent="—";return;}
