@@ -97,8 +97,14 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .airhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
 .airhead b{font-size:15px}
 .airhead .pct{font-size:22px;font-weight:700;color:var(--accent)}
-.airbar{height:9px;border-radius:6px;background:var(--line);overflow:hidden;margin:8px 0}
-.airbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2,#6aa3ff));border-radius:6px}
+.airbar{display:flex;height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin:10px 0}
+.airbar>.intact{height:100%;background:linear-gradient(90deg,#3a4358,#4a566f)}
+.airbar>.active{height:100%;background:linear-gradient(90deg,var(--accent),#7ab4ff)}
+.airlegend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:2px}
+.airlegend span{display:flex;align-items:center;gap:5px}
+.airlegend i{width:9px;height:9px;border-radius:2px;display:inline-block}
+.airlegend .ki{background:#4a566f}
+.airlegend .ka{background:var(--accent)}
 .airmeta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:6px}
 .airsum{margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.5}
 .concbox b{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--warn);display:block}
@@ -851,9 +857,15 @@ function renderAirdrop(air){
   const card=(label,d,gift)=>{
     const pct=d.intact_pct!=null?d.intact_pct:(d.total?d.intact/d.total*100:0);
     const movedTotal=(d.moved||0)+(d.increased||0);
+    const activePct=d.total?(movedTotal+(d.emptied||0))/d.total*100:0;
     return '<div class="aircard">'+
       '<div class="airhead"><b>'+label+'</b><span class="pct">'+pct.toFixed(1)+'%</span></div>'+
-      '<div class="airbar"><i style="width:'+pct.toFixed(1)+'%"></i></div>'+
+      '<div class="airbar">'+
+        '<i class="intact" style="width:'+pct.toFixed(1)+'%"></i>'+
+        '<i class="active" style="width:'+activePct.toFixed(1)+'%"></i>'+
+      '</div>'+
+      '<div class="airlegend"><span><i class="ki"></i>'+pct.toFixed(1)+'% untouched</span>'+
+        '<span><i class="ka"></i>'+activePct.toFixed(1)+'% active</span></div>'+
       '<div class="airmeta"><span>'+fmt(d.intact)+' / '+fmt(d.total)+' wallets untouched</span><span>'+gift+' L1 each</span></div>'+
       '<div class="airsum">'+
         '<b>'+fmt(d.intact_l1)+' L1</b> still sitting at exactly '+gift+' (never touched since 2022). '+
