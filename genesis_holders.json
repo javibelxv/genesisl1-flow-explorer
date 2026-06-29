@@ -1,17 +1,17 @@
 {
-  "updated": "2026-06-28T17:32:18Z",
-  "total_liquid": 10034637.173971953,
+  "updated": "2026-06-29T03:30:31Z",
+  "total_liquid": 10131686.082423031,
   "wallets": 622339,
-  "active_liquid": 4682826.0344576705,
-  "active_wallets": 583,
-  "dormant_liquid": 5351811.139514282,
-  "dormant_wallets": 621756,
+  "active_liquid": 4779870.616509978,
+  "active_wallets": 582,
+  "dormant_liquid": 5351815.465913054,
+  "dormant_wallets": 621757,
   "concentration": {
-    "top1": 3.831468874288315,
-    "top3": 9.460745265397508,
-    "top5": 12.437748019861788,
-    "top10": 17.929703713406393,
-    "top20": 25.07651148682031
+    "top1": 3.794768184098254,
+    "top3": 9.370123132647718,
+    "top5": 12.318609915986734,
+    "top10": 17.815134150409996,
+    "top20": 25.360497377884506
   },
   "holders": [
     {
@@ -41,6 +41,10 @@
     {
       "a": "genesis18364g2y5k3y0x7l59v6u7wuveplr8a30mjttl3",
       "v": 110097
+    },
+    {
+      "a": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
+      "v": 104793
     },
     {
       "a": "genesis1e0wzg69yndukvmuadld8ugdqxrpnxd06pcakcx",
@@ -475,10 +479,6 @@
       "v": 6898
     },
     {
-      "a": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
-      "v": 6793
-    },
-    {
       "a": "genesis13uup3md785lsd74aws4hx2et052mferw3paz0v",
       "v": 6685
     },
@@ -823,7 +823,7 @@
       "emptied": 16667,
       "increased": 49475,
       "intact_l1": 3778390.0,
-      "active_l1": 872485.11,
+      "active_l1": 872490.71,
       "intact_pct": 80.7
     },
     "evmos": {
