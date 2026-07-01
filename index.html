@@ -214,7 +214,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
       <span><span class="mono" id="blkRange">—</span></span>
       <span><b id="swapCount">0</b> swaps</span>
       <span>min <b id="thLabel">—</b> L1</span>
-      <span id="routingMeta" hidden><b id="routingN">0</b> multi-hop routes excluded</span>
+      <span id="routingMeta" hidden><b id="routingN">0</b> multi-hop routes (both legs counted)</span>
     </div>
   </section>
 
@@ -316,7 +316,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   <div class="ihead">What each box means</div>
   <dl class="idl">
     <dt>Market stats (top)</dt><dd>Live L1 price, 24h change, volume, and market cap (price × on-chain total supply).</dd>
-    <dt>Net pressure</dt><dd>L1 sold vs bought over the chosen window. Routing swaps are excluded so pass-through trades don't inflate it.</dd>
+    <dt>Net pressure</dt><dd>L1 sold vs bought over the chosen window. Every swap is counted — arbitrage bots that buy and sell the same L1 cancel out on their own, so the net reflects real directional pressure.</dd>
     <dt>Sell / buy ratio</dt><dd>Balance of selling vs buying, plus unique sellers vs buyers.</dd>
     <dt>Top wallet concentration</dt><dd>Share of all selling coming from a single wallet — flags when one actor drives a move.</dd>
     <dt>Price spread · slippage</dt><dd>Traded USD price range (p10–p90 of swaps ≥100 L1), a proxy for how much the thin pool moves per trade.</dd>
@@ -329,7 +329,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     <dt>📅 Unstaking calendar</dt><dd>Each unbonding as its own row (amount, delegator, USD, completion, days left), sorted by completion. ≥50k unlocks flagged.</dd>
     <dt>🔴 Sells / 🟢 Buys</dt><dd>The raw, timestamped swap feed behind the net-pressure number.</dd>
     <dt>💧 Pool depth</dt><dd>Price impact of a 1,000 L1 sell per pool.</dd>
-    <dt>🔀 Multi-hop audit</dt><dd>Every routing tx excluded from net pressure, so the headline is verifiable by hand.</dd>
+    <dt>🔀 Multi-hop audit</dt><dd>Transactions where L1 was both bought and sold (routing/arbitrage). Shown for transparency — both legs are counted in net pressure, so they cancel out naturally rather than being excluded.</dd>
   </dl>
   <div class="ihead">Sources &amp; credits</div>
   <p class="ip">Holder data served keyless by <b>ZEN (anodeofzen)</b>. RPC &amp; explorer infrastructure by <b>lesnik13utsa (UTSA)</b>. Built by <b>JLO (FirstBlock)</b>.</p>
@@ -444,29 +444,28 @@ function classify(events){
 // ---- análisis + 4 métricas curadas ----
 function analyze(events, threshold){
   const {hops,byHash}=classify(events);
-  // NETEAR por tx: una operación = L1 que SALE menos L1 que ENTRA en la misma tx.
-  // Un arbitraje (compra X, vende ~X) netea ~0 y se descarta. Una venta grande con un
-  // tramo de routing inverso netea a la venta real (antes se perdía entera). El umbral
-  // se aplica al neto. Una compra/venta troceada en varios pools queda agregada.
+  // PRINCIPIO: contar TODO. Cada swap individual cuenta — L1 que SALE = venta, L1 que
+  // ENTRA = compra. No se agrupa por hash ni se excluye nada. Un bot de arbitraje que
+  // compra X y vende ~X cuenta AMBAS patas, así que se cancela solo en el neto (no se
+  // pierde ninguna pata por la ventana de bloques, que era el bug del netting por hash).
+  // El net pressure suma TODOS los hops. Las listas Sells/Buys filtran por threshold solo
+  // para legibilidad, pero NO afectan al neto.
   const sells=[],buys=[]; let totV=0,totC=0;
-  const excluded=new Set(); const routes=[];
+  for(const h of hops){
+    if(h.dir==="S"){ totV+=h.l1; if(h.l1>=threshold) sells.push({hash:h.hash,l1:h.l1,sender:h.sender,height:h.height,pools:[h.pool],routed:false}); }
+    else { totC+=h.l1; if(h.l1>=threshold) buys.push({hash:h.hash,l1:h.l1,sender:h.sender,height:h.height,pools:[h.pool],routed:false}); }
+  }
+  // rutas multi-hop: informativo (txs con L1 en ambas direcciones), ya NO se excluyen del neto
+  const routes=[];
   for(const [hash,hs] of Object.entries(byHash)){
-    let net=0; for(const h of hs) net += (h.dir==="B"? h.l1 : -h.l1);   // + = compra neta, - = venta neta
-    const l1=Math.abs(net);
     const bothDirs = hs.some(h=>h.dir==="B") && hs.some(h=>h.dir==="S");
-    if(l1<threshold){                              // neto despreciable: routing/arbitraje o sub-umbral
-      excluded.add(hash);
-      if(bothDirs) routes.push({hash, pools:[...new Set(hs.map(x=>x.pool))], hops:hs.map(x=>({dir:x.dir,l1:x.l1,pool:x.pool}))});
-      continue;
-    }
-    const pools=[...new Set(hs.map(h=>h.pool))];
-    const e={hash,l1,sender:hs[0].sender,height:Math.max(...hs.map(h=>h.height)),pools,routed:bothDirs};
-    if(net<0){sells.push(e);totV+=l1;} else {buys.push(e);totC+=l1;}
+    if(bothDirs) routes.push({hash, pools:[...new Set(hs.map(x=>x.pool))], hops:hs.map(x=>({dir:x.dir,l1:x.l1,pool:x.pool}))});
   }
   sells.sort((a,b)=>b.height-a.height); buys.sort((a,b)=>b.height-a.height);
-  // top sellers (sobre operaciones agregadas)
+  // top sellers (sobre ventas mostradas, agregadas por wallet)
   const agg={}; for(const s of sells){(agg[s.sender]??={tot:0,n:0});agg[s.sender].tot+=s.l1;agg[s.sender].n++;}
   const topSellers=Object.entries(agg).map(([w,v])=>({wallet:w,...v})).sort((a,b)=>b.tot-a.tot);
+  const excluded=new Set();  // ya no se excluye nada; se mantiene para las métricas de precio
 
   // MÉTRICA 1: buy/sell ratio + únicos
   const uniqSellers=new Set(sells.map(s=>s.sender)).size;
