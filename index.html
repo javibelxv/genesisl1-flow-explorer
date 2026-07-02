@@ -365,6 +365,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   <div class="field"><label>Holders source (Osmosis denom-owners JSON)</label><input id="cfgHoldersUrl" spellcheck="false">
     <div class="sub">Keyless JSON endpoint serving <code>denom_owners</code> for L1 on Osmosis. Powers the concentration panel. Leave blank to disable.</div></div>
   <div class="field"><label>Custom timeframe (hours)</label><input id="cfgHours" type="number" min="1" max="168"><div class="sub">Overrides the quick buttons. 1–168h. Use for non-standard windows (e.g. 6h, 36h).</div></div>
+  <div class="field"><label>Last N blocks (Osmosis)</label><input id="cfgBlocks" type="number" min="0" max="100000" placeholder="empty = use time"><div class="sub">Overrides time for Osmosis swaps. Counts the last N blocks (max 100000). Match the bot's OSMO_BLOCKS to compare exactly. Leave empty to use hours.</div></div>
 
   <div class="grp">Watchlist &amp; labels</div>
   <div class="field"><label>Manual watchlist — osmo addresses</label><textarea id="cfgWatch" spellcheck="false" placeholder="osmo1...&#10;osmo1..."></textarea>
@@ -520,7 +521,7 @@ const DEFAULTS={
   gl1Rpc:"https://genesisl1.rpc.utsa.tech",
   osmoLcd:"https://osmosis-rest.publicnode.com",
   pools:"732,2894,2849,3456,3435,2947",
-  threshold:1, ibcThreshold:10000, hours:24, gl1Lcd:"https://genesisl1.api.utsa.tech",
+  threshold:1, ibcThreshold:10000, hours:24, blocks:0, gl1Lcd:"https://genesisl1.api.utsa.tech",
   holdersUrl:"https://osmosisl1.zenode.app/",
   genSnapshotUrl:"https://raw.githubusercontent.com/javibelxv/genesisl1-flow-explorer/main/genesis_holders.json",
   watch:"", labels:"",
@@ -637,7 +638,7 @@ function nameOf(addr){const lm=labelMap();if(lm[addr])return {txt:lm[addr],lbl:t
 function walletEl(addr,explorer){const n=nameOf(addr);const e=document.createElement(explorer?"a":"span");e.className="w"+(n.lbl?" lbl":"");e.textContent=n.txt;e.title=addr;if(explorer){e.href=explorer+"/"+addr;e.target="_blank";e.rel="noopener";}return e;}
 
 function render(a,ibc,ibcIn,depth,curH,lastH,gl1ok){
-  const win=cfg.hours+"h";$("winLabel").textContent=win;$("thLabel").textContent=fmt(cfg.threshold);
+  const win=Number(cfg.blocks)>0?(fmt(Number(cfg.blocks))+" blk"):(cfg.hours+"h");$("winLabel").textContent=win;$("thLabel").textContent=fmt(cfg.threshold);
   $("blkRange").textContent="blocks "+lastH+"–"+curH;$("swapCount").textContent=a.tracked;
   $("soldV").textContent=fmt(a.totV);$("boughtV").textContent=fmt(a.totC);
   const total=a.totV+a.totC;$("beamS").style.width=total?(a.totV/total*100)+"%":"0";$("beamB").style.width=total?(a.totC/total*100)+"%":"0";
@@ -999,7 +1000,11 @@ async function run(){
   try{
     // Osmosis
     const oc=await calibrate(cfg.osmoRpc);OSMO_CAL=oc;
-    const lastH=cutoffHeight(oc.latest,cfg.hours,oc.spb);
+    // Modo bloques: si cfg.blocks>0, la ventana de Osmosis son los últimos N bloques
+    // (útil para comparar exactamente con el bot). Si no, se usa el cálculo por horas.
+    const blkMode=Number(cfg.blocks)>0;
+    const lastH=blkMode ? Math.max(1, oc.latest-Math.min(100000,Number(cfg.blocks)))
+                        : cutoffHeight(oc.latest,cfg.hours,oc.spb);
     const pools=cfg.pools.split(",").map(s=>s.trim()).filter(Boolean);
     let swaps=[];for(const p of pools)swaps=swaps.concat(await fetchOsmoSwaps(p,lastH));
     const a=analyze(swaps,Number(cfg.threshold));
@@ -1032,7 +1037,7 @@ async function run(){
 }
 
 // settings
-function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgGenSnapshotUrl").value=cfg.genSnapshotUrl;$("cfgHours").value=cfg.hours;$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
+function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgGenSnapshotUrl").value=cfg.genSnapshotUrl;$("cfgHours").value=cfg.hours;$("cfgBlocks").value=cfg.blocks||"";$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
 function closeDrawer(){$("scrim").classList.remove("open");$("drawer").classList.remove("open");}
 $("settingsBtn").onclick=openDrawer;$("closeBtn").onclick=closeDrawer;$("scrim").onclick=()=>{closeDrawer();closeInfo();};
 function openInfo(){$("scrim").classList.add("open");$("infoDrawer").classList.add("open");}
@@ -1042,11 +1047,11 @@ document.querySelectorAll(".presets button").forEach(b=>b.onclick=()=>$(b.datase
 $("clearAuto").onclick=()=>{auto={};saveAuto(auto);$("autoCount").textContent=0;};
 $("histThresh").addEventListener("input",updateHist);
 $("genHistThresh").addEventListener("input",()=>{ if(GENH) renderGenHolders(GENH); });
-$("saveBtn").onclick=()=>{cfg={osmoRpc:$("cfgOsmoRpc").value.trim(),gl1Rpc:$("cfgGl1Rpc").value.trim(),osmoLcd:$("cfgOsmoLcd").value.trim(),pools:$("cfgPools").value.trim(),threshold:Number($("cfgThreshold").value)||0,ibcThreshold:Number($("cfgIbcThreshold").value)||0,hours:Math.min(168,Math.max(1,Number($("cfgHours").value)||24)),gl1Lcd:$("cfgGl1Lcd").value.trim()||cfg.gl1Lcd,holdersUrl:$("cfgHoldersUrl").value.trim(),genSnapshotUrl:$("cfgGenSnapshotUrl").value.trim()||cfg.genSnapshotUrl,watch:$("cfgWatch").value.trim(),labels:$("cfgLabels").value.trim()};saveCfg(cfg);L1_SUPPLY=null;HOLDERS=null;GENH=null;markTf();closeDrawer();run();};
+$("saveBtn").onclick=()=>{cfg={osmoRpc:$("cfgOsmoRpc").value.trim(),gl1Rpc:$("cfgGl1Rpc").value.trim(),osmoLcd:$("cfgOsmoLcd").value.trim(),pools:$("cfgPools").value.trim(),threshold:Number($("cfgThreshold").value)||0,ibcThreshold:Number($("cfgIbcThreshold").value)||0,hours:Math.min(168,Math.max(1,Number($("cfgHours").value)||24)),blocks:Math.min(100000,Math.max(0,Number($("cfgBlocks").value)||0)),gl1Lcd:$("cfgGl1Lcd").value.trim()||cfg.gl1Lcd,holdersUrl:$("cfgHoldersUrl").value.trim(),genSnapshotUrl:$("cfgGenSnapshotUrl").value.trim()||cfg.genSnapshotUrl,watch:$("cfgWatch").value.trim(),labels:$("cfgLabels").value.trim()};saveCfg(cfg);L1_SUPPLY=null;HOLDERS=null;GENH=null;markTf();closeDrawer();run();};
 $("refreshBtn").onclick=run;
 // botones de timeframe rápido
 function markTf(){document.querySelectorAll("#tfbtns button").forEach(b=>b.dataset.on=(Number(b.dataset.h)===cfg.hours)?"1":"0");}
-document.querySelectorAll("#tfbtns button").forEach(b=>b.onclick=()=>{cfg.hours=Number(b.dataset.h);saveCfg(cfg);markTf();run();});
+document.querySelectorAll("#tfbtns button").forEach(b=>b.onclick=()=>{cfg.hours=Number(b.dataset.h);cfg.blocks=0;saveCfg(cfg);markTf();run();});
 $("auditTitle").onclick=()=>$("auditList").classList.toggle("collapsed");
 let liveTimer=null;$("liveBtn").onclick=()=>{const b=$("liveBtn"),on=b.dataset.on==="1";b.dataset.on=on?"0":"1";if(on){clearInterval(liveTimer);liveTimer=null;}else{run();liveTimer=setInterval(run,30000);}};
 markTf();loadPrice();run();
