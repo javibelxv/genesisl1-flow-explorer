@@ -1,17 +1,17 @@
 {
-  "updated": "2026-07-03T03:31:23Z",
-  "total_liquid": 10544697.04750616,
-  "wallets": 622345,
-  "active_liquid": 5192877.615452539,
-  "active_wallets": 586,
-  "dormant_liquid": 5351819.43205362,
-  "dormant_wallets": 621759,
+  "updated": "2026-07-04T03:31:25Z",
+  "total_liquid": 10400385.460157322,
+  "wallets": 622347,
+  "active_liquid": 5048558.61556443,
+  "active_wallets": 589,
+  "dormant_liquid": 5351826.844592892,
+  "dormant_wallets": 621758,
   "concentration": {
-    "top1": 3.646136045790228,
-    "top3": 9.428329308817435,
-    "top5": 13.190012910628015,
-    "top10": 19.05658867129214,
-    "top20": 27.173069746425398
+    "top1": 3.6967283707067935,
+    "top3": 9.538163708708602,
+    "top5": 12.410474799620063,
+    "top10": 17.946061158993675,
+    "top20": 26.175163278041737
   },
   "holders": [
     {
@@ -21,10 +21,6 @@
     {
       "a": "genesis1s6mdag35z5jn0xepmshunyp4dzg9mu3vprdj6f",
       "v": 366617
-    },
-    {
-      "a": "genesis13k072z6ua8258533glfrrsep4ff6f4j5yr3hnl",
-      "v": 243096
     },
     {
       "a": "genesis1vrkt9usz2afg9fmkep2nrnlkvups2z0wrfy73w",
@@ -53,6 +49,10 @@
     {
       "a": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
       "v": 104793
+    },
+    {
+      "a": "genesis13k072z6ua8258533glfrrsep4ff6f4j5yr3hnl",
+      "v": 100096
     },
     {
       "a": "genesis1e0wzg69yndukvmuadld8ugdqxrpnxd06pcakcx",
@@ -128,7 +128,7 @@
     },
     {
       "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
-      "v": 35002
+      "v": 35007
     },
     {
       "a": "genesis1hkh87f4xu54l93yfjan8zp48au6e8wfkg846nq",
@@ -207,12 +207,12 @@
       "v": 23825
     },
     {
-      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
-      "v": 22760
-    },
-    {
       "a": "genesis1wxgewqgud88xd8hqga65e5yzuwrsatnm6xuquk",
       "v": 22750
+    },
+    {
+      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
+      "v": 21002
     },
     {
       "a": "genesis1mwccg3txrpp36svskffljejwww7w2mf86pc9qt",
@@ -627,12 +627,12 @@
       "v": 3816
     },
     {
-      "a": "genesis1wk4rrwdpw56lxnkd8u0tspl0aws8nqkzne7zyy",
-      "v": 3792
+      "a": "genesis1vmjdd0uh783h6068nvjsvw0uvs57v5h5evzh9f",
+      "v": 3808
     },
     {
-      "a": "genesis1vmjdd0uh783h6068nvjsvw0uvs57v5h5evzh9f",
-      "v": 3676
+      "a": "genesis1wk4rrwdpw56lxnkd8u0tspl0aws8nqkzne7zyy",
+      "v": 3792
     },
     {
       "a": "genesis1nzh9t5ugwawa26s2d4pnpr80gscxsxdhkw8csc",
@@ -823,16 +823,16 @@
       "emptied": 16667,
       "increased": 49475,
       "intact_l1": 3778390.0,
-      "active_l1": 865562.2,
+      "active_l1": 864060.39,
       "intact_pct": 80.7
     },
     "evmos": {
       "total": 213907,
-      "intact": 201635,
+      "intact": 201633,
       "moved": 8484,
-      "emptied": 3696,
+      "emptied": 3698,
       "increased": 92,
-      "intact_l1": 1008175.0,
+      "intact_l1": 1008165.0,
       "active_l1": 171730.02,
       "intact_pct": 94.3
     }
