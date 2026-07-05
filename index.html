@@ -96,15 +96,15 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .aircard{flex:1;min-width:240px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .airhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
 .airhead b{font-size:15px}
-.airhead .pct{font-size:22px;font-weight:700;color:var(--accent)}
+.airhead .pct{font-size:22px;font-weight:700;color:var(--teal)}
 .airbar{display:flex;height:14px;border-radius:7px;background:var(--line);overflow:hidden;margin:10px 0}
 .airbar>.intact{height:100%;background:linear-gradient(90deg,#3a4358,#4a566f)}
-.airbar>.active{height:100%;background:linear-gradient(90deg,var(--accent),#7ab4ff)}
+.airbar>.active{height:100%;background:linear-gradient(90deg,var(--teal),#7ab4ff)}
 .airlegend{display:flex;gap:14px;font-size:11px;color:var(--muted);margin-top:2px}
 .airlegend span{display:flex;align-items:center;gap:5px}
 .airlegend i{width:9px;height:9px;border-radius:2px;display:inline-block}
 .airlegend .ki{background:#4a566f}
-.airlegend .ka{background:var(--accent)}
+.airlegend .ka{background:var(--teal)}
 .airmeta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:6px}
 .airsum{margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.5}
 .concbox b{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--warn);display:block}
@@ -123,6 +123,12 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .ptitle{font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:5px}
 .ptitle .pill{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:none;letter-spacing:0}
 .ptitle.click{cursor:pointer}.ptitle.click:hover{color:var(--ink)}
+.tabbar{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px 0 10px;scrollbar-width:none;margin-bottom:4px}
+.tabbar::-webkit-scrollbar{display:none}
+.tabbtn{flex:0 0 auto;padding:9px 15px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--muted);cursor:pointer;white-space:nowrap;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.02em;transition:all .12s}
+.tabbtn:hover{color:var(--ink);border-color:var(--muted)}
+.tabbtn.active{background:var(--teal);color:#062018;border-color:var(--teal)}
+[data-tabs][hidden]{display:none!important}
 .row{display:flex;align-items:center;gap:10px;padding:8px 2px;border-top:1px solid var(--line);font-size:13px}
 .row:first-of-type{border-top:0}
 .row .amt{font-family:var(--mono);font-weight:600;min-width:76px}
@@ -205,7 +211,15 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     </div>
   </div>
 
-  <section class="hero">
+  <div class="tabbar" id="tabbar">
+    <button class="tabbtn active" data-tab="summary">📊 Summary</button>
+    <button class="tabbtn" data-tab="pressure">🌊 Pressure</button>
+    <button class="tabbtn" data-tab="overhang">📦 Overhang</button>
+    <button class="tabbtn" data-tab="genesis">🔗 GenesisL1</button>
+    <button class="tabbtn" data-tab="diag">🔍 Diagnostics</button>
+  </div>
+
+  <section class="hero" data-tabs="summary pressure">
     <div class="eyebrow">Net pressure · last <span id="winLabel">—</span></div>
     <div class="netrow"><div class="netnum flat" id="netNum">—</div><div class="nettag flat" id="netTag">awaiting data</div></div>
     <div class="beam"><div class="s" id="beamS" style="width:0"></div><div class="b" id="beamB" style="width:0"></div></div>
@@ -218,13 +232,13 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     </div>
   </section>
 
-  <div class="metrics">
+  <div class="metrics" data-tabs="summary pressure">
     <div class="mcard"><div class="ml">Sell / Buy ratio</div><div class="mv" id="m_ratio">—</div><div class="ms" id="m_uniq">—</div></div>
     <div class="mcard"><div class="ml">Top wallet concentration</div><div class="mv" id="m_conc">—</div><div class="ms">of all L1 sold</div></div>
     <div class="mcard"><div class="ml">Price spread · slippage</div><div class="mv" id="m_price">—</div><div class="ms" id="m_spread">—</div></div>
   </div>
 
-  <div class="overhang" id="overhangPanel">
+  <div class="overhang" id="overhangPanel" data-tabs="summary overhang">
     <div class="ohhead">
       <div class="ohleft">
         <div class="ohlabel">🛢 OVERHANG · latent L1 on Osmosis</div>
@@ -252,7 +266,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     <div class="ohnote" id="holdNote">Live holder set from a community Osmosis full node, served keyless by <b>ZEN (anodeofzen)</b> — <span id="holdSrc"></span>. Updated every few minutes.</div>
   </div>
 
-  <div class="overhang" id="genPanel">
+  <div class="overhang" id="genPanel" data-tabs="overhang genesis">
     <div class="ohhead">
       <div class="ohleft">
         <div class="ohlabel">⬡ UNSTAKED L1 · liquid on GenesisL1</div>
@@ -283,21 +297,21 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   </div>
 
   <div class="grid">
-    <div class="panel"><div class="ptitle">🎯 Top sellers <span class="pill" id="topPill"></span></div><div id="topList"><div class="empty">No sells yet.</div></div></div>
-    <div class="panel"><div class="ptitle">🎯 Top buyers <span class="pill" id="topBuyPill"></span></div><div id="topBuyList"><div class="empty">No buys yet.</div></div></div>
+    <div class="panel" data-tabs="pressure"><div class="ptitle">🎯 Top sellers <span class="pill" id="topPill"></span></div><div id="topList"><div class="empty">No sells yet.</div></div></div>
+    <div class="panel" data-tabs="pressure"><div class="ptitle">🎯 Top buyers <span class="pill" id="topBuyPill"></span></div><div id="topBuyList"><div class="empty">No buys yet.</div></div></div>
 
-    <div class="panel full"><div class="ptitle">🟡 IBC out → Osmosis <span class="pill" id="ibcPill">leaving GenesisL1</span></div><div id="ibcList"><div class="empty">Connect a GenesisL1 RPC in Settings to track outbound L1.</div></div></div>
+    <div class="panel full" data-tabs="genesis"><div class="ptitle">🟡 IBC out → Osmosis <span class="pill" id="ibcPill">leaving GenesisL1</span></div><div id="ibcList"><div class="empty">Connect a GenesisL1 RPC in Settings to track outbound L1.</div></div></div>
 
-    <div class="panel full"><div class="ptitle">🟢 IBC in ← Osmosis <span class="pill" id="ibcInPill">returning to GenesisL1</span></div><div id="ibcInList"><div class="empty">L1 coming back from Osmosis — supply leaving the market.</div></div></div>
+    <div class="panel full" data-tabs="genesis"><div class="ptitle">🟢 IBC in ← Osmosis <span class="pill" id="ibcInPill">returning to GenesisL1</span></div><div id="ibcInList"><div class="empty">L1 coming back from Osmosis — supply leaving the market.</div></div></div>
 
-    <div class="panel full"><div class="ptitle">📅 Unstaking calendar <span class="pill" id="calPill">L1 unlocking by date</span></div><div id="calList"><div class="empty">Loading unbonding schedule…</div></div></div>
+    <div class="panel full" data-tabs="overhang genesis"><div class="ptitle">📅 Unstaking calendar <span class="pill" id="calPill">L1 unlocking by date</span></div><div id="calList"><div class="empty">Loading unbonding schedule…</div></div></div>
 
-    <div class="panel"><div class="ptitle">🔴 Sells <span class="pill">L1 → market</span></div><div id="sellList"><div class="empty">No sells above threshold.</div></div></div>
-    <div class="panel"><div class="ptitle">🟢 Buys <span class="pill">market → L1</span></div><div id="buyList"><div class="empty">No buys above threshold.</div></div></div>
+    <div class="panel" data-tabs="pressure"><div class="ptitle">🔴 Sells <span class="pill">L1 → market</span></div><div id="sellList"><div class="empty">No sells above threshold.</div></div></div>
+    <div class="panel" data-tabs="pressure"><div class="ptitle">🟢 Buys <span class="pill">market → L1</span></div><div id="buyList"><div class="empty">No buys above threshold.</div></div></div>
 
-    <div class="panel full"><div class="ptitle">💧 Pool depth <span class="pill" id="depthPill">price impact of a 1,000 L1 sell</span></div><div id="depthList"><div class="empty">Loading reserves…</div></div></div>
+    <div class="panel full" data-tabs="overhang diag"><div class="ptitle">💧 Pool depth <span class="pill" id="depthPill">price impact of a 1,000 L1 sell</span></div><div id="depthList"><div class="empty">Loading reserves…</div></div></div>
 
-    <div class="panel full"><div class="ptitle click" id="auditTitle">🔀 Multi-hop audit <span class="pill" id="auditPill">click to expand</span></div><div id="auditList" class="collapsed"><div class="empty">No routing detected.</div></div></div>
+    <div class="panel full" data-tabs="pressure diag"><div class="ptitle click" id="auditTitle">🔀 Multi-hop audit <span class="pill" id="auditPill">click to expand</span></div><div id="auditList" class="collapsed"><div class="empty">No routing detected.</div></div></div>
   </div>
 
   <div class="status" id="status"></div>
@@ -1088,6 +1102,24 @@ function markTf(){document.querySelectorAll("#tfbtns button").forEach(b=>b.datas
 document.querySelectorAll("#tfbtns button").forEach(b=>b.onclick=()=>{cfg.hours=Number(b.dataset.h);cfg.blocks=0;saveCfg(cfg);markTf();run();});
 $("auditTitle").onclick=()=>$("auditList").classList.toggle("collapsed");
 let liveTimer=null;$("liveBtn").onclick=()=>{const b=$("liveBtn"),on=b.dataset.on==="1";b.dataset.on=on?"0":"1";if(on){clearInterval(liveTimer);liveTimer=null;}else{run();liveTimer=setInterval(run,30000);}};
+// ---- tabs: mostrar/ocultar paneles según el tab activo ----
+function showTab(t){
+  document.querySelectorAll("#tabbar .tabbtn").forEach(b=>b.classList.toggle("active",b.dataset.tab===t));
+  document.querySelectorAll("[data-tabs]").forEach(el=>{
+    const tabs=(el.dataset.tabs||"").split(/\s+/);
+    el.hidden = !tabs.includes(t);
+  });
+  // la grid es contenedor: ocultarla si ninguno de sus paneles es visible en este tab
+  const grid=document.querySelector(".grid");
+  if(grid){
+    const anyVisible=[...grid.querySelectorAll("[data-tabs]")].some(p=>!p.hidden);
+    grid.style.display = anyVisible ? "" : "none";
+  }
+  try{localStorage&&0;}catch(e){}  // no localStorage en artifacts; el tab no persiste (ok)
+}
+document.querySelectorAll("#tabbar .tabbtn").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+showTab("summary");
+
 markTf();loadPrice();run();
 </script>
 </body>
