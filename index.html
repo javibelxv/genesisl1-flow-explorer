@@ -387,7 +387,25 @@ const DEC = 18n;
 // ---- helpers de cantidad ----
 function parseAmount(s){ const m=s&&s.match(/^(\d+)(.*)$/); return m?{base:BigInt(m[1]),denom:m[2]}:null; }
 function toHuman(base){ return Number(base/(10n**DEC)); }
-function shortDenom(d){ return d.startsWith("ibc/")?d.slice(0,10):d.replace(/^u/,"").toUpperCase(); }
+function shortDenom(d){
+  const M={
+    "uosmo":"OSMO",
+    "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2":"ATOM",
+    "ibc/498A0751C798A0D9A389AA3691123DADA57DAA4FE165D5C75894505B876BA6E4":"USDC",
+    "ibc/D189335C6E4A68B513C10AB227BF1C1D38C746766278BA3EEB4FB14124F1D858":"USDC",
+    "ibc/E6931F78057F7CC5DA0FD6CEF82FF39373A6E0452BF1FD76910B93292CF356C1":"CRO",
+    "ibc/EA1D43981D5C9A1C4AAEA9C23BB1D4FA126BA9BC7020A25E0AE4AA841EA25DC5":"ETH",
+    "factory/osmo1k6c8jln7ejuqwtqmay3yvzrg3kueaczl96pk067ldg8u835w0yhsw27twm/alloyed/allETH":"ETH",
+    "ibc/D79E7D83AB399BFFF93433E54FAA480C191248FC556924A2A8351AE2638B3877":"TIA",
+    "ibc/1480B8FD20AD5FCAE81EA87584D269547DD4D436843C1D20F15E00EB64743EF4":"AKT",
+    "ibc/4017C65CEA338196ECCEC3FE3FE8258F23D1DE88F1D95750CC912C7A1C1016FF":"NIBI",
+    "ibc/987C17B11ABC2B20019178ACE62929FE9840202CE79498E29FE8E5CB02B7C0A4":"STARS",
+    "ibc/A0CC0CF735BFB30E730C70019D4218A1244FF383503FF7579C9201AB93CA9293":"XPRT",
+    "ibc/F3FF7A84A73B62921538642F9797C423D2B4C4ACB3C7FCFFCE7F12AA69909C4B":"IXO"
+  };
+  if(M[d]) return M[d];
+  return d.startsWith("ibc/")?d.slice(0,10):d.replace(/^u/,"").toUpperCase();
+}
 function counterHuman(c){ return c.denom==="uosmo"?{v:Number(c.base)/1e6,sym:"OSMO",isOsmo:true}:{v:Number(c.base),sym:shortDenom(c.denom),isOsmo:false}; }
 
 // ---- IBC out: decodificar packet_data_hex -> {receiver, amount, denom} ----
@@ -451,10 +469,28 @@ function analyze(events, threshold){
   // pierde ninguna pata por la ventana de bloques, que era el bug del netting por hash).
   // El net pressure suma TODOS los hops. Las listas Sells/Buys filtran por threshold solo
   // para legibilidad, pero NO afectan al neto.
-  const sells=[],buys=[]; let totV=0,totC=0;
+  // NET PRESSURE: cuenta cada hop (tramo), sin agrupar. Los bots de arbitraje cuentan
+  // ambas patas y se cancelan solos. Esto NO se toca — es la cifra balanceada correcta.
+  let totV=0,totC=0;
+  for(const h of hops){ if(h.dir==="S") totV+=h.l1; else totC+=h.l1; }
+  // LISTAS Sells/Buys: agrupar por TRANSACCIÓN+lado. Una compra/venta enrutada por varios
+  // pools (ej. 1960+1170+782) se muestra como UNA operación de 3912 L1, con los tokens por
+  // los que pasó (deduplicados). El umbral se aplica al TOTAL de la operación, no al tramo.
+  const opMap={};
   for(const h of hops){
-    if(h.dir==="S"){ totV+=h.l1; if(h.l1>=threshold) sells.push({hash:h.hash,l1:h.l1,sender:h.sender,height:h.height,pools:[h.pool],routed:false}); }
-    else { totC+=h.l1; if(h.l1>=threshold) buys.push({hash:h.hash,l1:h.l1,sender:h.sender,height:h.height,pools:[h.pool],routed:false}); }
+    const key=h.hash+"|"+h.dir;
+    if(!opMap[key]) opMap[key]={hash:h.hash,dir:h.dir,l1:0,sender:h.sender,height:h.height,pools:new Set(),toks:new Set()};
+    const o=opMap[key];
+    o.l1+=h.l1; o.pools.add(h.pool);
+    if(h.counter&&h.counter.sym) o.toks.add(h.counter.sym);
+    if(h.height>o.height) o.height=h.height;
+  }
+  const sells=[],buys=[];
+  for(const key in opMap){
+    const o=opMap[key];
+    if(o.l1<threshold) continue;
+    const op={hash:o.hash,l1:o.l1,sender:o.sender,height:o.height,pools:[...o.pools],toks:[...o.toks],routed:o.pools.size>1};
+    if(o.dir==="S") sells.push(op); else buys.push(op);
   }
   // rutas multi-hop: informativo (txs con L1 en ambas direcciones), ya NO se excluyen del neto
   const routes=[];
@@ -908,7 +944,8 @@ function renderRows(c,list,side){c.innerHTML="";if(!list.length){c.innerHTML='<d
   list.slice(0,40).forEach(h=>{const r=document.createElement("div");r.className="row";
     const am=document.createElement("span");am.className="amt "+side;am.textContent=fmt(h.l1)+" L1";
     const ct=document.createElement("span");ct.className="ct";
-    ct.textContent=L1_USD?("↔ ≈$"+fmt(h.l1*L1_USD)):(h.pools.length>1?"⤳ "+h.pools.length+" pools":"");
+    const tokStr=(h.toks&&h.toks.length)?h.toks.join("+"):"";
+    ct.textContent=tokStr?("↔ "+tokStr):(L1_USD?("↔ ≈$"+fmt(h.l1*L1_USD)):(h.pools.length>1?"⤳ "+h.pools.length+" pools":""));
     const bl=document.createElement("span");bl.className="side";
     bl.textContent=(h.pools.length>1?"⤳"+h.pools.length+"· ":"")+tsFmt(OSMO_CAL,h.height);
     r.append(am,walletEl(h.sender,EXP_OSMO+"/address"),ct,bl);c.appendChild(r);});}
