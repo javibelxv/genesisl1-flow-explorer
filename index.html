@@ -284,7 +284,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
 
   <div class="grid">
     <div class="panel"><div class="ptitle">🎯 Top sellers <span class="pill" id="topPill"></span></div><div id="topList"><div class="empty">No sells yet.</div></div></div>
-    <div class="panel"><div class="ptitle">⚠ Watchlist selling <span class="pill" id="wlPill"></span></div><div id="wlList"><div class="empty">No watched wallets selling.</div></div></div>
+    <div class="panel"><div class="ptitle">🎯 Top buyers <span class="pill" id="topBuyPill"></span></div><div id="topBuyList"><div class="empty">No buys yet.</div></div></div>
 
     <div class="panel full"><div class="ptitle">🟡 IBC out → Osmosis <span class="pill" id="ibcPill">leaving GenesisL1</span></div><div id="ibcList"><div class="empty">Connect a GenesisL1 RPC in Settings to track outbound L1.</div></div></div>
 
@@ -322,8 +322,8 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     <dt>Price spread · slippage</dt><dd>Traded USD price range (p10–p90 of swaps ≥100 L1), a proxy for how much the thin pool moves per trade.</dd>
     <dt>🛢 Overhang</dt><dd>Total L1 on Osmosis minus pool reserves: the latent wallet-held supply, as an absolute, a % of all L1 on Osmosis, and a multiple of pool liquidity.</dd>
     <dt>Holder concentration</dt><dd>Top 1/3/5/10/20 share of total, the 15 largest holders, and a configurable "wallets holding ≥ X L1" histogram. Full live holder set.</dd>
-    <dt>🎯 Top sellers</dt><dd>Sellers over the window, aggregated per wallet.</dd>
-    <dt>⚠ Watchlist selling</dt><dd>Watchlisted wallets that are selling. The watchlist auto-adds receivers of large inbound IBC transfers — freshly bridged supply is the likeliest to sell next.</dd>
+    <dt>🎯 Top sellers</dt><dd>Sellers over the window, aggregated per wallet (top 15).</dd>
+    <dt>🎯 Top buyers</dt><dd>Buyers over the window, aggregated per wallet (top 15).</dd>
     <dt>🟡 IBC out → Osmosis</dt><dd>Outbound L1 from GenesisL1, decoded from the packet. A leading signal of supply heading to market.</dd>
     <dt>🟢 IBC in ← Osmosis</dt><dd>L1 bridging back to GenesisL1 — the counterweight.</dd>
     <dt>📅 Unstaking calendar</dt><dd>Each unbonding as its own row (amount, delegator, USD, completion, days left), sorted by completion. ≥50k unlocks flagged.</dd>
@@ -499,9 +499,11 @@ function analyze(events, threshold){
     if(bothDirs) routes.push({hash, pools:[...new Set(hs.map(x=>x.pool))], hops:hs.map(x=>({dir:x.dir,l1:x.l1,pool:x.pool}))});
   }
   sells.sort((a,b)=>b.height-a.height); buys.sort((a,b)=>b.height-a.height);
-  // top sellers (sobre ventas mostradas, agregadas por wallet)
+  // top sellers y top buyers (sobre operaciones mostradas, agregadas por wallet)
   const agg={}; for(const s of sells){(agg[s.sender]??={tot:0,n:0});agg[s.sender].tot+=s.l1;agg[s.sender].n++;}
   const topSellers=Object.entries(agg).map(([w,v])=>({wallet:w,...v})).sort((a,b)=>b.tot-a.tot);
+  const aggB={}; for(const b of buys){(aggB[b.sender]??={tot:0,n:0});aggB[b.sender].tot+=b.l1;aggB[b.sender].n++;}
+  const topBuyers=Object.entries(aggB).map(([w,v])=>({wallet:w,...v})).sort((a,b)=>b.tot-a.tot);
   const excluded=new Set();  // ya no se excluye nada; se mantiene para las métricas de precio
 
   // MÉTRICA 1: buy/sell ratio + únicos
@@ -537,7 +539,7 @@ function analyze(events, threshold){
     change=oldP>0?(newP-oldP)/oldP*100:null;
   }
 
-  return {sells,buys,topSellers,totV,totC,net:totV-totC,
+  return {sells,buys,topSellers,topBuyers,totV,totC,net:totV-totC,
           metrics:{uniqSellers,uniqBuyers,sellBuyRatio,topConc,impl,volByPool,grossL1,change},
           routes, routingRoutes:routes.length, tracked:hops.length};
 }
@@ -704,26 +706,21 @@ function render(a,ibc,ibcIn,depth,curH,lastH,gl1ok){
     else $("m_spread").textContent=m.impl.n+" swaps priced · USD range needs OSMO price";}
   else{$("m_price").textContent="—";$("m_price").style.color="";$("m_spread").textContent="no priced swaps";}
 
-  // top sellers
+  // top sellers (top 15)
   const top=$("topList");top.innerHTML="";$("topPill").textContent=a.topSellers.length?"by wallet":"";
   if(!a.topSellers.length)top.innerHTML='<div class="empty">No sells yet.</div>';
-  else a.topSellers.slice(0,6).forEach(s=>{const r=document.createElement("div");r.className="row";
+  else a.topSellers.slice(0,15).forEach(s=>{const r=document.createElement("div");r.className="row";
     const am=document.createElement("span");am.className="amt s";am.textContent=fmt(s.tot)+" L1";
     const n=document.createElement("span");n.className="side";n.textContent=s.n+" swap"+(s.n>1?"s":"");
     r.append(am,walletEl(s.wallet,EXP_OSMO+"/address"),n);top.appendChild(r);});
 
-  // watchlist (manual ∪ auto)
-  const wl=$("wlList");wl.innerHTML="";const ws=new Set([...manualWatch(),...Object.keys(auto)]);
-  $("wlPill").textContent=ws.size?ws.size+" watched":"";
-  const flagged=a.topSellers.filter(s=>ws.has(s.wallet));
-  if(!ws.size)wl.innerHTML='<div class="empty">No watched wallets yet. <b>Big IBC out auto-adds them.</b></div>';
-  else if(!flagged.length)wl.innerHTML='<div class="empty">None of '+ws.size+' watched wallets are selling now. <b>Quiet is good.</b></div>';
-  else flagged.forEach(s=>{const r=document.createElement("div");r.className="row warn";
-    const ic=document.createElement("span");ic.textContent="⚠";ic.style.color="var(--warn)";
-    const am=document.createElement("span");am.className="amt s";am.textContent=fmt(s.tot)+" L1";
-    r.append(ic,am,walletEl(s.wallet,EXP_OSMO+"/address"));
-    if(auto[s.wallet]){const t=document.createElement("span");t.className="side";t.textContent="IBC "+fmt(auto[s.wallet].amount)+" L1 "+auto[s.wallet].date;r.append(t);}
-    wl.appendChild(r);});
+  // top buyers (top 15)
+  const tb=$("topBuyList");tb.innerHTML="";$("topBuyPill").textContent=a.topBuyers.length?"by wallet":"";
+  if(!a.topBuyers.length)tb.innerHTML='<div class="empty">No buys yet.</div>';
+  else a.topBuyers.slice(0,15).forEach(b=>{const r=document.createElement("div");r.className="row";
+    const am=document.createElement("span");am.className="amt b";am.textContent=fmt(b.tot)+" L1";
+    const n=document.createElement("span");n.className="side";n.textContent=b.n+" swap"+(b.n>1?"s":"");
+    r.append(am,walletEl(b.wallet,EXP_OSMO+"/address"),n);tb.appendChild(r);});
 
   // IBC out panel
   const il=$("ibcList");il.innerHTML="";
