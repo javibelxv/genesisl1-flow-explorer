@@ -1,17 +1,17 @@
 {
-  "updated": "2026-07-07T03:31:02Z",
-  "total_liquid": 10281335.285114707,
-  "wallets": 622157,
-  "active_liquid": 4931566.343732252,
-  "active_wallets": 590,
-  "dormant_liquid": 5349768.941382456,
-  "dormant_wallets": 621567,
+  "updated": "2026-07-08T03:32:02Z",
+  "total_liquid": 10274094.388093295,
+  "wallets": 622158,
+  "active_liquid": 4924309.130710663,
+  "active_wallets": 589,
+  "dormant_liquid": 5349785.257382631,
+  "dormant_wallets": 621569,
   "concentration": {
-    "top1": 3.739533721122202,
-    "top3": 9.648608512580612,
-    "top5": 12.554178818240661,
-    "top10": 17.971651624266,
-    "top20": 25.876571730958602
+    "top1": 3.7421692408633995,
+    "top3": 9.655408584489674,
+    "top5": 12.56302665558549,
+    "top10": 17.951814491495398,
+    "top20": 25.862305766827586
   },
   "holders": [
     {
@@ -44,7 +44,7 @@
     },
     {
       "a": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
-      "v": 104793
+      "v": 101454
     },
     {
       "a": "genesis13k072z6ua8258533glfrrsep4ff6f4j5yr3hnl",
@@ -312,7 +312,7 @@
     },
     {
       "a": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
-      "v": 11376
+      "v": 11441
     },
     {
       "a": "genesis1da4lpc7dnpstuv99ke3f9ryl32gxcg8y8439gy",
@@ -365,10 +365,6 @@
     {
       "a": "genesis1kvuh5mlwmletnl8fegggdjcmm4shc94lyn5859",
       "v": 10044
-    },
-    {
-      "a": "genesis18h95uzt2ypzrnxnxvt8ag8fnmeqcz6urnfnmuy",
-      "v": 10010
     },
     {
       "a": "genesis1w6w4u6ltp9l2a0m3vnr8vrmh6p0apvzewevska",
@@ -453,6 +449,10 @@
     {
       "a": "genesis1lucch767n6ykc6n087zxgpxph8xhkrj25xptes",
       "v": 7599
+    },
+    {
+      "a": "genesis18h95uzt2ypzrnxnxvt8ag8fnmeqcz6urnfnmuy",
+      "v": 7509
     },
     {
       "a": "genesis1hmyldrl0q4u8ayvn7v0djspu34wc2s06efudnm",
@@ -811,19 +811,19 @@
       "v": 2212
     },
     {
-      "a": "genesis1su7kjdu77fm3n5htvs0tvunn7x3v3pc83rsts3",
-      "v": 2176
+      "a": "genesis15gq8sv92rge28t6df83pljc9ewyy33sddvpkem",
+      "v": 2170
     }
   ],
   "airdrop": {
     "atom": {
       "total": 425772,
       "intact": 343328,
-      "moved": 16140,
+      "moved": 16139,
       "emptied": 16865,
-      "increased": 49439,
+      "increased": 49440,
       "intact_l1": 3776608.0,
-      "active_l1": 864160.54,
+      "active_l1": 864868.03,
       "intact_pct": 80.6
     },
     "evmos": {
