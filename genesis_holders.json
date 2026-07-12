@@ -1,17 +1,17 @@
 {
-  "updated": "2026-07-11T03:32:26Z",
-  "total_liquid": 10259371.89562492,
+  "updated": "2026-07-12T03:31:48Z",
+  "total_liquid": 10245858.816756906,
   "wallets": 622156,
-  "active_liquid": 4909650.046479794,
-  "active_wallets": 591,
-  "dormant_liquid": 5349721.8491451265,
-  "dormant_wallets": 621565,
+  "active_liquid": 4896227.002923886,
+  "active_wallets": 593,
+  "dormant_liquid": 5349631.81383302,
+  "dormant_wallets": 621563,
   "concentration": {
-    "top1": 3.7475393608887284,
-    "top3": 9.66926437231084,
-    "top5": 12.581054958604284,
-    "top10": 17.976621002761707,
-    "top20": 25.686686723518314
+    "top1": 3.7524819231326916,
+    "top3": 9.682016991139145,
+    "top5": 12.597647885653057,
+    "top10": 18.000330044798616,
+    "top20": 25.720564432528437
   },
   "holders": [
     {
@@ -143,10 +143,6 @@
       "v": 32456
     },
     {
-      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
-      "v": 32174
-    },
-    {
       "a": "genesis1jlmmffemejesywfnqdpr8ka4q4u8kflynnecf5",
       "v": 32000
     },
@@ -203,12 +199,12 @@
       "v": 22750
     },
     {
-      "a": "genesis1wwxpj2wxnd63h597pwtzmxavyzmrr2kx0xhph5",
-      "v": 22331
+      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
+      "v": 22374
     },
     {
-      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
-      "v": 21808
+      "a": "genesis1wwxpj2wxnd63h597pwtzmxavyzmrr2kx0xhph5",
+      "v": 22331
     },
     {
       "a": "genesis1mwccg3txrpp36svskffljejwww7w2mf86pc9qt",
@@ -245,6 +241,10 @@
     {
       "a": "genesis1yj3a3jlx4vpffxrytc88q896jhn3hnwlna6her",
       "v": 17655
+    },
+    {
+      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
+      "v": 16808
     },
     {
       "a": "genesis16rtes9amvynhd098q99dkvmapgpxfrfvv9e6r6",
@@ -811,8 +811,8 @@
       "v": 2319
     },
     {
-      "a": "genesis1j3358gtt8wydef76696ljfu5jgphywv33up2tc",
-      "v": 2269
+      "a": "genesis16aypymlama0lk5s8c9s30s09eacpvwna6v7gqt",
+      "v": 2301
     }
   ],
   "airdrop": {
@@ -823,7 +823,7 @@
       "emptied": 16865,
       "increased": 49440,
       "intact_l1": 3776608.0,
-      "active_l1": 861923.27,
+      "active_l1": 852945.33,
       "intact_pct": 80.6
     },
     "evmos": {
