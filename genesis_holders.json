@@ -1,17 +1,17 @@
 {
-  "updated": "2026-07-14T03:31:54Z",
-  "total_liquid": 9888660.095234789,
-  "wallets": 622163,
-  "active_liquid": 4538964.437142125,
+  "updated": "2026-07-15T03:31:48Z",
+  "total_liquid": 9760411.844874687,
+  "wallets": 622165,
+  "active_liquid": 4410627.238016361,
   "active_wallets": 587,
-  "dormant_liquid": 5349695.658092664,
-  "dormant_wallets": 621576,
+  "dormant_liquid": 5349784.606858326,
+  "dormant_wallets": 621578,
   "concentration": {
-    "top1": 3.8880292806683974,
-    "top3": 7.899271813797711,
-    "top5": 10.781232379904683,
-    "top10": 15.944237366710064,
-    "top20": 23.6520944360951
+    "top1": 3.9391165667911037,
+    "top3": 8.003065363223639,
+    "top5": 10.922893839628282,
+    "top10": 16.156483796645883,
+    "top20": 23.56231975129186
   },
   "holders": [
     {
@@ -51,20 +51,16 @@
       "v": 99999
     },
     {
+      "a": "genesis1txs48s8aglrvruc940dcqv9fp23sq8lz6uhfnu",
+      "v": 99268
+    },
+    {
       "a": "genesis1w25y5ntpthaawjkyrpm9el8nemm2xdnmzpnzdl",
       "v": 99000
     },
     {
       "a": "genesis1x4p6luc83xsqjl65x8w8dky77d8jj6f39002r0",
       "v": 97505
-    },
-    {
-      "a": "genesis1txs48s8aglrvruc940dcqv9fp23sq8lz6uhfnu",
-      "v": 96732
-    },
-    {
-      "a": "genesis1px5hrplm5talh55j79gc6wsazeu05vgmf3rkkx",
-      "v": 93316
     },
     {
       "a": "genesis1m5wlkvl28p4k8q96darmqcvzzvz5ry6vfyc9vv",
@@ -99,10 +95,6 @@
       "v": 51684
     },
     {
-      "a": "genesis1afvvw56w2uq64qmsurawkxdhu9r98e5uajuhsx",
-      "v": 50692
-    },
-    {
       "a": "genesis1arn2sngceqr86w7hf624tpydz5q74cc28qmwq5",
       "v": 49515
     },
@@ -115,8 +107,8 @@
       "v": 41996
     },
     {
-      "a": "genesis10rx8lxl33tuz08jf94z7ullf6lxx7mg8844d65",
-      "v": 35873
+      "a": "genesis1afvvw56w2uq64qmsurawkxdhu9r98e5uajuhsx",
+      "v": 40091
     },
     {
       "a": "genesis1hkh87f4xu54l93yfjan8zp48au6e8wfkg846nq",
@@ -251,10 +243,6 @@
       "v": 15785
     },
     {
-      "a": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
-      "v": 15753
-    },
-    {
       "a": "genesis1ze4ncv57vejnjexwlhzey4pmaejgt699nxapkt",
       "v": 15404
     },
@@ -312,7 +300,7 @@
     },
     {
       "a": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
-      "v": 11441
+      "v": 11517
     },
     {
       "a": "genesis1da4lpc7dnpstuv99ke3f9ryl32gxcg8y8439gy",
@@ -329,6 +317,10 @@
     {
       "a": "genesis1y5ef6gun6qdyhpdddgjgsjh5evetlp8mg0vn34",
       "v": 11000
+    },
+    {
+      "a": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
+      "v": 10896
     },
     {
       "a": "genesis1za8ajsuan3093tqekyl7r7scvxex0achv5mpaa",
@@ -423,6 +415,10 @@
       "v": 8511
     },
     {
+      "a": "genesis1px5hrplm5talh55j79gc6wsazeu05vgmf3rkkx",
+      "v": 8135
+    },
+    {
       "a": "genesis1j48sdx9llpuflr29j02waa307qcd7gyhutaufg",
       "v": 8067
     },
@@ -505,6 +501,10 @@
     {
       "a": "genesis1smzk2qhk229yhflj7rnqvevltwge8wvehsn292",
       "v": 6226
+    },
+    {
+      "a": "genesis1q82vtum6cmft2jx5qundtmjrsq268w7hf2h26y",
+      "v": 6112
     },
     {
       "a": "genesis1vqqy6a7l3gs86pejvgwa904d3v3ksyuh7vz52q",
@@ -711,11 +711,11 @@
       "v": 3006
     },
     {
-      "a": "genesis19glne3dx35kj69feem8ycysm066fmq8sp754xh",
-      "v": 3001
+      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
+      "v": 3004
     },
     {
-      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
+      "a": "genesis19glne3dx35kj69feem8ycysm066fmq8sp754xh",
       "v": 3001
     },
     {
@@ -823,17 +823,17 @@
       "emptied": 16865,
       "increased": 49440,
       "intact_l1": 3776608.0,
-      "active_l1": 831331.05,
+      "active_l1": 831320.14,
       "intact_pct": 80.6
     },
     "evmos": {
       "total": 213907,
-      "intact": 201623,
-      "moved": 8486,
+      "intact": 201621,
+      "moved": 8487,
       "emptied": 3707,
-      "increased": 91,
-      "intact_l1": 1008115.0,
-      "active_l1": 171682.33,
+      "increased": 92,
+      "intact_l1": 1008105.0,
+      "active_l1": 172595.15,
       "intact_pct": 94.3
     }
   }
