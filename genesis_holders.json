@@ -1,17 +1,17 @@
 {
-  "updated": "2026-07-20T03:31:14Z",
-  "total_liquid": 12165798.81830198,
-  "wallets": 622169,
-  "active_liquid": 6815867.0306500895,
-  "active_wallets": 594,
-  "dormant_liquid": 5349931.78765189,
-  "dormant_wallets": 621575,
+  "updated": "2026-07-21T03:31:50Z",
+  "total_liquid": 12125817.798912533,
+  "wallets": 622170,
+  "active_liquid": 6775946.682371854,
+  "active_wallets": 589,
+  "dormant_liquid": 5349871.116540679,
+  "dormant_wallets": 621581,
   "concentration": {
-    "top1": 16.43956167507254,
-    "top3": 21.580103684658493,
-    "top5": 24.630536613767255,
-    "top10": 29.592515959713218,
-    "top20": 36.68240288446045
+    "top1": 16.49376588999518,
+    "top3": 21.65125719843799,
+    "top5": 24.59979770948821,
+    "top10": 29.594973336497354,
+    "top20": 36.70823690365404
   },
   "holders": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "a": "genesis1kyly26j3kpac52d5chqar82c7m9eukfmjxefvl",
-      "v": 215365
+      "v": 201790
     },
     {
       "a": "genesis1s8elzc7pltmwf3xfcdph44c09dvq7gsjljwrx6",
@@ -48,11 +48,11 @@
     },
     {
       "a": "genesis1txs48s8aglrvruc940dcqv9fp23sq8lz6uhfnu",
-      "v": 107125
+      "v": 107951
     },
     {
       "a": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
-      "v": 101454
+      "v": 102670
     },
     {
       "a": "genesis1e0wzg69yndukvmuadld8ugdqxrpnxd06pcakcx",
@@ -123,6 +123,10 @@
       "v": 41996
     },
     {
+      "a": "genesis1hks9cv4ddms48jx957xl5jxhhgjkjnl2ggp9vq",
+      "v": 40499
+    },
+    {
       "a": "genesis1afvvw56w2uq64qmsurawkxdhu9r98e5uajuhsx",
       "v": 40091
     },
@@ -157,10 +161,6 @@
     {
       "a": "genesis185grkae50u6ph9pcmxym722pcp2qfj5ef6t899",
       "v": 31250
-    },
-    {
-      "a": "genesis1hks9cv4ddms48jx957xl5jxhhgjkjnl2ggp9vq",
-      "v": 31047
     },
     {
       "a": "genesis1crvhvanzj2aufvgdpdr9ewzhcez65wp6sdlyre",
@@ -231,6 +231,10 @@
       "v": 19583
     },
     {
+      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
+      "v": 19198
+    },
+    {
       "a": "genesis1wr5f9n2tq27hrtam72ktsvca0hvpl7cvmchjre",
       "v": 18498
     },
@@ -239,24 +243,12 @@
       "v": 17862
     },
     {
-      "a": "genesis1w24mmwxpl50n2hcyxjka7u942wl6zuz9yz4t4f",
-      "v": 17773
-    },
-    {
       "a": "genesis1yj3a3jlx4vpffxrytc88q896jhn3hnwlna6her",
       "v": 17655
     },
     {
-      "a": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
-      "v": 17568
-    },
-    {
       "a": "genesis16rtes9amvynhd098q99dkvmapgpxfrfvv9e6r6",
       "v": 15983
-    },
-    {
-      "a": "genesis1u47h9qyxufvrgf27hqhu66j092as9upjr5dy4f",
-      "v": 15785
     },
     {
       "a": "genesis1ze4ncv57vejnjexwlhzey4pmaejgt699nxapkt",
@@ -264,7 +256,7 @@
     },
     {
       "a": "genesis1s0mcdnsp74relctt3nyfyx4zkuwfn5wfl45cr6",
-      "v": 15000
+      "v": 15012
     },
     {
       "a": "genesis1c2w7sxnp423935c47zwv32rgmk2zmgt8d0hgpp",
@@ -320,7 +312,7 @@
     },
     {
       "a": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
-      "v": 11517
+      "v": 11583
     },
     {
       "a": "genesis1da4lpc7dnpstuv99ke3f9ryl32gxcg8y8439gy",
@@ -337,10 +329,6 @@
     {
       "a": "genesis1y5ef6gun6qdyhpdddgjgsjh5evetlp8mg0vn34",
       "v": 11000
-    },
-    {
-      "a": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
-      "v": 10896
     },
     {
       "a": "genesis1za8ajsuan3093tqekyl7r7scvxex0achv5mpaa",
@@ -363,10 +351,6 @@
       "v": 10506
     },
     {
-      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
-      "v": 10447
-    },
-    {
       "a": "genesis12ruv5cjffrj6ljtdweu3k3wltcshze6c0fghpj",
       "v": 10415
     },
@@ -375,12 +359,20 @@
       "v": 10405
     },
     {
+      "a": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
+      "v": 10367
+    },
+    {
       "a": "genesis1r2tqqghgp7fxqpdgkg4v9te6afhsekjkskqw9f",
       "v": 10300
     },
     {
       "a": "genesis1kvuh5mlwmletnl8fegggdjcmm4shc94lyn5859",
       "v": 10044
+    },
+    {
+      "a": "genesis1u47h9qyxufvrgf27hqhu66j092as9upjr5dy4f",
+      "v": 10019
     },
     {
       "a": "genesis1w6w4u6ltp9l2a0m3vnr8vrmh6p0apvzewevska",
@@ -523,10 +515,6 @@
       "v": 6226
     },
     {
-      "a": "genesis1q82vtum6cmft2jx5qundtmjrsq268w7hf2h26y",
-      "v": 6112
-    },
-    {
       "a": "genesis1vqqy6a7l3gs86pejvgwa904d3v3ksyuh7vz52q",
       "v": 6000
     },
@@ -561,6 +549,10 @@
     {
       "a": "genesis1enhg3qfta2d69qs2lgtn0cjhwxvg6473fjqvwh",
       "v": 5086
+    },
+    {
+      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
+      "v": 5007
     },
     {
       "a": "genesis1c8ljc46vzkvjtxqeesp3j4s2tfc9n8ttkvgv8j",
@@ -655,6 +647,10 @@
       "v": 3792
     },
     {
+      "a": "genesis1q82vtum6cmft2jx5qundtmjrsq268w7hf2h26y",
+      "v": 3778
+    },
+    {
       "a": "genesis1nzh9t5ugwawa26s2d4pnpr80gscxsxdhkw8csc",
       "v": 3634
     },
@@ -713,10 +709,6 @@
     {
       "a": "genesis1289wwwlxp422np459xr06mjxyj0strdzej5cj0",
       "v": 3091
-    },
-    {
-      "a": "genesis1w7p0fqtmxa6r6uuwntuy90m5h4g0yq27nqe34a",
-      "v": 3072
     },
     {
       "a": "genesis1jlhl7tt5n98z35aknv2s80vu9y4jmayqa9azdg",
@@ -803,27 +795,35 @@
       "v": 2499
     },
     {
-      "a": "genesis1048gp07uukryrjcqkt7q9n84jlvjy8w6h3c67d",
-      "v": 2467
-    },
-    {
       "a": "genesis1fqj5rd8gmr35tck9cfqg5d395rumk87jdzpatf",
       "v": 2463
     },
     {
       "a": "genesis1ennvsflxv0ncfcprqmcdr25q5hj5qvwmruyfm9",
       "v": 2404
+    },
+    {
+      "a": "genesis1mxc8syt73wkdvznr7mmheu4c4mm03wvtz2dv4l",
+      "v": 2400
+    },
+    {
+      "a": "genesis1suys2447hdawcpl9udqfhxmg29mq58dz94rn4e",
+      "v": 2375
+    },
+    {
+      "a": "genesis1cqaawchl0fv2dw7js2xul92sstz3chjx3twwvr",
+      "v": 2319
     }
   ],
   "airdrop": {
     "atom": {
       "total": 425772,
-      "intact": 343326,
+      "intact": 343325,
       "moved": 16139,
-      "emptied": 16866,
+      "emptied": 16867,
       "increased": 49441,
-      "intact_l1": 3776586.0,
-      "active_l1": 842631.45,
+      "intact_l1": 3776575.0,
+      "active_l1": 837123.45,
       "intact_pct": 80.6
     },
     "evmos": {
