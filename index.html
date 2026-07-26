@@ -357,7 +357,9 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
 
     <div class="panel full" data-tabs="bridges"><div class="ptitle">🟢 IBC in ← Osmosis <span class="pill" id="ibcInPill">returning to GenesisL1</span></div><div id="ibcInList"><div class="empty">L1 coming back from Osmosis — supply leaving the market.</div></div></div>
 
-    <div class="panel full" data-tabs="bridges"><div class="ptitle">🔵 Base bridge <span class="pill" id="baseBridgePill">Hyperlane escrow</span></div><div id="baseBridgeList"><div class="empty">Loading Base bridge status…</div></div></div>
+    <div class="panel full" data-tabs="bridges"><div class="ptitle">🔵 Bridge out → Base <span class="pill" id="baseBridgeOutPill">L1 → Base (mints wL1)</span></div><div id="baseBridgeOutList"><div class="empty">Loading Base bridge…</div></div></div>
+
+    <div class="panel full" data-tabs="bridges"><div class="ptitle">🔵 Bridge in ← Base <span class="pill" id="baseBridgeInPill">Base → L1 (burns wL1)</span></div><div id="baseBridgeInList"><div class="empty">L1 returning from Base — supply leaving that market.</div></div></div>
 
     <div class="panel full" data-tabs="baseholders"><div class="ptitle">🔵 Largest wL1 holders on Base <span class="pill" id="baseHoldPill"></span></div>
       <div class="ohstats" id="baseHoldStats" style="margin-bottom:10px"></div>
@@ -702,6 +704,33 @@ async function fetchIbcIn(lastH){
     const txs=j?.result?.txs||[];if(!txs.length)break;let done=false;
     for(const tx of txs){const h=Number(tx.height);if(h<=lastH){done=true;break;}
       for(const d of decodeIbcIn(tx.tx_result?.events||[])) out.push({...d,height:h,hash:tx.hash});}
+    if(done||txs.length<100)break;page++;}
+  return out;
+}
+// ---- Base bridge (Hyperlane escrow) in/out ----
+const BASE_ESCROW="genesis1txs48s8aglrvruc940dcqv9fp23sq8lz6uhfnu";
+// extrae los transfers de el1 al/desde el escrow de un tx (dir: "recipient"=out, "sender"=in)
+function decodeBaseBridge(events,dir){
+  const res=[];
+  for(const ev of events){
+    if(ev.type!=="transfer") continue;
+    const at={}; for(const a of (ev.attributes||[])) at[a.key]=a.value;
+    if(at[dir]!==BASE_ESCROW) continue;
+    const amt=String(at.amount||"");
+    if(!/el1/.test(amt)) continue;
+    const n=Number((amt.match(/^\d+/)||["0"])[0])/1e18;
+    if(n>0) res.push({amount:n, sender:at.sender, receiver:at.recipient});
+  }
+  return res;
+}
+async function fetchBaseBridge(lastH,dir){   // dir: "recipient" (OUT) | "sender" (IN)
+  const out=[];let page=1;
+  while(page<=20){
+    const q=encodeURIComponent("transfer."+dir+"='"+BASE_ESCROW+"'");
+    const j=await rpcGet(cfg.gl1Rpc,`/tx_search?query="${q}"&order_by="desc"&per_page=100&page=${page}`);
+    const txs=j?.result?.txs||[];if(!txs.length)break;let done=false;
+    for(const tx of txs){const h=Number(tx.height);if(h<=lastH){done=true;break;}
+      for(const d of decodeBaseBridge(tx.tx_result?.events||[],dir)) out.push({...d,height:h,hash:tx.hash});}
     if(done||txs.length<100)break;page++;}
   return out;
 }
@@ -1246,6 +1275,22 @@ function renderTotals(staked,genLiq,osmo,base){
   setCard("tot_osmo",osmo,"tot_osmo_usd","bridged via IBC");
   setCard("tot_base",base,"tot_base_usd","bridged via Hyperlane");
 }
+// renderiza un panel de bridge de Base (out o in)
+function renderBaseBridge(list,listId,pillId,emptyMsg,dir){
+  const el=$(listId);if(!el)return;el.innerHTML="";
+  if(!cfg.gl1Rpc){el.innerHTML='<div class="empty">No GenesisL1 RPC set.</div>';return;}
+  if(!list||!list.length){el.innerHTML='<div class="empty">'+emptyMsg+'</div>';$(pillId).textContent="";return;}
+  const total=list.reduce((s,t)=>s+t.amount,0);
+  $(pillId).textContent=list.length+" transfers · "+fmt(total)+" L1";
+  list.slice(0,12).forEach(t=>{
+    const r=document.createElement("div");r.className="row"+(t.amount>=cfg.ibcThreshold?" warn":"");
+    const am=document.createElement("span");am.className="amt "+(dir==="out"?"o":"b");am.textContent=fmt(t.amount)+" L1";
+    const w=walletEl(dir==="out"?t.sender:t.receiver,EXP_GL1+"/account");
+    const ar=document.createElement("span");ar.className="arrow";ar.textContent=dir==="out"?"→ Base":"← Base";
+    const lk=document.createElement("a");lk.className="side";lk.textContent=tsFmt(GL1_CAL,t.height);lk.href=EXP_GL1+"/tx/"+t.hash;lk.target="_blank";lk.rel="noopener";
+    r.append(am,w,ar,lk);el.appendChild(r);
+  });
+}
 // ---- Base (Uniswap v3) readers ----
 // holders de wL1 en Base (leídos del JSON precalculado por el nodo, reconstruido on-chain)
 let BASE_HOLDERS=null;
@@ -1373,6 +1418,13 @@ async function run(){
       const gc=await calibrate(cfg.gl1Rpc);GL1_CAL=gc;
       const glLast=cutoffHeight(gc.latest,cfg.hours,gc.spb);
       ibc=await fetchIbcOut(glLast);ibcIn=await fetchIbcIn(glLast);gl1ok=true;
+      // Base bridge in/out (mismo escrow, lado Genesis)
+      try{
+        const bOut=await fetchBaseBridge(glLast,"recipient");
+        const bIn=await fetchBaseBridge(glLast,"sender");
+        renderBaseBridge(bOut,"baseBridgeOutList","baseBridgeOutPill","No L1 bridged to Base in this window.","out");
+        renderBaseBridge(bIn,"baseBridgeInList","baseBridgeInPill","No L1 returned from Base in this window.","in");
+      }catch(e){}
       // auto-watchlist: receivers over threshold
       let added=0;for(const t of ibc){if(t.amount>=Number(cfg.ibcThreshold)&&t.receiver&&!auto[t.receiver]){auto[t.receiver]={amount:Math.round(t.amount),date:new Date().toISOString().slice(0,10),sender:t.sender};added++;}}
       if(added){saveAuto(auto);}
