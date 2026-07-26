@@ -1072,12 +1072,14 @@ function renderCalendar(cal){
   if(cal===null){c.innerHTML='<div class="empty">Couldn\'t read staking data from the GenesisL1 LCD.</div>';$("calPill").textContent="";return;}
   if(!cal.length){c.innerHTML='<div class="empty">No active unstaking right now. <b>Nothing unlocking.</b></div>';$("calPill").textContent="";return;}
   const total=cal.reduce((s,e)=>s+e.balance,0);
-  $("calPill").textContent=cal.length+" unbonds · "+fmt(total)+" L1"+(L1_USD?" · ≈$"+fmt(total*L1_USD):"");
+  const jailedTot=cal.filter(e=>e.jailed).reduce((s,e)=>s+e.balance,0);
+  $("calPill").textContent=cal.length+" unbonds · "+fmt(total)+" L1"+(L1_USD?" · ≈$"+fmt(total*L1_USD):"")+(jailedTot>0?" · "+fmt(jailedTot)+" from jailed":"");
   cal.slice(0,40).forEach(e=>{
     const r=document.createElement("div");r.className="row"+(e.balance>=50000?" warn":"");
     const amt=document.createElement("span");amt.className="amt";amt.style.color=e.balance>=50000?"var(--warn)":"var(--node)";amt.style.minWidth="96px";amt.textContent=fmt(e.balance)+" L1";
     const w=walletEl(e.delegator,EXP_GL1+"/account");
-    const usd=document.createElement("span");usd.className="ct";usd.textContent=L1_USD?"≈$"+fmt(e.balance*L1_USD):"";
+    const usd=document.createElement("span");usd.className="ct";usd.textContent=(L1_USD?"≈$"+fmt(e.balance*L1_USD):"")+(e.jailed?" · ⚠ jailed":"");
+    if(e.jailed)usd.style.color="var(--faint)";
     const dt=new Date(e.completion_time);
     const daysAway=Math.ceil((dt-Date.now())/86400000);
     const when=document.createElement("span");when.className="side";
@@ -1150,8 +1152,16 @@ async function fetchCalendar(){
   if(CALENDAR&&Date.now()-CALENDAR_T<300000) return CALENDAR;   // caché 5 min
   const LCD=cfg.gl1Lcd.replace(/\/$/,"");
   try{
-    const v=await(await fetch(LCD+"/cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED&pagination.limit=300",{headers:{accept:"application/json"}})).json();
-    const vals=(v?.validators||[]).map(x=>x.operator_address);
+    // TODOS los validadores (no solo bonded): los unbonds de validadores jailed también
+    // liberan L1 al mercado, así que hay que contarlos. Guardamos el set de jailed para marcarlos.
+    const jailed=new Set();
+    const vals=[];
+    for(const st of ["BOND_STATUS_BONDED","BOND_STATUS_UNBONDING","BOND_STATUS_UNBONDED"]){
+      try{
+        const v=await(await fetch(LCD+"/cosmos/staking/v1beta1/validators?status="+st+"&pagination.limit=500",{headers:{accept:"application/json"}})).json();
+        for(const x of (v?.validators||[])){ vals.push(x.operator_address); if(x.jailed) jailed.add(x.operator_address); }
+      }catch{}
+    }
     const entries=[];
     for(let i=0;i<vals.length;i+=12){                              // lotes de 12 en paralelo
       const batch=vals.slice(i,i+12);
@@ -1159,7 +1169,7 @@ async function fetchCalendar(){
         try{const u=await(await fetch(LCD+"/cosmos/staking/v1beta1/validators/"+va+"/unbonding_delegations?pagination.limit=300",{headers:{accept:"application/json"}})).json();return u?.unbonding_responses||[];}catch{return [];}
       }));
       for(const ur of res) for(const resp of ur) for(const e of (resp.entries||[]))
-        if(/^\d+$/.test(String(e.balance))) entries.push({completion_time:e.completion_time, balance:Number(e.balance)/1e18, delegator:resp.delegator_address, validator:resp.validator_address});
+        if(/^\d+$/.test(String(e.balance))) entries.push({completion_time:e.completion_time, balance:Number(e.balance)/1e18, delegator:resp.delegator_address, validator:resp.validator_address, jailed:jailed.has(resp.validator_address)});
     }
     // cada unbonding por separado, ordenado por fecha de liberación
     CALENDAR=entries.filter(e=>e.completion_time).sort((a,b)=>a.completion_time<b.completion_time?-1:1);
