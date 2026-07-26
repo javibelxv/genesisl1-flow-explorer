@@ -959,9 +959,9 @@ function renderHolders(list){
     d.innerHTML='<b>'+v.toFixed(0)+'%</b><label>'+lbl+'</label>';cr.appendChild(d);
   });
   // tabla top-15
-  $("holdPill").textContent="top 15 of "+list.length;
+  $("holdPill").textContent="top 100 of "+list.length;
   const hl=$("holdList");hl.innerHTML="";
-  list.slice(0,15).forEach((h,i)=>{
+  list.slice(0,100).forEach((h,i)=>{
     const r=document.createElement("div");r.className="row";
     const rk=document.createElement("span");rk.className="side";rk.style.minWidth="22px";rk.textContent="#"+(i+1);
     const am=document.createElement("span");am.className="amt o";am.style.minWidth="96px";am.textContent=fmt(h.amt)+" L1";
@@ -1019,10 +1019,10 @@ function renderGenHolders(snap){
   // tabla: top 15 por encima del umbral
   const TH=Number($("genHistThresh").value)||1000;
   const big=list.filter(h=>h.amt>=TH);
-  $("genHoldPill").textContent="top 15 of "+fmt(big.length)+" ≥ "+fmt(TH);
+  $("genHoldPill").textContent="top 100 of "+fmt(big.length)+" ≥ "+fmt(TH);
   const hl=$("genList");hl.innerHTML="";
   if(!big.length){ hl.innerHTML='<div class="empty">No wallets above '+fmt(TH)+' L1 in the snapshot.</div>'; }
-  big.slice(0,15).forEach((h,i)=>{
+  big.slice(0,100).forEach((h,i)=>{
     const r=document.createElement("div");r.className="row";
     const rk=document.createElement("span");rk.className="side";rk.style.minWidth="22px";rk.textContent="#"+(i+1);
     const am=document.createElement("span");am.className="amt o";am.style.minWidth="96px";am.textContent=fmt(h.amt)+" L1";
@@ -1179,7 +1179,7 @@ async function fetchStakingPool(){
 }
 // cuentas de módulo del sistema + community pool (para cuadrar el 100% del supply)
 const MOD_ACCOUNTS=[
-  {name:"Not-bonded", addr:"genesis1tygms3xhhs3yv487phx3dw4a95jn7t7lljpgtk", note:"not-bonded staking pool"},
+  {name:"Not-bonded", addr:"genesis1tygms3xhhs3yv487phx3dw4a95jn7t7lljpgtk", note:"jailed validators (~1.34M) + active unbonding (~400k)"},
   {name:"Distribution", addr:"genesis1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8eks2d2", note:"incl. community pool + pending rewards"},
   {name:"Governance", addr:"genesis10d07y265gmmuvt4z0w9aw880jnsr700jyt8njx", note:"deposits"},
   {name:"Fee collector", addr:"genesis17xpfvakm2amg962yls6f84z3kell8c5lwshk0g", note:"pending fees"},
