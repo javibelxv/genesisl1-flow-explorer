@@ -359,7 +359,11 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
 
     <div class="panel full" data-tabs="bridges"><div class="ptitle">🔵 Base bridge <span class="pill" id="baseBridgePill">Hyperlane escrow</span></div><div id="baseBridgeList"><div class="empty">Loading Base bridge status…</div></div></div>
 
-    <div class="panel full" data-tabs="baseholders"><div class="ptitle">🔵 Largest wL1 holders on Base <span class="pill" id="baseHoldPill"></span></div><div id="baseHoldList"><div class="empty">Loading Base holders…</div></div></div>
+    <div class="panel full" data-tabs="baseholders"><div class="ptitle">🔵 Largest wL1 holders on Base <span class="pill" id="baseHoldPill"></span></div>
+      <div class="ohstats" id="baseHoldStats" style="margin-bottom:10px"></div>
+      <div id="baseHoldList"><div class="empty">Loading Base holders…</div></div>
+      <div class="ohnote" id="baseHoldNote"></div>
+    </div>
 
     <div class="panel full" data-tabs="genesis"><div class="ptitle">📅 Unstaking calendar <span class="pill" id="calPill">L1 unlocking by date</span></div><div id="calList"><div class="empty">Loading unbonding schedule…</div></div></div>
 
@@ -1243,6 +1247,49 @@ function renderTotals(staked,genLiq,osmo,base){
   setCard("tot_base",base,"tot_base_usd","bridged via Hyperlane");
 }
 // ---- Base (Uniswap v3) readers ----
+// holders de wL1 en Base (leídos del JSON precalculado por el nodo, reconstruido on-chain)
+let BASE_HOLDERS=null;
+async function fetchBaseHolders(){
+  try{
+    const url=cfg.genSnapshotUrl.replace("genesis_holders.json","base_holders.json");
+    const r=await fetch(url,{headers:{accept:"application/json"}});
+    if(!r.ok) return null;
+    return await r.json();
+  }catch{ return null; }
+}
+function renderBaseHolders(d){
+  const list=$("baseHoldList"), stats=$("baseHoldStats"), note=$("baseHoldNote"), pill=$("baseHoldPill");
+  if(!d){ list.innerHTML='<div class="empty">Base holders snapshot not available yet.</div>'; return; }
+  const usd=(v)=>L1_USD?" · ≈$"+fmt(v*L1_USD):"";
+  pill.textContent=d.holder_count+" holders";
+  // bloque de estadísticas
+  stats.innerHTML=
+    '<div class="ohstat"><b>'+fmt(d.total_supply)+'</b><label>wL1 total on Base</label></div>'+
+    '<div class="ohstat"><b>'+fmt(d.total_in_wallets)+'</b><label>in wallets</label></div>'+
+    '<div class="ohstat"><b>'+fmt(d.pool_wl1)+'</b><label>in Uniswap pool</label></div>';
+  list.innerHTML="";
+  // 1) la pool marcada arriba del todo
+  const pr=document.createElement("div");pr.className="row warn";
+  const pa=document.createElement("span");pa.className="amt";pa.style.color="var(--node)";pa.style.minWidth="110px";pa.textContent=fmt(d.pool_wl1)+" wL1";
+  const pl=document.createElement("span");pl.className="w";pl.innerHTML='🦄 <b>Uniswap v3 pool</b> · liquidity, not a holder';
+  const plink=document.createElement("a");plink.className="side";plink.href="https://basescan.org/address/"+d.pool_addr;plink.target="_blank";plink.rel="noopener";plink.textContent=d.pool_addr.slice(0,10)+"…";
+  pr.append(pa,pl,plink);list.appendChild(pr);
+  // 2) los holders reales
+  (d.holders||[]).forEach((h,i)=>{
+    const r=document.createElement("div");r.className="row";
+    const rk=document.createElement("span");rk.className="side";rk.style.minWidth="26px";rk.textContent="#"+(i+1);
+    const am=document.createElement("span");am.className="amt b";am.style.minWidth="110px";am.textContent=fmt(h.v)+" wL1";
+    const u=document.createElement("span");u.className="ct";u.textContent=L1_USD?"≈$"+fmt(h.v*L1_USD):"";
+    const a=document.createElement("a");a.className="w mono";a.href="https://basescan.org/address/"+h.a;a.target="_blank";a.rel="noopener";a.style.fontSize="12px";a.textContent=h.a.slice(0,10)+"…"+h.a.slice(-6);
+    r.append(rk,am,a,u);list.appendChild(r);
+  });
+  // nota con el desglose honesto
+  const upd=d.updated?new Date(d.updated).toISOString().slice(0,16).replace("T"," ")+" UTC":"";
+  note.innerHTML='Reconstructed on-chain from wL1 Transfer events on Base'+(upd?' · updated '+upd:'')+'. '+
+    'The Uniswap pool is shown first (it is liquidity, not a holder). '+
+    (d.unlisted>0?'<b>'+fmt(d.unlisted)+' wL1</b> ('+(d.total_supply?(d.unlisted/d.total_supply*100).toFixed(1):"?")+'%) is not listed here — these are bridge mints that did not emit a standard Transfer event, so they cannot be attributed to a wallet from event logs alone. ':'')+
+    'Total supply is read directly from the wL1 contract.';
+}
 async function baseCall(to,data){
   const r=await fetch(cfg.baseRpc,{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_call",params:[{to,data},"latest"]})});
@@ -1340,6 +1387,7 @@ async function run(){
     renderOverhang(osmoTotal,inPools);
     fetchHolders().then(renderHolders);
     fetchGenHolders().then(renderGenHolders);
+    fetchBaseHolders().then(renderBaseHolders);
     let calData=null;
     if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
     // signals panel: cargar histórico del overhang y pintar los factores
