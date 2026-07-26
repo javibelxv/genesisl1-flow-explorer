@@ -129,6 +129,20 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .tabbtn:hover{color:var(--ink);border-color:var(--muted)}
 .tabbtn.active{background:var(--teal);color:#062018;border-color:var(--teal)}
 [data-tabs][hidden]{display:none!important}
+.signals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:13px}
+@media(max-width:640px){.signals{grid-template-columns:1fr}}
+.sigcol{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.sightitle{font-family:var(--display);font-weight:700;font-size:14px;color:var(--ink);margin-bottom:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.sigsub{font-family:var(--mono);font-size:10.5px;color:var(--faint);font-weight:400;letter-spacing:.02em}
+.sigrow{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.sigrow:first-child{border-top:none}
+.sigdot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;margin-top:4px}
+.sigdot.g{background:var(--buy)}.sigdot.a{background:var(--warn)}.sigdot.r{background:var(--sell)}.sigdot.n{background:var(--faint)}
+.sigbody{flex:1;min-width:0}
+.signame{font-size:13px;color:var(--ink);font-weight:600}
+.sigdata{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:2px}
+.sigwhy{font-size:11px;color:var(--faint);margin-top:2px;line-height:1.35}
+.signals .signote{grid-column:1/-1;font-size:11px;color:var(--faint);line-height:1.45;padding:2px 4px}
 .row{display:flex;align-items:center;gap:10px;padding:8px 2px;border-top:1px solid var(--line);font-size:13px}
 .row:first-of-type{border-top:0}
 .row .amt{font-family:var(--mono);font-weight:600;min-width:76px}
@@ -236,6 +250,18 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     <div class="mcard"><div class="ml">Sell / Buy ratio</div><div class="mv" id="m_ratio">—</div><div class="ms" id="m_uniq">—</div></div>
     <div class="mcard"><div class="ml">Top wallet concentration</div><div class="mv" id="m_conc">—</div><div class="ms">of all L1 sold</div></div>
     <div class="mcard"><div class="ml">Price spread · slippage</div><div class="mv" id="m_price">—</div><div class="ms" id="m_spread">—</div></div>
+  </div>
+
+  <div class="signals" data-tabs="summary">
+    <div class="sigcol">
+      <div class="sightitle">🔴 Sell risk <span class="sigsub">supply that can hit the market</span></div>
+      <div id="sigSell"></div>
+    </div>
+    <div class="sigcol">
+      <div class="sightitle">🟢 Buy potential <span class="sigsub">demand proxies · supply pulling back</span></div>
+      <div id="sigBuy"></div>
+    </div>
+    <div class="signote">Each factor is a raw signal, not advice. Colors reflect the data shown next to them — you read the mix and decide. Sell-side factors are more reliable than buy-side (selling leaves an on-chain trail; buying doesn't). Not financial advice.</div>
   </div>
 
   <div class="overhang" id="overhangPanel" data-tabs="summary overhang">
@@ -574,8 +600,13 @@ const DEFAULTS={
   osmoLcd:"https://osmosis-rest.publicnode.com",
   pools:"732,2894,2849,3456,3435,2947",
   threshold:1, ibcThreshold:10000, hours:24, blocks:0, gl1Lcd:"https://genesisl1.api.utsa.tech",
+  sigUnstakeAmber:50000, sigUnstakeRed:200000, sigIbcOutAmber:10000, sigIbcOutRed:50000, sigNetNeutral:5000, sigStakeAmber:0, sigStakeRed:-25000,
   holdersUrl:"https://osmosisl1.zenode.app/",
   genSnapshotUrl:"https://raw.githubusercontent.com/javibelxv/genesisl1-flow-explorer/main/genesis_holders.json",
+  baseRpc:"https://mainnet.base.org",
+  basePool:"0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
+  baseWl1:"0xe6522a891702cd2e8cc2a5182638c9da1dd44b22",
+  baseUsdc:"0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
   watch:"", labels:"",
 };
 function loadCfg(){try{return {...DEFAULTS,...JSON.parse(localStorage.getItem("l1p_cfg")||"{}")};}catch{return {...DEFAULTS};}}
@@ -688,6 +719,78 @@ async function fetchOsmoBalance(addr){ // balance L1 de una wallet en Osmosis (o
 const fmt=(n)=>Math.round(n).toLocaleString("en-US");
 function nameOf(addr){const lm=labelMap();if(lm[addr])return {txt:lm[addr],lbl:true};return {txt:addr.slice(0,9)+"…"+addr.slice(-4),lbl:false};}
 function walletEl(addr,explorer){const n=nameOf(addr);const e=document.createElement(explorer?"a":"span");e.className="w"+(n.lbl?" lbl":"");e.textContent=n.txt;e.title=addr;if(explorer){e.href=explorer+"/"+addr;e.target="_blank";e.rel="noopener";}return e;}
+
+// ---- Signals panel: raw factors with traffic-light + the data behind each ----
+let OH_HIST=null;
+async function fetchOverhangHistory(){
+  try{
+    const url=cfg.genSnapshotUrl.replace("genesis_holders.json","overhang_history.json");
+    const r=await fetch(url,{headers:{accept:"application/json"}});
+    if(!r.ok) return null;
+    const j=await r.json();
+    return Array.isArray(j)?j:null;
+  }catch{ return null; }
+}
+function sigRow(dot,name,data,why){
+  const r=document.createElement("div");r.className="sigrow";
+  const d=document.createElement("span");d.className="sigdot "+dot;
+  const body=document.createElement("div");body.className="sigbody";
+  const nm=document.createElement("div");nm.className="signame";nm.textContent=name;
+  const dt=document.createElement("div");dt.className="sigdata";dt.textContent=data;
+  const wh=document.createElement("div");wh.className="sigwhy";wh.textContent=why;
+  body.append(nm,dt,wh);r.append(d,body);return r;
+}
+// unstakeSoon: L1 desbloqueándose en ≤7 días (del calendario)
+function unstakeWithin7d(cal){
+  if(!cal||!cal.length) return null;
+  const now=Date.now(), wk=now+7*864e5; let sum=0;
+  for(const e of cal){ const t=new Date(e.completion_time).getTime(); if(t>=now&&t<=wk) sum+=(e.balance||0); }
+  return sum;
+}
+function renderSignals(a,ibc,ibcIn,cal){
+  const sell=$("sigSell"), buy=$("sigBuy");
+  if(!sell||!buy) return;
+  sell.innerHTML="";buy.innerHTML="";
+  const net=a?a.net:0;                                  // >0 venta, <0 compra (net=totV-totC)
+  const ibcOut=(ibc||[]).reduce((s,t)=>s+(t.amount||0),0);
+  const ibcInSum=(ibcIn||[]).reduce((s,t)=>s+(t.amount||0),0);
+
+  // ---------- SELL RISK ----------
+  // 1) Unstaking ≤7d
+  const u7=unstakeWithin7d(cal);
+  if(u7===null) sell.append(sigRow("n","Unstaking ≤7d","no staking data","Connect a GenesisL1 RPC to read the unbonding schedule."));
+  else{ const d=u7>=cfg.sigUnstakeRed?"r":(u7>=cfg.sigUnstakeAmber?"a":"g");
+    sell.append(sigRow(d,"Unstaking ≤7d",fmt(u7)+" L1 unlocking",
+      d==="r"?"Large supply unlocking soon — can sell within days.":d==="a"?"Moderate supply unlocking soon.":"Little unlocking soon — low near-term supply."));}
+  // 2) IBC out
+  { const d=ibcOut>=cfg.sigIbcOutRed?"r":(ibcOut>=cfg.sigIbcOutAmber?"a":"g");
+    sell.append(sigRow(d,"IBC out → Osmosis",fmt(ibcOut)+" L1 this window",
+      d==="r"?"Lots of L1 moving to where it's sold — early sell signal.":d==="a"?"Some L1 heading to Osmosis.":"Little L1 leaving for Osmosis."));}
+  // 3) Net pressure (selling side)
+  { const sellingHard=net>cfg.sigNetNeutral, neutral=Math.abs(net)<=cfg.sigNetNeutral;
+    const d=sellingHard?"r":(neutral?"g":"g");
+    sell.append(sigRow(sellingHard?"r":(net>0?"a":"g"),"Net pressure (window)",
+      (net>0?fmt(net)+" L1 net sold":net<0?fmt(-net)+" L1 net bought":"balanced"),
+      net>cfg.sigNetNeutral?"Active net selling right now.":net>0?"Slight net selling.":"Not selling on net."));}
+
+  // ---------- BUY POTENTIAL ----------
+  // 1) Overhang trend (histórico)
+  if(OH_HIST&&OH_HIST.length>=2){
+    const last=OH_HIST[OH_HIST.length-1].osmo_overhang, prev=OH_HIST[OH_HIST.length-2].osmo_overhang;
+    const delta=last-prev; const d=delta<0?"g":(delta>0?"r":"a");
+    buy.append(sigRow(d,"Overhang trend (Osmosis)",(delta>0?"+":"")+fmt(delta)+" L1 vs prev day",
+      delta<0?"Latent supply draining from Osmosis — bullish for float.":delta>0?"Latent supply building up on Osmosis.":"Overhang flat."));
+  } else buy.append(sigRow("n","Overhang trend (Osmosis)",OH_HIST?"need 2+ days of history":"no history yet","Builds daily from the snapshot; trend shows once there are 2+ days."));
+  // 2) IBC in vs out
+  { const diff=ibcInSum-ibcOut; const d=diff>0?"g":(diff===0?"a":"r");
+    buy.append(sigRow(d,"IBC in vs out",fmt(ibcInSum)+" in / "+fmt(ibcOut)+" out",
+      diff>0?"More L1 returning to Genesis than leaving — supply pulling back.":diff<0?"More L1 leaving than returning.":"In/out balanced."));}
+  // 3) Net pressure (buying side)
+  { const buyingHard=net<-cfg.sigNetNeutral;
+    buy.append(sigRow(buyingHard?"g":(net<0?"a":"n"),"Net pressure (window)",
+      (net<0?fmt(-net)+" L1 net bought":net>0?fmt(net)+" L1 net sold":"balanced"),
+      buyingHard?"Active net buying right now.":net<0?"Slight net buying.":"No net buying in window."));}
+}
 
 function render(a,ibc,ibcIn,depth,curH,lastH,gl1ok){
   const win=Number(cfg.blocks)>0?(fmt(Number(cfg.blocks))+" blk"):(cfg.hours+"h");$("winLabel").textContent=win;$("thLabel").textContent=fmt(cfg.threshold);
@@ -962,6 +1065,7 @@ function renderRows(c,list,side){c.innerHTML="";if(!list.length){c.innerHTML='<d
     r.append(am,walletEl(h.sender,EXP_OSMO+"/address"),ct,bl);c.appendChild(r);});}
 
 let OSMO_USD=null, L1_USD=null, L1_SUPPLY=null;
+let L1_BASE_USD=null, BASE_WL1_SUPPLY=null, BASE_POOL_USDC=null, BASE_POOL_WL1=null;
 const SUPPLY_FALLBACK=46180000;   // respaldo si el LCD no responde (total supply on-chain)
 async function fetchSupply(){
   try{
@@ -1033,8 +1137,63 @@ async function fetchCalendar(){
   return CALENDAR;
 }
 async function sqsPrice(base){const r=await fetch(`https://sqs.osmosis.zone/tokens/prices?base=${encodeURIComponent(base)}`,{headers:{accept:"application/json"}});const j=await r.json();let p=null;const walk=(o)=>{for(const k in o){const v=o[k];if(typeof v==="object"&&v)walk(v);else if(p===null&&!isNaN(parseFloat(v)))p=parseFloat(v);}};walk(j);return p;}
+// ---- Base (Uniswap v3) readers ----
+async function baseCall(to,data){
+  const r=await fetch(cfg.baseRpc,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_call",params:[{to,data},"latest"]})});
+  const j=await r.json(); return j&&j.result;
+}
+// precio de wL1 en Base leyendo slot0 de la pool Uniswap v3 (USDC/wL1, dec 6/18)
+async function fetchBasePrice(){
+  try{
+    const slot0=await baseCall(cfg.basePool,"0x3850c7bd");
+    if(!slot0||slot0.length<66) return null;
+    const sqrt=BigInt("0x"+slot0.slice(2,66));            // sqrtPriceX96 (primeros 32 bytes)
+    const Q96=2**96, sf=Number(sqrt)/Q96, pRaw=sf*sf;     // token1/token0 en raw
+    const wl1PerUsdc=pRaw*Math.pow(10,6-18);              // ajuste decimales USDC(6)/wL1(18)
+    return wl1PerUsdc>0 ? 1/wl1PerUsdc : null;            // USDC por wL1 = precio L1 en $
+  }catch{ return null; }
+}
+// totalSupply de wL1 en Base (= L1 puenteado a Base, respaldado 1:1 por el escrow)
+async function fetchBaseSupply(){
+  try{ const s=await baseCall(cfg.baseWl1,"0x18160ddd"); if(!s) return null;
+    return Number(BigInt(s))/1e18; }catch{ return null; }
+}
+// balance de un token ERC20 en una dirección (para reservas de la pool)
+async function baseBalanceOf(token,holder){
+  try{ const data="0x70a08231"+"000000000000000000000000"+holder.slice(2).toLowerCase();
+    const b=await baseCall(token,data); if(!b) return null; return BigInt(b); }catch{ return null; }
+}
+// reservas de la pool en Base (USDC 6 dec, wL1 18 dec)
+async function fetchBaseReserves(){
+  try{
+    const u=await baseBalanceOf(cfg.baseUsdc,cfg.basePool);
+    const w=await baseBalanceOf(cfg.baseWl1,cfg.basePool);
+    return {usdc:u!=null?Number(u)/1e6:null, wl1:w!=null?Number(w)/1e18:null};
+  }catch{ return {usdc:null,wl1:null}; }
+}
 function priceFmt(p){return "$"+(p<0.1?p.toFixed(6):p<10?p.toFixed(4):p.toFixed(2));}
-async function loadPrice(){try{const p=await sqsPrice(L1_IBC);if(p!==null){L1_USD=p;$("price").textContent=priceFmt(p);}}catch{} try{const o=await sqsPrice("uosmo");if(o!==null)OSMO_USD=o;}catch{}}
+async function loadPrice(){
+  try{const p=await sqsPrice(L1_IBC);if(p!==null){L1_USD=p;}}catch{}
+  try{const o=await sqsPrice("uosmo");if(o!==null)OSMO_USD=o;}catch{}
+  try{const b=await fetchBasePrice();if(b!==null)L1_BASE_USD=b;}catch{}
+  renderPriceHeader();
+}
+// cabecera de precio dual: Osmosis + Base, con spread para ver arbitraje
+function renderPriceHeader(){
+  const osmo=L1_USD, base=L1_BASE_USD;
+  const el=$("price");
+  if(osmo==null&&base==null){ el.textContent="—"; return; }
+  let html="";
+  if(osmo!=null) html+='<span title="Osmosis">OSMO '+priceFmt(osmo)+'</span>';
+  if(base!=null) html+=(html?' · ':'')+'<span title="Base">BASE '+priceFmt(base)+'</span>';
+  if(osmo!=null&&base!=null&&osmo>0){
+    const spread=(base-osmo)/osmo*100;
+    const cls=Math.abs(spread)>=5?"down":"";
+    html+=' <span class="chg '+cls+'" title="Base vs Osmosis spread">('+(spread>=0?"+":"")+spread.toFixed(1)+'%)</span>';
+  }
+  el.innerHTML=html;
+}
 
 let busy=false;
 async function run(){
@@ -1076,7 +1235,11 @@ async function run(){
     renderOverhang(osmoTotal,inPools);
     fetchHolders().then(renderHolders);
     fetchGenHolders().then(renderGenHolders);
-    if(cfg.gl1Rpc){ try{ renderCalendar(await fetchCalendar()); }catch{ renderCalendar(null); } }
+    let calData=null;
+    if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
+    // signals panel: cargar histórico del overhang y pintar los factores
+    if(OH_HIST===null){ OH_HIST=await fetchOverhangHistory(); }
+    renderSignals(a,ibc,ibcIn,calData);
     const now=new Date().toLocaleTimeString();
     st.innerHTML=`<span class="ok">●</span> ${now} · ${pools.length} pools · ${a.tracked} swaps`+(cfg.hours>72?' · <span class="warnc">large window</span>':'')+(notes.length?' · <span class="warnc">'+notes.join(" · ")+'</span>':'');
     $("hstatus").className="hstatus ok";$("hstatus").textContent=now;
