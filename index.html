@@ -72,6 +72,16 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
 .mcard{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
+.mcard.click{cursor:pointer;transition:border-color .12s}.mcard.click:hover{border-color:var(--muted)}
+.modbreak{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:11px}
+.mbtitle{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.mbrow{display:flex;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:12.5px}
+.mbrow:first-child{border-top:none}
+.mbname{flex:0 0 auto;color:var(--ink);font-weight:600;min-width:130px}
+.mbamt{flex:0 0 auto;font-family:var(--mono);color:var(--teal);min-width:110px}
+.mbaddr{flex:1;min-width:0;font-family:var(--mono);font-size:11px;color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mbaddr a{color:var(--faint);text-decoration:none}.mbaddr a:hover{color:var(--teal);text-decoration:underline}
+.mbnote{font-size:11px;color:var(--faint);line-height:1.45;margin-top:8px}
 .mcard .ml{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);margin-bottom:7px}
 .mcard .mv{font-family:var(--display);font-size:24px;font-weight:600;line-height:1}
 .mcard .ms{font-size:11.5px;color:var(--muted);margin-top:5px;font-family:var(--mono)}
@@ -249,10 +259,18 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   </section>
 
   <div class="metrics" data-tabs="summary">
+    <div class="mcard"><div class="ml">Total L1 supply</div><div class="mv" id="tot_supply">—</div><div class="ms" id="tot_supply_usd">all L1 in existence</div></div>
     <div class="mcard"><div class="ml">Staked (bonded)</div><div class="mv" id="tot_staked">—</div><div class="ms" id="tot_staked_usd">GenesisL1 · securing chain</div></div>
     <div class="mcard"><div class="ml">Liquid on GenesisL1</div><div class="mv" id="tot_genliq">—</div><div class="ms" id="tot_genliq_usd">unstaked · excl. escrows</div></div>
     <div class="mcard"><div class="ml">L1 on Osmosis</div><div class="mv" id="tot_osmo">—</div><div class="ms" id="tot_osmo_usd">bridged via IBC</div></div>
     <div class="mcard"><div class="ml">L1 on Base</div><div class="mv" id="tot_base">—</div><div class="ms" id="tot_base_usd">bridged via Hyperlane</div></div>
+    <div class="mcard click" id="modCard"><div class="ml">Module &amp; pool accounts</div><div class="mv" id="tot_mods">—</div><div class="ms" id="tot_mods_usd">community pool + system · tap to verify</div></div>
+  </div>
+
+  <div class="modbreak" id="modBreakdown" data-tabs="summary" hidden>
+    <div class="mbtitle">Module &amp; pool accounts — full breakdown <span class="pill">every L1 accounted for</span></div>
+    <div id="modBreakList"></div>
+    <div class="mbnote">These are system module accounts and the community pool — L1 that exists on-chain but is not in circulating holder wallets. Each address is verifiable on the explorer. The community pool lives inside the distribution module, so it is not counted separately.</div>
   </div>
 
   <div class="metrics" data-tabs="summary pressure">
@@ -1159,11 +1177,55 @@ async function fetchStakingPool(){
     return (b&&/^\d+$/.test(b))?Number(b)/1e18:null;
   }catch{ return null; }
 }
-// Overview: rellenar las 4 tarjetas de totales multi-cadena
+// cuentas de módulo del sistema + community pool (para cuadrar el 100% del supply)
+const MOD_ACCOUNTS=[
+  {name:"Not-bonded (unbonding)", addr:"genesis1tygms3xhhs3yv487phx3dw4a95jn7t7lljpgtk", note:"in unbonding"},
+  {name:"Distribution", addr:"genesis1jv65s3grqf6v6jl3dp4t6c9t9rk99cd8eks2d2", note:"incl. community pool + pending rewards"},
+  {name:"Governance", addr:"genesis10d07y265gmmuvt4z0w9aw880jnsr700jyt8njx", note:"deposits"},
+  {name:"Fee collector", addr:"genesis17xpfvakm2amg962yls6f84z3kell8c5lwshk0g", note:"pending fees"},
+  {name:"Mint", addr:"genesis1m3h30wlvsf8llruxtpukdvsy0km2kum8kcnwr4", note:"mint module"}
+];
+async function fetchModuleAccounts(){
+  const lcd=cfg.gl1Lcd.replace(/\/$/,"");
+  const out=[];
+  for(const m of MOD_ACCOUNTS){
+    try{
+      const j=await(await fetch(lcd+"/cosmos/bank/v1beta1/balances/"+m.addr+"/by_denom?denom=el1",{headers:{accept:"application/json"}})).json();
+      const a=j?.balance?.amount;
+      out.push({...m, l1:(a&&/^\d+$/.test(a))?Number(a)/1e18:0});
+    }catch{ out.push({...m, l1:0}); }
+  }
+  return out;
+}
+function renderModuleBreakdown(mods){
+  const total=mods.reduce((s,m)=>s+m.l1,0);
+  $("tot_mods").textContent = "~"+fmt(total)+" L1";
+  $("tot_mods_usd").textContent = (L1_SUPPLY?(total/L1_SUPPLY*100).toFixed(1)+"% of supply":"community pool + system")+" · tap to verify";
+  const box=$("modBreakList");box.innerHTML="";
+  mods.filter(m=>m.l1>0).sort((a,b)=>b.l1-a.l1).forEach(m=>{
+    const r=document.createElement("div");r.className="mbrow";
+    const nm=document.createElement("span");nm.className="mbname";nm.textContent=m.name;
+    const am=document.createElement("span");am.className="mbamt";am.textContent=fmt(m.l1)+" L1";
+    const ad=document.createElement("span");ad.className="mbaddr";
+    const a=document.createElement("a");a.href=EXP_GL1+"/account/"+m.addr;a.target="_blank";a.rel="noopener";a.textContent=m.addr+" · "+m.note;
+    ad.appendChild(a);
+    r.append(nm,am,ad);box.appendChild(r);
+  });
+  return total;
+}
+// Overview: rellenar las tarjetas de totales multi-cadena
 function renderTotals(staked,genLiq,osmo,base){
-  const setCard=(id,val,usdId,usdLabel)=>{
+  const sup=L1_SUPPLY;
+  // tarjeta de supply total
+  $("tot_supply").textContent = sup!=null ? "~"+fmt(sup)+" L1" : "—";
+  $("tot_supply_usd").textContent = (sup!=null&&L1_USD) ? "≈$"+fmt(sup*L1_USD) : "all L1 in existence";
+  // tarjetas de venue: valor en L1, y debajo el % del supply (o USD si no hay supply)
+  const setCard=(id,val,usdId,fallback)=>{
     $(id).textContent = val!=null ? "~"+fmt(val)+" L1" : "—";
-    if(usdId){ const u=(val!=null&&L1_USD)?"≈$"+fmt(val*L1_USD):usdLabel; $(usdId).textContent=u; }
+    let sub=fallback;
+    if(val!=null&&sup){ sub=(val/sup*100).toFixed(1)+"% of supply"; if(L1_USD) sub+=" · ≈$"+fmt(val*L1_USD); }
+    else if(val!=null&&L1_USD){ sub="≈$"+fmt(val*L1_USD); }
+    if(usdId) $(usdId).textContent=sub;
   };
   setCard("tot_staked",staked,"tot_staked_usd","GenesisL1 · securing chain");
   setCard("tot_genliq",genLiq,"tot_genliq_usd","unstaked · excl. escrows");
@@ -1276,11 +1338,13 @@ async function run(){
     // Overview: totales multi-cadena (staked + líquido Genesis + Osmosis + Base)
     (async()=>{
       try{
+        if(L1_SUPPLY===null) await fetchSupply();
         const staked=await fetchStakingPool();
         if(BASE_WL1_SUPPLY===null) BASE_WL1_SUPPLY=await fetchBaseSupply();
         let genLiq=null;
         try{ const snap=await fetchGenHolders(); genLiq=snap?snap.total_liquid:null; }catch{}
         renderTotals(staked, genLiq, osmoTotal, BASE_WL1_SUPPLY);
+        try{ const mods=await fetchModuleAccounts(); renderModuleBreakdown(mods); }catch{}
       }catch(e){}
     })();
     const now=new Date().toLocaleTimeString();
@@ -1323,8 +1387,8 @@ function showTab(t){
   }
   try{localStorage&&0;}catch(e){}  // no localStorage en artifacts; el tab no persiste (ok)
 }
-document.querySelectorAll("#tabbar .tabbtn").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
-showTab("summary");
+document.querySelectorAll("#tabbar .tabbtn").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));showTab("summary");
+(function(){const c=$("modCard");if(c)c.onclick=()=>{const b=$("modBreakdown");if(b)b.hidden=!b.hidden;};})();
 
 markTf();loadPrice();run();
 </script>
