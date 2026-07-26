@@ -238,6 +238,7 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   <div class="tabbar" id="tabbar">
     <button class="tabbtn active" data-tab="summary">📊 Overview</button>
     <button class="tabbtn" data-tab="pressure">🌊 Osmosis Market Pressure</button>
+    <button class="tabbtn" data-tab="basepressure">🔵 Base Market Pressure</button>
     <button class="tabbtn" data-tab="overhang">💧 L1 in Osmosis</button>
     <button class="tabbtn" data-tab="genesis">🔗 GenesisL1</button>
     <button class="tabbtn" data-tab="bridges">🌉 Bridges</button>
@@ -257,6 +258,24 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
       <span id="routingMeta" hidden><b id="routingN">0</b> multi-hop routes (both legs counted)</span>
     </div>
   </section>
+
+  <section class="hero" data-tabs="basepressure">
+    <div class="eyebrow">🔵 Base net pressure · last <span id="bWinLabel">—</span></div>
+    <div class="netrow"><div class="netnum flat" id="bNetNum">—</div><div class="nettag flat" id="bNetTag">awaiting data</div></div>
+    <div class="beam"><div class="s" id="bBeamS" style="width:0"></div><div class="b" id="bBeamB" style="width:0"></div></div>
+    <div class="beamlabels"><span class="sv">▼ <span id="bSoldV">0</span> wL1 sold</span><span class="bv"><span id="bBoughtV">0</span> wL1 bought ▲</span></div>
+    <div class="meta">
+      <span><span class="mono" id="bBlkRange">—</span></span>
+      <span><b id="bSwapCount">0</b> swaps</span>
+      <span>Uniswap v3 · 0.3%</span>
+    </div>
+  </section>
+
+  <div class="metrics" data-tabs="basepressure">
+    <div class="mcard"><div class="ml">Volume (window)</div><div class="mv" id="bVol">—</div><div class="ms">wL1 traded</div></div>
+    <div class="mcard"><div class="ml">Buy / Sell</div><div class="mv" id="bRatio">—</div><div class="ms" id="bUniq">—</div></div>
+    <div class="mcard"><div class="ml">Avg price</div><div class="mv" id="bAvgPrice">—</div><div class="ms">USDC per wL1</div></div>
+  </div>
 
   <div class="metrics" data-tabs="summary">
     <div class="mcard"><div class="ml">Total L1 supply</div><div class="mv" id="tot_supply">—</div><div class="ms" id="tot_supply_usd">all L1 in existence</div></div>
@@ -352,6 +371,11 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
   <div class="grid">
     <div class="panel" data-tabs="pressure"><div class="ptitle">🎯 Top sellers <span class="pill" id="topPill"></span></div><div id="topList"><div class="empty">No sells yet.</div></div></div>
     <div class="panel" data-tabs="pressure"><div class="ptitle">🎯 Top buyers <span class="pill" id="topBuyPill"></span></div><div id="topBuyList"><div class="empty">No buys yet.</div></div></div>
+
+    <div class="panel" data-tabs="basepressure"><div class="ptitle">🔵 Top wL1 buyers <span class="pill" id="bTopBuyPill"></span></div><div id="bTopBuyList"><div class="empty">No buys yet.</div></div></div>
+    <div class="panel" data-tabs="basepressure"><div class="ptitle">🔵 Top wL1 sellers <span class="pill" id="bTopSellPill"></span></div><div id="bTopSellList"><div class="empty">No sells yet.</div></div></div>
+    <div class="panel" data-tabs="basepressure"><div class="ptitle">🟢 Buys (wL1) <span class="pill">USDC → wL1</span></div><div id="bBuyList"><div class="empty">No buys in window.</div></div></div>
+    <div class="panel" data-tabs="basepressure"><div class="ptitle">🔴 Sells (wL1) <span class="pill">wL1 → USDC</span></div><div id="bSellList"><div class="empty">No sells in window.</div></div></div>
 
     <div class="panel full" data-tabs="bridges"><div class="ptitle">🟡 IBC out → Osmosis <span class="pill" id="ibcPill">leaving GenesisL1</span></div><div id="ibcList"><div class="empty">Connect a GenesisL1 RPC in Settings to track outbound L1.</div></div></div>
 
@@ -644,6 +668,7 @@ const DEFAULTS={
   basePool:"0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
   baseWl1:"0xe6522a891702cd2e8cc2a5182638c9da1dd44b22",
   baseUsdc:"0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+  baseBlocks:0,
   watch:"", labels:"",
 };
 function loadCfg(){try{return {...DEFAULTS,...JSON.parse(localStorage.getItem("l1p_cfg")||"{}")};}catch{return {...DEFAULTS};}}
@@ -1275,6 +1300,115 @@ function renderTotals(staked,genLiq,osmo,base){
   setCard("tot_osmo",osmo,"tot_osmo_usd","bridged via IBC");
   setCard("tot_base",base,"tot_base_usd","bridged via Hyperlane");
 }
+// ---- Base (Uniswap v3) readers ----
+// --- Base Market Pressure: leer y analizar swaps de la pool Uniswap v3 ---
+const SWAP_TOPIC="0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67";
+function s256(hex){ let v=BigInt("0x"+hex); if(v>=(2n**255n)) v-=2n**256n; return v; }
+async function baseLatestBlock(){
+  try{ const r=await fetch(cfg.baseRpc,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_blockNumber",params:[]})});
+    const j=await r.json(); return j.result?parseInt(j.result,16):null; }catch{ return null; }
+}
+async function baseGetLogs(from,to){
+  const r=await fetch(cfg.baseRpc,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_getLogs",params:[{address:cfg.basePool,topics:[SWAP_TOPIC],
+      fromBlock:"0x"+from.toString(16),toBlock:"0x"+to.toString(16)}]})});
+  const j=await r.json(); return j.result||[];
+}
+// recoge swaps de Base en una ventana (por bloques o por horas). Base ~2s/bloque.
+async function fetchBaseSwaps(){
+  const latest=await baseLatestBlock();
+  if(!latest) return null;
+  const blkMode=Number(cfg.baseBlocks)>0;
+  const span=blkMode?Math.min(200000,Number(cfg.baseBlocks)):Math.ceil(cfg.hours*3600/2); // 2s/bloque
+  const start=Math.max(0,latest-span);
+  const logs=[];
+  for(let lo=start; lo<latest; lo+=10000){
+    const hi=Math.min(lo+10000,latest);
+    try{ const part=await baseGetLogs(lo,hi); for(const l of part) logs.push(l); }catch{}
+  }
+  return {logs, latest, start};
+}
+function analyzeBaseSwaps(logs){
+  let boughtWl1=0, soldWl1=0, volWl1=0, volUsdc=0;
+  const buys=[], sells=[], byBuyer={}, bySeller={};
+  for(const log of logs){
+    const data=log.data.slice(2);
+    const a0=s256(data.slice(0,64));      // USDC (6 dec, con signo)
+    const a1=s256(data.slice(64,128));    // wL1 (18 dec, con signo)
+    const wl1=Number(a1<0n?-a1:a1)/1e18;
+    const usdc=Number(a0<0n?-a0:a0)/1e6;
+    const recip="0x"+log.topics[2].slice(-40);
+    const hash=log.transactionHash;
+    const price=wl1>0?usdc/wl1:0;
+    volWl1+=wl1; volUsdc+=usdc;
+    if(a1<0n){ // wL1 sale de la pool = usuario COMPRA wL1
+      boughtWl1+=wl1; buys.push({wl1,usdc,price,wallet:recip,hash});
+      byBuyer[recip]=(byBuyer[recip]||0)+wl1;
+    }else{ // wL1 entra a la pool = usuario VENDE wL1
+      soldWl1+=wl1; sells.push({wl1,usdc,price,wallet:recip,hash});
+      bySeller[recip]=(bySeller[recip]||0)+wl1;
+    }
+  }
+  const toArr=(o)=>Object.entries(o).map(([w,t])=>({wallet:w,tot:t})).sort((a,b)=>b.tot-a.tot);
+  const net=soldWl1-boughtWl1; // >0 venta, <0 compra (mismo criterio que Osmosis)
+  const avgPrice=volWl1>0?volUsdc/volWl1:0;
+  return {boughtWl1,soldWl1,volWl1,volUsdc,net,avgPrice,
+    buys:buys.sort((a,b)=>b.wl1-a.wl1), sells:sells.sort((a,b)=>b.wl1-a.wl1),
+    topBuyers:toArr(byBuyer), topSellers:toArr(bySeller), count:logs.length};
+}
+function renderBasePressure(data,latest,start){
+  if(!data){ $("bNetTag").textContent="Base RPC unavailable"; return; }
+  const a=data;
+  const win=Number(cfg.baseBlocks)>0?(fmt(Number(cfg.baseBlocks))+" blk"):(cfg.hours+"h");
+  $("bWinLabel").textContent=win;
+  $("bBlkRange").textContent="blocks "+start+"–"+latest;
+  $("bSwapCount").textContent=a.count;
+  $("bSoldV").textContent=fmt(a.soldWl1);$("bBoughtV").textContent=fmt(a.boughtWl1);
+  const tot=a.soldWl1+a.boughtWl1;
+  $("bBeamS").style.width=tot?(a.soldWl1/tot*100)+"%":"0";
+  $("bBeamB").style.width=tot?(a.boughtWl1/tot*100)+"%":"0";
+  const num=$("bNetNum"),tag=$("bNetTag");num.className="netnum";tag.className="nettag";
+  if(tot===0){num.textContent="—";num.classList.add("flat");tag.textContent="no flow in window";tag.classList.add("flat");}
+  else if(a.net>0){num.textContent="▼ "+fmt(a.net)+" wL1";num.classList.add("sellc");tag.textContent="net selling pressure";tag.classList.add("sellc");}
+  else if(a.net<0){num.textContent="▲ "+fmt(-a.net)+" wL1";num.classList.add("buyc");tag.textContent="net buying pressure";tag.classList.add("buyc");}
+  else{num.textContent="0 wL1";num.classList.add("flat");tag.textContent="balanced";tag.classList.add("flat");}
+  // métricas
+  $("bVol").textContent=L1_USD?"$"+fmt(a.volWl1*L1_USD):fmt(a.volWl1)+" wL1";
+  const ratio=a.soldWl1>0?a.boughtWl1/a.soldWl1:(a.boughtWl1>0?Infinity:0);
+  $("bRatio").textContent=ratio===Infinity?"∞ buy":(a.boughtWl1>=a.soldWl1?(ratio).toFixed(1)+"× buy":(1/ratio).toFixed(1)+"× sell");
+  $("bRatio").style.color=a.boughtWl1>=a.soldWl1?"var(--buy)":"var(--sell)";
+  $("bUniq").textContent=a.topBuyers.length+" buyers · "+a.topSellers.length+" sellers";
+  $("bAvgPrice").textContent=a.avgPrice>0?"$"+a.avgPrice.toFixed(4):"—";
+  // listas de swaps
+  const swapRow=(s,cls)=>{const r=document.createElement("div");r.className="row";
+    const am=document.createElement("span");am.className="amt "+cls;am.textContent=fmt(s.wl1)+" wL1";
+    const ct=document.createElement("span");ct.className="ct";ct.textContent="$"+fmt(s.usdc)+" · $"+s.price.toFixed(4);
+    const w=document.createElement("a");w.className="w mono";w.style.fontSize="12px";w.href="https://basescan.org/tx/"+s.hash;w.target="_blank";w.rel="noopener";w.textContent=s.wallet.slice(0,10)+"…";
+    r.append(am,ct,w);return r;};
+  const fillSwaps=(id,arr,cls,empty)=>{const el=$(id);el.innerHTML="";
+    if(!arr.length){el.innerHTML='<div class="empty">'+empty+'</div>';return;}
+    arr.slice(0,20).forEach(s=>el.appendChild(swapRow(s,cls)));};
+  fillSwaps("bBuyList",a.buys,"b","No buys in window.");
+  fillSwaps("bSellList",a.sells,"s","No sells in window.");
+  // top wallets
+  const walletRow=(h,cls)=>{const r=document.createElement("div");r.className="row";
+    const am=document.createElement("span");am.className="amt "+cls;am.textContent=fmt(h.tot)+" wL1";
+    const w=document.createElement("a");w.className="w mono";w.style.fontSize="12px";w.href="https://basescan.org/address/"+h.wallet;w.target="_blank";w.rel="noopener";w.textContent=h.wallet.slice(0,10)+"…"+h.wallet.slice(-6);
+    r.append(am,w);return r;};
+  const fillTop=(id,pillId,arr,cls,empty)=>{const el=$(id);el.innerHTML="";$(pillId).textContent=arr.length?"by wallet":"";
+    if(!arr.length){el.innerHTML='<div class="empty">'+empty+'</div>';return;}
+    arr.slice(0,15).forEach(h=>el.appendChild(walletRow(h,cls)));};
+  fillTop("bTopBuyList","bTopBuyPill",a.topBuyers,"b","No buys yet.");
+  fillTop("bTopSellList","bTopSellPill",a.topSellers,"s","No sells yet.");
+}
+async function loadBasePressure(){
+  try{
+    const res=await fetchBaseSwaps();
+    if(!res){ renderBasePressure(null); return; }
+    renderBasePressure(analyzeBaseSwaps(res.logs), res.latest, res.start);
+  }catch(e){ renderBasePressure(null); }
+}
 // renderiza un panel de bridge de Base (out o in)
 function renderBaseBridge(list,listId,pillId,emptyMsg,dir){
   const el=$(listId);if(!el)return;el.innerHTML="";
@@ -1440,6 +1574,7 @@ async function run(){
     fetchHolders().then(renderHolders);
     fetchGenHolders().then(renderGenHolders);
     fetchBaseHolders().then(renderBaseHolders);
+    loadBasePressure();
     let calData=null;
     if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
     // signals panel: cargar histórico del overhang y pintar los factores
