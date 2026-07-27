@@ -345,7 +345,13 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
     </div>
   </div>
 
-  <div class="metrics" data-tabs="summary pressure">
+  <div class="metrics" data-tabs="summary">
+    <div class="mcard"><div class="ml">Cross-venue spread</div><div class="mv" id="ov_spread">—</div><div class="ms" id="ov_spread_sub">Osmosis vs Base · arbitrage gap</div></div>
+    <div class="mcard"><div class="ml">Sellable supply overhang</div><div class="mv" id="ov_overhang">—</div><div class="ms" id="ov_overhang_sub">off-chain float that could sell</div></div>
+    <div class="mcard"><div class="ml">Imminent unlock ≤7d</div><div class="mv" id="ov_unlock">—</div><div class="ms" id="ov_unlock_sub">staked L1 unlocking soon</div></div>
+  </div>
+
+  <div class="metrics" data-tabs="pressure">
     <div class="mcard"><div class="ml">Sell / Buy ratio</div><div class="mv" id="m_ratio">—</div><div class="ms" id="m_uniq">—</div></div>
     <div class="mcard"><div class="ml">Top wallet concentration</div><div class="mv" id="m_conc">—</div><div class="ms">of all L1 sold</div></div>
     <div class="mcard"><div class="ml">Price spread · slippage</div><div class="mv" id="m_price">—</div><div class="ms" id="m_spread">—</div></div>
@@ -353,14 +359,14 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
 
   <div class="signals" data-tabs="summary">
     <div class="sigcol">
-      <div class="sightitle">🔴 Sell risk <span class="sigsub">supply that can hit the market</span></div>
+      <div class="sightitle">🔴 Sell risk <span class="sigsub">supply that could hit the market</span></div>
       <div id="sigSell"></div>
     </div>
     <div class="sigcol">
-      <div class="sightitle">🟢 Buy potential <span class="sigsub">demand proxies · supply pulling back</span></div>
+      <div class="sightitle">🟢 Buy potential <span class="sigsub">demand · supply pulling back</span></div>
       <div id="sigBuy"></div>
     </div>
-    <div class="signote">Each factor is a raw signal, not advice. Colors reflect the data shown next to them — you read the mix and decide. Sell-side factors are more reliable than buy-side (selling leaves an on-chain trail; buying doesn't). Not financial advice.</div>
+    <div class="signote">Cross-venue signals combining Osmosis and Base. Each factor is a raw read, not advice — colors reflect the data next to them; you weigh the mix. Sell-side factors are more reliable than buy-side (selling leaves an on-chain trail; buying is harder to confirm). Not financial advice.</div>
   </div>
 
   <div class="overhang" id="overhangPanel" data-tabs="overhang">
@@ -892,46 +898,78 @@ function renderSignals(a,ibc,ibcIn,cal){
   const sell=$("sigSell"), buy=$("sigBuy");
   if(!sell||!buy) return;
   sell.innerHTML="";buy.innerHTML="";
-  const net=a?a.net:0;                                  // >0 venta, <0 compra (net=totV-totC)
+  // net AGREGADO (Osmosis + Base), no solo Osmosis
+  const oNet=OSMO_NET?OSMO_NET.net:(a?a.net:0);
+  const bNet=BASE_NET?BASE_NET.net:0;
+  const aggNet=oNet+bNet;                              // >0 venta, <0 compra
   const ibcOut=(ibc||[]).reduce((s,t)=>s+(t.amount||0),0);
   const ibcInSum=(ibcIn||[]).reduce((s,t)=>s+(t.amount||0),0);
+  const u7=unstakeWithin7d(cal);
 
   // ---------- SELL RISK ----------
-  // 1) Unstaking ≤7d
-  const u7=unstakeWithin7d(cal);
-  if(u7===null) sell.append(sigRow("n","Unstaking ≤7d","no staking data","Connect a GenesisL1 RPC to read the unbonding schedule."));
+  // 1) Imminent unlock ≤7d
+  if(u7===null) sell.append(sigRow("n","Imminent unlock ≤7d","no staking data","Connect a GenesisL1 RPC to read the unbonding schedule."));
   else{ const d=u7>=cfg.sigUnstakeRed?"r":(u7>=cfg.sigUnstakeAmber?"a":"g");
-    sell.append(sigRow(d,"Unstaking ≤7d",fmt(u7)+" L1 unlocking",
-      d==="r"?"Large supply unlocking soon — can sell within days.":d==="a"?"Moderate supply unlocking soon.":"Little unlocking soon — low near-term supply."));}
-  // 2) IBC out
+    sell.append(sigRow(d,"Imminent unlock ≤7d",fmt(u7)+" L1 unlocking",
+      d==="r"?"Large staked supply unlocks within days — could sell on either venue.":d==="a"?"Moderate supply unlocking soon.":"Little unlocking soon — low near-term supply."));}
+  // 2) Net selling pressure (aggregate, both venues)
+  { const d=aggNet>cfg.sigNetNeutral?"r":(aggNet>0?"a":"g");
+    sell.append(sigRow(d,"Net selling (all venues)",
+      aggNet>0?fmt(aggNet)+" L1 net sold":"not selling on net",
+      aggNet>cfg.sigNetNeutral?"The market as a whole is net selling right now.":aggNet>0?"Slight net selling across venues.":"No net selling across venues."));}
+  // 3) Supply moving toward markets (IBC out + Base bridge out proxy)
   { const d=ibcOut>=cfg.sigIbcOutRed?"r":(ibcOut>=cfg.sigIbcOutAmber?"a":"g");
-    sell.append(sigRow(d,"IBC out → Osmosis",fmt(ibcOut)+" L1 this window",
-      d==="r"?"Lots of L1 moving to where it's sold — early sell signal.":d==="a"?"Some L1 heading to Osmosis.":"Little L1 leaving for Osmosis."));}
-  // 3) Net pressure (selling side)
-  { const sellingHard=net>cfg.sigNetNeutral, neutral=Math.abs(net)<=cfg.sigNetNeutral;
-    const d=sellingHard?"r":(neutral?"g":"g");
-    sell.append(sigRow(sellingHard?"r":(net>0?"a":"g"),"Net pressure (window)",
-      (net>0?fmt(net)+" L1 net sold":net<0?fmt(-net)+" L1 net bought":"balanced"),
-      net>cfg.sigNetNeutral?"Active net selling right now.":net>0?"Slight net selling.":"Not selling on net."));}
+    sell.append(sigRow(d,"Supply → markets",fmt(ibcOut)+" L1 to Osmosis",
+      d==="r"?"Significant L1 moving to a trading venue — pre-sell positioning.":d==="a"?"Some L1 heading to market.":"Little L1 leaving for markets."));}
 
   // ---------- BUY POTENTIAL ----------
-  // 1) Overhang trend (histórico)
+  // 1) Net buying pressure (aggregate)
+  { const d=aggNet<-cfg.sigNetNeutral?"g":(aggNet<0?"a":"n");
+    buy.append(sigRow(d,"Net buying (all venues)",
+      aggNet<0?fmt(-aggNet)+" L1 net bought":"no net buying",
+      aggNet<-cfg.sigNetNeutral?"The market as a whole is net buying right now.":aggNet<0?"Slight net buying across venues.":"No net buying across venues."));}
+  // 2) Overhang trend (draining = bullish for float)
   if(OH_HIST&&OH_HIST.length>=2){
     const last=OH_HIST[OH_HIST.length-1].osmo_overhang, prev=OH_HIST[OH_HIST.length-2].osmo_overhang;
     const delta=last-prev; const d=delta<0?"g":(delta>0?"r":"a");
-    buy.append(sigRow(d,"Overhang trend (Osmosis)",(delta>0?"+":"")+fmt(delta)+" L1 vs prev day",
-      delta<0?"Latent supply draining from Osmosis — bullish for float.":delta>0?"Latent supply building up on Osmosis.":"Overhang flat."));
-  } else buy.append(sigRow("n","Overhang trend (Osmosis)",OH_HIST?"need 2+ days of history":"no history yet","Builds daily from the snapshot; trend shows once there are 2+ days."));
-  // 2) IBC in vs out
+    buy.append(sigRow(d,"Overhang trend",(delta>0?"+":"")+fmt(delta)+" L1 vs prev day",
+      delta<0?"Latent supply draining — float tightening.":delta>0?"Latent supply building up.":"Overhang flat."));
+  } else buy.append(sigRow("n","Overhang trend",OH_HIST?"need 2+ days":"no history yet","Builds daily from the snapshot; shows once there are 2+ days."));
+  // 3) Supply returning (IBC in vs out)
   { const diff=ibcInSum-ibcOut; const d=diff>0?"g":(diff===0?"a":"r");
-    buy.append(sigRow(d,"IBC in vs out",fmt(ibcInSum)+" in / "+fmt(ibcOut)+" out",
+    buy.append(sigRow(d,"Supply returning",fmt(ibcInSum)+" in / "+fmt(ibcOut)+" out",
       diff>0?"More L1 returning to Genesis than leaving — supply pulling back.":diff<0?"More L1 leaving than returning.":"In/out balanced."));}
-  // 3) Net pressure (buying side)
-  { const buyingHard=net<-cfg.sigNetNeutral;
-    buy.append(sigRow(buyingHard?"g":(net<0?"a":"n"),"Net pressure (window)",
-      (net<0?fmt(-net)+" L1 net bought":net>0?fmt(net)+" L1 net sold":"balanced"),
-      buyingHard?"Active net buying right now.":net<0?"Slight net buying.":"No net buying in window."));}
 }
+// métricas cross-venue del Overview (spread, overhang total, unlock inminente)
+function renderOverviewMetrics(cal){
+  if(!$("ov_spread")) return;
+  // 1) spread cross-venue
+  if(L1_USD&&L1_BASE_USD){
+    const spread=(L1_BASE_USD-L1_USD)/L1_USD*100;
+    const abs=Math.abs(spread);
+    $("ov_spread").textContent=(spread>=0?"+":"")+spread.toFixed(1)+"%";
+    $("ov_spread").style.color=abs>=5?"var(--warn)":"var(--ink)";
+    $("ov_spread_sub").textContent="OSMO $"+priceFmt(L1_USD).slice(1)+" · BASE $"+priceFmt(L1_BASE_USD).slice(1)+(abs>=3?" · arb window":"");
+  }
+  // 2) overhang total vendible: Osmosis latent + Base wallets + unlock ≤7d
+  const osmoOh=OVERHANG_L1||0;
+  const baseWallets=(BASE_HOLDERS&&BASE_HOLDERS.total_in_wallets)||0;
+  const u7=unstakeWithin7d(cal)||0;
+  const totalSellable=osmoOh+baseWallets+u7;
+  if(totalSellable>0){
+    $("ov_overhang").textContent="~"+fmt(totalSellable)+" L1";
+    $("ov_overhang").style.color=L1_USD&&totalSellable*L1_USD>500000?"var(--warn)":"var(--ink)";
+    $("ov_overhang_sub").innerHTML="Osmosis <b>"+fmt(osmoOh)+"</b> · Base <b>"+fmt(baseWallets)+"</b> · unlocking <b>"+fmt(u7)+"</b>";
+  }
+  // 3) unlock inminente ≤7d
+  if(u7>0){
+    $("ov_unlock").textContent=fmt(u7)+" L1";
+    $("ov_unlock").style.color=u7>=cfg.sigUnstakeRed?"var(--warn)":"var(--ink)";
+    const jailed=cal?cal.filter(e=>e.jailed).reduce((s,e)=>{const t=new Date(e.completion_time).getTime();return (t>=Date.now()&&t<=Date.now()+7*864e5)?s+e.balance:s;},0):0;
+    $("ov_unlock_sub").textContent=jailed>0?fmt(jailed)+" from jailed validators":"across all validators";
+  } else { $("ov_unlock").textContent="—"; $("ov_unlock_sub").textContent="nothing unlocking soon"; }
+}
+
 
 function render(a,ibc,ibcIn,depth,curH,lastH,gl1ok){
   const win=Number(cfg.blocks)>0?(fmt(Number(cfg.blocks))+" blk"):(cfg.hours+"h");$("winLabel").textContent=win;$("thLabel").textContent=fmt(cfg.threshold);
@@ -1355,6 +1393,11 @@ function renderTotals(staked,genLiq,osmo,base){
 // ---- Base (Uniswap v3) readers ----
 // --- Net pressure agregado (Osmosis + Base) para el Overview ---
 let OSMO_NET=null, BASE_NET=null;  // {sold,bought,net,count}
+let LAST_CAL=null, LAST_A=null, LAST_IBC=null, LAST_IBCIN=null;  // para re-render cross-venue
+function refreshCrossVenue(){
+  if($("sigSell")&&LAST_A) renderSignals(LAST_A,LAST_IBC,LAST_IBCIN,LAST_CAL);
+  if($("ov_spread")) renderOverviewMetrics(LAST_CAL);
+}
 function renderAggregate(){
   if(!$("aggNetNum")) return;
   const o=OSMO_NET, b=BASE_NET;
@@ -1379,6 +1422,7 @@ function renderAggregate(){
   const on=o?(o.net>0?"+"+fmt(o.net)+" sell":o.net<0?fmt(o.net)+" buy":"flat"):"n/a";
   const bn=b?(b.net>0?"+"+fmt(b.net)+" sell":b.net<0?fmt(b.net)+" buy":"flat"):"n/a";
   $("aggBreakdown").innerHTML="Osmosis <b>"+on+"</b> · Base <b>"+bn+"</b>";
+  refreshCrossVenue();
 }
 // --- Base market summary (DexScreener, datos de mercado en vivo) ---
 async function fetchDexScreener(){
@@ -1751,7 +1795,9 @@ async function run(){
     if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
     // signals panel: cargar histórico del overhang y pintar los factores
     if(OH_HIST===null){ OH_HIST=await fetchOverhangHistory(); }
+    LAST_CAL=calData; LAST_A=a; LAST_IBC=ibc; LAST_IBCIN=ibcIn;
     renderSignals(a,ibc,ibcIn,calData);
+    renderOverviewMetrics(calData);
     // Overview: totales multi-cadena (staked + líquido Genesis + Osmosis + Base)
     (async()=>{
       try{
