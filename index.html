@@ -11,16 +11,26 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
+  --display:'Inter','IBM Plex Sans',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;
   --bg:#ffffff;--bg2:#f6f8fb;--panel:#ffffff;--panel2:#f4f7fb;
   --line:#e3e8f0;--line2:#cfd7e4;
   --ink:#0d1526;--muted:#5a6883;--faint:#8a97ac;
   --teal:#0b8a7a;--teal-dim:#d3f0eb;
   --sell:#d93a5c;--sell-dim:#fbe0e6;--buy:#129d6a;--buy-dim:#d6f2e5;
   --warn:#c98a1a;--warn-dim:#fbf0d6;--node:#3567e0;--amber:#d98a1a;
-  --display:'Inter','IBM Plex Sans',system-ui,sans-serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,monospace;
+  --bggrad1:#f0f5fb;--bggrad2:#f4f7fb;--scrim:rgba(20,28,45,.35);
+}
+[data-theme="dark"]{
+  --bg:#070b16;--bg2:#0b1120;--panel:#101829;--panel2:#131d31;
+  --line:#1e2942;--line2:#2a3a5c;
+  --ink:#e8edf9;--muted:#8492ad;--faint:#5a6884;
+  --teal:#2dd4bf;--teal-dim:#15564f;
+  --sell:#ff5c7a;--sell-dim:#3a1622;--buy:#3ecf8e;--buy-dim:#0f3527;
+  --warn:#ffc24b;--warn-dim:#3a2e10;--node:#5b8cff;--amber:#f5a623;
+  --bggrad1:#0e1830;--bggrad2:#0c1426;--scrim:rgba(3,6,14,.6);
 }
 *{box-sizing:border-box}html,body{margin:0}
-body{background:radial-gradient(1100px 500px at 85% -10%,#f0f5fb 0,transparent 60%),radial-gradient(800px 400px at 0% 0%,#f4f7fb 0,transparent 55%),var(--bg);
+body{background:radial-gradient(1100px 500px at 85% -10%,var(--bggrad1) 0,transparent 60%),radial-gradient(800px 400px at 0% 0%,var(--bggrad2) 0,transparent 55%),var(--bg);
   color:var(--ink);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
 .wrap{max-width:1600px;margin:0 auto;padding:22px 32px 60px}
 a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}
@@ -203,7 +213,7 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 @keyframes rot{to{transform:rotate(360deg)}}
 footer{margin-top:28px;padding-bottom:8px;text-align:center;color:var(--muted);font-size:11.5px;line-height:1.7}.hexmini{color:var(--teal)}footer b{color:var(--ink);font-weight:600}
 
-.scrim{position:fixed;inset:0;background:rgba(3,6,14,.6);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.2s;z-index:40}
+.scrim{position:fixed;inset:0;background:var(--scrim);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.2s;z-index:40}
 .scrim.open{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,93vw);background:var(--bg2);border-left:1px solid var(--line2);transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:50;padding:22px;overflow:auto}
 .drawer.open{transform:none}
@@ -247,6 +257,7 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
     <button class="iconbtn live" id="liveBtn" data-on="0"><span class="dot"></span>Live</button>
     <button class="iconbtn" id="refreshBtn">↻</button>
     <button class="iconbtn" id="infoBtn" title="What is this? Explains each box">ⓘ</button>
+    <button class="iconbtn" id="themeBtn" title="Toggle light/dark theme">☾</button>
     <button class="iconbtn" id="settingsBtn">⚙</button>
   </header>
 
@@ -1821,6 +1832,28 @@ async function run(){
 function openDrawer(){$("cfgOsmoRpc").value=cfg.osmoRpc;$("cfgGl1Rpc").value=cfg.gl1Rpc;$("cfgOsmoLcd").value=cfg.osmoLcd;$("cfgPools").value=cfg.pools;$("cfgThreshold").value=cfg.threshold;$("cfgIbcThreshold").value=cfg.ibcThreshold;$("cfgGl1Lcd").value=cfg.gl1Lcd;$("cfgHoldersUrl").value=cfg.holdersUrl;$("cfgGenSnapshotUrl").value=cfg.genSnapshotUrl;$("cfgHours").value=cfg.hours;$("cfgBlocks").value=cfg.blocks||"";$("cfgWatch").value=cfg.watch;$("cfgLabels").value=cfg.labels;$("autoCount").textContent=Object.keys(auto).length;$("scrim").classList.add("open");$("drawer").classList.add("open");}
 function closeDrawer(){$("scrim").classList.remove("open");$("drawer").classList.remove("open");}
 $("settingsBtn").onclick=openDrawer;$("closeBtn").onclick=closeDrawer;$("scrim").onclick=()=>{closeDrawer();closeInfo();};
+// --- Theme toggle (light/dark) ---
+function applyTheme(t){
+  if(t==="dark") document.documentElement.setAttribute("data-theme","dark");
+  else document.documentElement.removeAttribute("data-theme");
+  const btn=$("themeBtn"); if(btn) btn.textContent=(t==="dark")?"☀":"☾";
+  // ajustar el tema del embed de DexScreener para que combine
+  const ifr=$("dexChart");
+  if(ifr){ const dt=(t==="dark")?"dark":"light";
+    ifr.src=ifr.src.replace(/chartTheme=(dark|light)/,"chartTheme="+dt).replace(/([&?]theme=)(dark|light)/,"$1"+dt); }
+}
+function initTheme(){
+  let t="light";
+  try{ t=localStorage.getItem("gl1flow-theme")||"light"; }catch{}
+  applyTheme(t);
+}
+$("themeBtn").onclick=()=>{
+  const cur=document.documentElement.getAttribute("data-theme")==="dark"?"dark":"light";
+  const next=cur==="dark"?"light":"dark";
+  applyTheme(next);
+  try{ localStorage.setItem("gl1flow-theme",next); }catch{}
+};
+initTheme();
 function openInfo(){$("scrim").classList.add("open");$("infoDrawer").classList.add("open");}
 function closeInfo(){$("scrim").classList.remove("open");$("infoDrawer").classList.remove("open");}
 $("infoBtn").onclick=openInfo;$("infoClose").onclick=closeInfo;
