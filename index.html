@@ -73,6 +73,14 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
 .mcard{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
 .chartbox{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:11px}
+.marketsum{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-bottom:11px}
+.msrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}
+.mscell{display:flex;flex-direction:column;gap:2px}
+.mscell .msl{font-family:var(--mono);font-size:10px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em}
+.mscell .msv{font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink)}
+.mscell .msv.up{color:var(--buy)}.mscell .msv.down{color:var(--sell)}
+.msnote{font-size:11px;color:var(--faint);margin-top:10px}
+.msnote a{color:var(--teal);text-decoration:none}.msnote a:hover{text-decoration:underline}
 .charthead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
 .charttitle{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);display:flex;gap:8px;align-items:baseline}
 .chartsvg{width:100%;height:auto;display:block}
@@ -269,6 +277,11 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
       <span id="routingMeta" hidden><b id="routingN">0</b> multi-hop routes (both legs counted)</span>
     </div>
   </section>
+
+  <div class="marketsum" data-tabs="basepressure" id="baseMarketSum">
+    <div class="msrow" id="baseMarketRow"><div class="empty">Loading Base market summary…</div></div>
+    <div class="msnote">Live market data from DexScreener · <a id="baseDexLink" href="https://dexscreener.com/base/0xde9ba4084bf0733a9d69e42e71e5fd140179df71" target="_blank" rel="noopener">view on DexScreener ↗</a></div>
+  </div>
 
   <section class="hero" data-tabs="basepressure">
     <div class="eyebrow">🔵 Base net pressure · last <span id="bWinLabel">—</span></div>
@@ -1319,6 +1332,36 @@ function renderTotals(staked,genLiq,osmo,base){
   setCard("tot_base",base,"tot_base_usd","bridged via Hyperlane");
 }
 // ---- Base (Uniswap v3) readers ----
+// --- Base market summary (DexScreener, datos de mercado en vivo) ---
+async function fetchDexScreener(){
+  try{
+    const r=await fetch("https://api.dexscreener.com/latest/dex/pairs/base/"+cfg.basePool,{headers:{accept:"application/json"}});
+    if(!r.ok) return null;
+    const j=await r.json();
+    return (j.pairs&&j.pairs[0])||j.pair||null;
+  }catch{ return null; }
+}
+function renderBaseMarketSummary(p){
+  const row=$("baseMarketRow");if(!row)return;
+  if(!p){ row.innerHTML='<div class="empty">Market summary unavailable (DexScreener).</div>'; return; }
+  const cell=(label,val,cls)=>'<div class="mscell"><div class="msl">'+label+'</div><div class="msv'+(cls?" "+cls:"")+'">'+val+'</div></div>';
+  const price=Number(p.priceUsd||0);
+  const ch24=p.priceChange&&p.priceChange.h24!=null?p.priceChange.h24:null;
+  const ch6=p.priceChange&&p.priceChange.h6!=null?p.priceChange.h6:null;
+  const vol24=p.volume&&p.volume.h24!=null?p.volume.h24:null;
+  const liq=p.liquidity&&p.liquidity.usd!=null?p.liquidity.usd:null;
+  const b24=p.txns&&p.txns.h24?p.txns.h24.buys:0, s24=p.txns&&p.txns.h24?p.txns.h24.sells:0;
+  const pct=(v)=>(v>=0?"+":"")+v.toFixed(1)+"%";
+  row.innerHTML=
+    cell("Price","$"+price.toFixed(4))+
+    (ch24!=null?cell("24h change",pct(ch24),ch24>=0?"up":"down"):"")+
+    (ch6!=null?cell("6h change",pct(ch6),ch6>=0?"up":"down"):"")+
+    (vol24!=null?cell("Volume 24h","$"+fmt(vol24)):"")+
+    (liq!=null?cell("Liquidity","$"+fmt(liq)):"")+
+    (p.marketCap!=null?cell("Market cap","$"+fmt(p.marketCap)):"")+
+    cell("Txns 24h",'<span style="color:var(--buy)">'+b24+'</span> / <span style="color:var(--sell)">'+s24+'</span>');
+}
+async function loadBaseMarketSummary(){ renderBaseMarketSummary(await fetchDexScreener()); }
 // --- Gráfica de líneas SVG (sin librerías) ---
 function svgLineChart(points, opts){
   // points: [{x:label, y:number}]; opts: {w,h,fmt,ymin,ymax}
@@ -1650,6 +1693,7 @@ async function run(){
     fetchGenHolders().then(renderGenHolders);
     fetchBaseHolders().then(renderBaseHolders);
     fetchBaseHistory().then(renderBasePriceChart);
+    loadBaseMarketSummary();
     loadBasePressure();
     let calData=null;
     if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
