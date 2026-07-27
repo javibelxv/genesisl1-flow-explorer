@@ -272,7 +272,19 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
     <button class="tabbtn" data-tab="diag">Diagnostics</button>
   </div>
 
-  <section class="hero" data-tabs="summary pressure">
+  <section class="hero" data-tabs="summary">
+    <div class="eyebrow">Net pressure · all venues · last <span id="aggWinLabel">—</span></div>
+    <div class="netrow"><div class="netnum flat" id="aggNetNum">—</div><div class="nettag flat" id="aggNetTag">awaiting data</div></div>
+    <div class="beam"><div class="s" id="aggBeamS" style="width:0"></div><div class="b" id="aggBeamB" style="width:0"></div></div>
+    <div class="beamlabels"><span class="sv">▼ <span id="aggSoldV">0</span> L1 sold</span><span class="bv"><span id="aggBoughtV">0</span> L1 bought ▲</span></div>
+    <div class="meta">
+      <span>Osmosis + Base combined</span>
+      <span><b id="aggSwapCount">0</b> swaps</span>
+      <span id="aggBreakdown"></span>
+    </div>
+  </section>
+
+  <section class="hero" data-tabs="pressure">
     <div class="eyebrow">Net pressure · last <span id="winLabel">—</span></div>
     <div class="netrow"><div class="netnum flat" id="netNum">—</div><div class="nettag flat" id="netTag">awaiting data</div></div>
     <div class="beam"><div class="s" id="beamS" style="width:0"></div><div class="b" id="beamB" style="width:0"></div></div>
@@ -1341,6 +1353,33 @@ function renderTotals(staked,genLiq,osmo,base){
   setCard("tot_base",base,"tot_base_usd","bridged via Hyperlane");
 }
 // ---- Base (Uniswap v3) readers ----
+// --- Net pressure agregado (Osmosis + Base) para el Overview ---
+let OSMO_NET=null, BASE_NET=null;  // {sold,bought,net,count}
+function renderAggregate(){
+  if(!$("aggNetNum")) return;
+  const o=OSMO_NET, b=BASE_NET;
+  // combinar lo que haya disponible (si uno falla, se muestra el otro)
+  const sold=(o?o.sold:0)+(b?b.sold:0);
+  const bought=(o?o.bought:0)+(b?b.bought:0);
+  const count=(o?o.count:0)+(b?b.count:0);
+  const net=sold-bought;  // >0 venta, <0 compra
+  const win=Number(cfg.blocks)>0?(fmt(Number(cfg.blocks))+" blk"):(cfg.hours+"h");
+  $("aggWinLabel").textContent=win;
+  $("aggSoldV").textContent=fmt(sold);$("aggBoughtV").textContent=fmt(bought);
+  $("aggSwapCount").textContent=count;
+  const tot=sold+bought;
+  $("aggBeamS").style.width=tot?(sold/tot*100)+"%":"0";
+  $("aggBeamB").style.width=tot?(bought/tot*100)+"%":"0";
+  const num=$("aggNetNum"),tag=$("aggNetTag");num.className="netnum";tag.className="nettag";
+  if(tot===0){num.textContent="—";num.classList.add("flat");tag.textContent="no flow";tag.classList.add("flat");}
+  else if(net>0){num.textContent="▼ "+fmt(net)+" L1";num.classList.add("sellc");tag.textContent="net selling pressure";tag.classList.add("sellc");}
+  else if(net<0){num.textContent="▲ "+fmt(-net)+" L1";num.classList.add("buyc");tag.textContent="net buying pressure";tag.classList.add("buyc");}
+  else{num.textContent="0 L1";num.classList.add("flat");tag.textContent="balanced";tag.classList.add("flat");}
+  // desglose por venue
+  const on=o?(o.net>0?"+"+fmt(o.net)+" sell":o.net<0?fmt(o.net)+" buy":"flat"):"n/a";
+  const bn=b?(b.net>0?"+"+fmt(b.net)+" sell":b.net<0?fmt(b.net)+" buy":"flat"):"n/a";
+  $("aggBreakdown").innerHTML="Osmosis <b>"+on+"</b> · Base <b>"+bn+"</b>";
+}
 // --- Base market summary (DexScreener, datos de mercado en vivo) ---
 async function fetchDexScreener(){
   try{
@@ -1533,7 +1572,10 @@ async function loadBasePressure(){
   try{
     const res=await fetchBaseSwaps();
     if(!res){ renderBasePressure(null); return; }
-    renderBasePressure(analyzeBaseSwaps(res.logs,res.ref), res.latest, res.start);
+    const ba=analyzeBaseSwaps(res.logs,res.ref);
+    renderBasePressure(ba, res.latest, res.start);
+    BASE_NET={sold:ba.soldWl1, bought:ba.boughtWl1, net:ba.net, count:ba.count};
+    renderAggregate();
   }catch(e){ renderBasePressure(null); }
 }
 // renderiza un panel de bridge de Base (out o in)
@@ -1693,6 +1735,8 @@ async function run(){
     // depth (best effort)
     let depth={};if(cfg.osmoLcd){depth=await fetchDepth(pools);}
     render(a,ibc,ibcIn,depth,oc.latest,lastH,gl1ok);
+    OSMO_NET={sold:a.totV, bought:a.totC, net:a.net, count:a.tracked||a.count||0};
+    renderAggregate();
     // overhang: total L1 en Osmosis - reservas en pools = en wallets (agregado, todas las wallets)
     let inPools=0;for(const id in depth) inPools+=depth[id].l1;
     let osmoTotal=null;
