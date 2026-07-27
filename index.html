@@ -84,6 +84,10 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .charthead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
 .charttitle{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);display:flex;gap:8px;align-items:baseline}
 .chartsvg{width:100%;height:auto;display:block}
+.chartlink{font-family:var(--mono);font-size:11px;color:var(--teal);text-decoration:none}.chartlink:hover{text-decoration:underline}
+.dexembed{position:relative;width:100%;padding-bottom:56%;min-height:420px;border-radius:10px;overflow:hidden}
+.dexembed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media(max-width:640px){.dexembed{padding-bottom:0;height:420px}}
 .chartsvg .axis{stroke:var(--line);stroke-width:1}
 .chartsvg .grid{stroke:var(--line);stroke-width:.5;opacity:.5}
 .chartsvg .pline{fill:none;stroke:var(--teal);stroke-width:2}
@@ -318,9 +322,12 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
 
   <div class="chartbox" data-tabs="summary">
     <div class="charthead">
-      <div class="charttitle">🔵 Base price history <span class="pill" id="chartPricePill">Uniswap v3 · daily close</span></div>
+      <div class="charttitle">🔵 Base price chart <span class="pill">wL1 / USDC · Uniswap v3</span></div>
+      <a class="chartlink" href="https://dexscreener.com/base/0xde9ba4084bf0733a9d69e42e71e5fd140179df71" target="_blank" rel="noopener">DexScreener ↗</a>
     </div>
-    <div id="basePriceChart"><div class="empty">Loading price history…</div></div>
+    <div class="dexembed">
+      <iframe id="dexChart" src="https://dexscreener.com/base/0xde9ba4084bf0733a9d69e42e71e5fd140179df71?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=1&chartType=usd&interval=60" title="wL1/USDC price chart" frameborder="0"></iframe>
+    </div>
   </div>
 
   <div class="metrics" data-tabs="summary pressure">
@@ -1692,7 +1699,6 @@ async function run(){
     fetchHolders().then(renderHolders);
     fetchGenHolders().then(renderGenHolders);
     fetchBaseHolders().then(renderBaseHolders);
-    fetchBaseHistory().then(renderBasePriceChart);
     loadBaseMarketSummary();
     loadBasePressure();
     let calData=null;
