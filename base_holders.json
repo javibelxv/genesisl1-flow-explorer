@@ -1,12 +1,12 @@
 {
-  "updated": "2026-07-26T21:58:14Z",
-  "block": 49156867,
+  "updated": "2026-07-27T03:31:24Z",
+  "block": 49166862,
   "total_supply": 2531843,
-  "pool_wl1": 1368892,
+  "pool_wl1": 1374475,
   "pool_addr": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
-  "holder_count": 110,
-  "total_in_wallets": 1064816,
-  "unlisted": 98135,
+  "holder_count": 107,
+  "total_in_wallets": 1059252,
+  "unlisted": 98116,
   "holders": [
     {
       "a": "0x8f9de4dc6e7bc76ec3db03c464152240fdfd2d86",
@@ -46,7 +46,7 @@
     },
     {
       "a": "0x62343beb052cd3b8d3d597d520a8b6a8b8a42305",
-      "v": 23396
+      "v": 26691
     },
     {
       "a": "0xd03da4452bf9478c67a54c56d46678d55a8d9483",
@@ -117,10 +117,6 @@
       "v": 6188
     },
     {
-      "a": "0x4f67f52147c6bc03563772fa3d7af3adffb92110",
-      "v": 5925
-    },
-    {
       "a": "0x7a69087a2f7afb0210110a504ed063c94543c95a",
       "v": 5171
     },
@@ -147,10 +143,6 @@
     {
       "a": "0xc05f82d73d03d532e1dacaaccedebf20dee79f98",
       "v": 3015
-    },
-    {
-      "a": "0xda25c84e0b86e0c18feca8101b50d8f04d088b6c",
-      "v": 2932
     },
     {
       "a": "0x93b22076738a60dd19bc9826043e35a4445f3741",
@@ -337,10 +329,6 @@
       "v": 1
     },
     {
-      "a": "0xe62636055afd19fde4bbfd2b251bc8b5cffc3166",
-      "v": 1
-    },
-    {
       "a": "0x6bc3d85078297fd437fc40fc029f5b6e09f1b091",
       "v": 1
     },
@@ -406,6 +394,18 @@
     },
     {
       "a": "0x4f6ca26bf01ef46eebb42c29d6c470f5434326a1",
+      "v": 0
+    },
+    {
+      "a": "0x9a972d8c3a8dd27e5811cbcb75ebdac924fb53a1",
+      "v": 0
+    },
+    {
+      "a": "0xf00052e3c8579601a58e10dfb7d67d1bce6a3223",
+      "v": 0
+    },
+    {
+      "a": "0xbc34ebd8db018b0253c1e7754f19aa79d15f7873",
       "v": 0
     }
   ]

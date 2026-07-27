@@ -1,17 +1,17 @@
 {
-  "updated": "2026-07-26T20:09:53Z",
-  "total_liquid": 9796082.669061089,
-  "wallets": 621896,
-  "active_liquid": 4446322.999172158,
-  "active_wallets": 577,
-  "dormant_liquid": 5349759.669888931,
+  "updated": "2026-07-27T03:31:05Z",
+  "total_liquid": 9797083.33859692,
+  "wallets": 621897,
+  "active_liquid": 4447506.736764252,
+  "active_wallets": 578,
+  "dormant_liquid": 5349576.601832667,
   "dormant_wallets": 621319,
   "concentration": {
-    "top1": 3.924772921555491,
-    "top3": 7.973923516715398,
-    "top5": 10.883119917855382,
-    "top10": 16.28262844561248,
-    "top20": 23.952346466060234
+    "top1": 3.9243720470745953,
+    "top3": 7.973109063875869,
+    "top5": 10.882008321048433,
+    "top10": 16.280965345515682,
+    "top20": 23.949899984531818
   },
   "holders": [
     {
@@ -823,17 +823,17 @@
       "emptied": 17150,
       "increased": 49439,
       "intact_l1": 3776487.0,
-      "active_l1": 1002154.14,
+      "active_l1": 1003152.86,
       "intact_pct": 80.6
     },
     "evmos": {
       "total": 213907,
-      "intact": 201565,
-      "moved": 8511,
+      "intact": 201547,
+      "moved": 8529,
       "emptied": 3741,
       "increased": 90,
-      "intact_l1": 1007825.0,
-      "active_l1": 171943.66,
+      "intact_l1": 1007735.0,
+      "active_l1": 171943.61,
       "intact_pct": 94.2
     }
   }
