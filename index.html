@@ -72,6 +72,17 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
 .mcard{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
+.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:11px}
+.charthead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.charttitle{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);display:flex;gap:8px;align-items:baseline}
+.chartsvg{width:100%;height:auto;display:block}
+.chartsvg .axis{stroke:var(--line);stroke-width:1}
+.chartsvg .grid{stroke:var(--line);stroke-width:.5;opacity:.5}
+.chartsvg .pline{fill:none;stroke:var(--teal);stroke-width:2}
+.chartsvg .parea{fill:var(--teal);opacity:.08}
+.chartsvg .dot{fill:var(--teal)}
+.chartsvg .lbl{fill:var(--faint);font-family:var(--mono);font-size:10px}
+.chartsvg .val{fill:var(--muted);font-family:var(--mono);font-size:10px}
 .mcard.click{cursor:pointer;transition:border-color .12s}.mcard.click:hover{border-color:var(--muted)}
 .modbreak{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:11px}
 .mbtitle{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
@@ -290,6 +301,13 @@ footer a{color:var(--teal-dim);text-decoration:none}footer a:hover{text-decorati
     <div class="mbtitle">Module &amp; pool accounts — full breakdown <span class="pill">every L1 accounted for</span></div>
     <div id="modBreakList"></div>
     <div class="mbnote">These are system module accounts and the community pool — L1 that exists on-chain but is not in circulating holder wallets. Each address is verifiable on the explorer. The community pool lives inside the distribution module, so it is not counted separately.</div>
+  </div>
+
+  <div class="chartbox" data-tabs="summary">
+    <div class="charthead">
+      <div class="charttitle">🔵 Base price history <span class="pill" id="chartPricePill">Uniswap v3 · daily close</span></div>
+    </div>
+    <div id="basePriceChart"><div class="empty">Loading price history…</div></div>
   </div>
 
   <div class="metrics" data-tabs="summary pressure">
@@ -1301,6 +1319,50 @@ function renderTotals(staked,genLiq,osmo,base){
   setCard("tot_base",base,"tot_base_usd","bridged via Hyperlane");
 }
 // ---- Base (Uniswap v3) readers ----
+// --- Gráfica de líneas SVG (sin librerías) ---
+function svgLineChart(points, opts){
+  // points: [{x:label, y:number}]; opts: {w,h,fmt,ymin,ymax}
+  opts=opts||{}; const W=opts.w||700, H=opts.h||220, pad={l:48,r:14,t:12,b:26};
+  if(!points||points.length===0) return '<div class="empty">No data yet.</div>';
+  const ys=points.map(p=>p.y);
+  let ymin=opts.ymin!=null?opts.ymin:Math.min(...ys), ymax=opts.ymax!=null?opts.ymax:Math.max(...ys);
+  if(ymin===ymax){ymin=ymin*0.95;ymax=ymax*1.05||1;}
+  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+  const xOf=(i)=>pad.l+(points.length<=1?iw/2:iw*i/(points.length-1));
+  const yOf=(v)=>pad.t+ih-(v-ymin)/(ymax-ymin)*ih;
+  const fmtY=opts.fmt||(v=>v.toFixed(2));
+  let path="", area="";
+  points.forEach((p,i)=>{const x=xOf(i),y=yOf(p.y);path+=(i?"L":"M")+x+" "+y+" ";});
+  area="M"+xOf(0)+" "+yOf(points[0].y)+" ";
+  points.forEach((p,i)=>{area+="L"+xOf(i)+" "+yOf(p.y)+" ";});
+  area+="L"+xOf(points.length-1)+" "+(pad.t+ih)+" L"+xOf(0)+" "+(pad.t+ih)+" Z";
+  // líneas de referencia (3 niveles y)
+  let grid="",ylbl="";
+  for(let k=0;k<=3;k++){const v=ymin+(ymax-ymin)*k/3;const y=yOf(v);
+    grid+='<line class="grid" x1="'+pad.l+'" y1="'+y+'" x2="'+(W-pad.r)+'" y2="'+y+'"/>';
+    ylbl+='<text class="val" x="'+(pad.l-6)+'" y="'+(y+3)+'" text-anchor="end">'+fmtY(v)+'</text>';}
+  // etiquetas x (primera, media, última)
+  let xlbl="";const idxs=points.length<=3?points.map((_,i)=>i):[0,Math.floor(points.length/2),points.length-1];
+  idxs.forEach(i=>{xlbl+='<text class="lbl" x="'+xOf(i)+'" y="'+(H-8)+'" text-anchor="middle">'+points[i].x+'</text>';});
+  let dots="";points.forEach((p,i)=>{dots+='<circle class="dot" cx="'+xOf(i)+'" cy="'+yOf(p.y)+'" r="2.5"><title>'+p.x+": "+fmtY(p.y)+'</title></circle>';});
+  return '<svg class="chartsvg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+
+    grid+ylbl+'<path class="parea" d="'+area+'"/><path class="pline" d="'+path+'"/>'+dots+xlbl+'</svg>';
+}
+let BASE_HISTORY=null;
+async function fetchBaseHistory(){
+  try{
+    const url=cfg.genSnapshotUrl.replace("genesis_holders.json","base_history.json");
+    const r=await fetch(url,{headers:{accept:"application/json"}});
+    if(!r.ok) return null;
+    return await r.json();
+  }catch{ return null; }
+}
+function renderBasePriceChart(hist){
+  const box=$("basePriceChart");if(!box)return;
+  if(!hist||!hist.days||!hist.days.length){ box.innerHTML='<div class="empty">No price history yet.</div>'; return; }
+  const pts=hist.days.map(d=>({x:d.date.slice(5), y:d.close}));  // MM-DD
+  box.innerHTML=svgLineChart(pts,{fmt:v=>"$"+v.toFixed(3)});
+}
 // --- Base Market Pressure: leer y analizar swaps de la pool Uniswap v3 ---
 const SWAP_TOPIC="0xc42079f94a6350d7e6235f29174924f928cc2ac818eb64fed8004e115fbcca67";
 function s256(hex){ let v=BigInt("0x"+hex); if(v>=(2n**255n)) v-=2n**256n; return v; }
@@ -1587,6 +1649,7 @@ async function run(){
     fetchHolders().then(renderHolders);
     fetchGenHolders().then(renderGenHolders);
     fetchBaseHolders().then(renderBaseHolders);
+    fetchBaseHistory().then(renderBasePriceChart);
     loadBasePressure();
     let calData=null;
     if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
