@@ -1309,6 +1309,12 @@ async function baseLatestBlock(){
     body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_blockNumber",params:[]})});
     const j=await r.json(); return j.result?parseInt(j.result,16):null; }catch{ return null; }
 }
+// hora del último bloque (para calcular timestamps: Base = 2s/bloque exacto)
+async function baseLatestBlockTime(){
+  try{ const r=await fetch(cfg.baseRpc,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_getBlockByNumber",params:["latest",false]})});
+    const j=await r.json(); return j.result?{n:parseInt(j.result.number,16),t:parseInt(j.result.timestamp,16)}:null; }catch{ return null; }
+}
 async function baseGetLogs(from,to){
   const r=await fetch(cfg.baseRpc,{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_getLogs",params:[{address:cfg.basePool,topics:[SWAP_TOPIC],
@@ -1317,8 +1323,9 @@ async function baseGetLogs(from,to){
 }
 // recoge swaps de Base en una ventana (por bloques o por horas). Base ~2s/bloque.
 async function fetchBaseSwaps(){
-  const latest=await baseLatestBlock();
-  if(!latest) return null;
+  const ref=await baseLatestBlockTime();
+  if(!ref) return null;
+  const latest=ref.n;
   const blkMode=Number(cfg.baseBlocks)>0;
   const span=blkMode?Math.min(200000,Number(cfg.baseBlocks)):Math.ceil(cfg.hours*3600/2); // 2s/bloque
   const start=Math.max(0,latest-span);
@@ -1327,11 +1334,12 @@ async function fetchBaseSwaps(){
     const hi=Math.min(lo+10000,latest);
     try{ const part=await baseGetLogs(lo,hi); for(const l of part) logs.push(l); }catch{}
   }
-  return {logs, latest, start};
+  return {logs, latest, start, ref};
 }
-function analyzeBaseSwaps(logs){
+function analyzeBaseSwaps(logs,ref){
   let boughtWl1=0, soldWl1=0, volWl1=0, volUsdc=0;
   const buys=[], sells=[], byBuyer={}, bySeller={};
+  const tsOf=(blk)=> ref ? (ref.t-(ref.n-blk)*2)*1000 : null;   // Base = 2s/bloque exacto
   for(const log of logs){
     const data=log.data.slice(2);
     const a0=s256(data.slice(0,64));      // USDC (6 dec, con signo)
@@ -1340,17 +1348,19 @@ function analyzeBaseSwaps(logs){
     const usdc=Number(a0<0n?-a0:a0)/1e6;
     const recip="0x"+log.topics[2].slice(-40);
     const hash=log.transactionHash;
+    const blk=parseInt(log.blockNumber,16);
+    const ts=tsOf(blk);
     const price=wl1>0?usdc/wl1:0;
     volWl1+=wl1; volUsdc+=usdc;
     if(a1<0n){ // wL1 sale de la pool = usuario COMPRA wL1
-      boughtWl1+=wl1; buys.push({wl1,usdc,price,wallet:recip,hash});
-      byBuyer[recip]=(byBuyer[recip]||0)+wl1;
+      boughtWl1+=wl1; buys.push({wl1,usdc,price,wallet:recip,hash,ts});
+      if(!byBuyer[recip]) byBuyer[recip]={tot:0,n:0}; byBuyer[recip].tot+=wl1; byBuyer[recip].n++;
     }else{ // wL1 entra a la pool = usuario VENDE wL1
-      soldWl1+=wl1; sells.push({wl1,usdc,price,wallet:recip,hash});
-      bySeller[recip]=(bySeller[recip]||0)+wl1;
+      soldWl1+=wl1; sells.push({wl1,usdc,price,wallet:recip,hash,ts});
+      if(!bySeller[recip]) bySeller[recip]={tot:0,n:0}; bySeller[recip].tot+=wl1; bySeller[recip].n++;
     }
   }
-  const toArr=(o)=>Object.entries(o).map(([w,t])=>({wallet:w,tot:t})).sort((a,b)=>b.tot-a.tot);
+  const toArr=(o)=>Object.entries(o).map(([w,d])=>({wallet:w,tot:d.tot,n:d.n})).sort((a,b)=>b.tot-a.tot);
   const net=soldWl1-boughtWl1; // >0 venta, <0 compra (mismo criterio que Osmosis)
   const avgPrice=volWl1>0?volUsdc/volWl1:0;
   return {boughtWl1,soldWl1,volWl1,volUsdc,net,avgPrice,
@@ -1381,21 +1391,24 @@ function renderBasePressure(data,latest,start){
   $("bUniq").textContent=a.topBuyers.length+" buyers · "+a.topSellers.length+" sellers";
   $("bAvgPrice").textContent=a.avgPrice>0?"$"+a.avgPrice.toFixed(4):"—";
   // listas de swaps
+  const tfmt=(ts)=> ts? new Date(ts).toLocaleString([],{month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}) : "";
   const swapRow=(s,cls)=>{const r=document.createElement("div");r.className="row";
     const am=document.createElement("span");am.className="amt "+cls;am.textContent=fmt(s.wl1)+" wL1";
     const ct=document.createElement("span");ct.className="ct";ct.textContent="$"+fmt(s.usdc)+" · $"+s.price.toFixed(4);
     const w=document.createElement("a");w.className="w mono";w.style.fontSize="12px";w.href="https://basescan.org/tx/"+s.hash;w.target="_blank";w.rel="noopener";w.textContent=s.wallet.slice(0,10)+"…";
-    r.append(am,ct,w);return r;};
+    const tm=document.createElement("span");tm.className="side";tm.textContent=tfmt(s.ts);
+    r.append(am,ct,w,tm);return r;};
   const fillSwaps=(id,arr,cls,empty)=>{const el=$(id);el.innerHTML="";
     if(!arr.length){el.innerHTML='<div class="empty">'+empty+'</div>';return;}
     arr.slice(0,20).forEach(s=>el.appendChild(swapRow(s,cls)));};
   fillSwaps("bBuyList",a.buys,"b","No buys in window.");
   fillSwaps("bSellList",a.sells,"s","No sells in window.");
-  // top wallets
+  // top wallets (con contador de swaps)
   const walletRow=(h,cls)=>{const r=document.createElement("div");r.className="row";
     const am=document.createElement("span");am.className="amt "+cls;am.textContent=fmt(h.tot)+" wL1";
     const w=document.createElement("a");w.className="w mono";w.style.fontSize="12px";w.href="https://basescan.org/address/"+h.wallet;w.target="_blank";w.rel="noopener";w.textContent=h.wallet.slice(0,10)+"…"+h.wallet.slice(-6);
-    r.append(am,w);return r;};
+    const sw=document.createElement("span");sw.className="side";sw.textContent=h.n+(h.n===1?" swap":" swaps");
+    r.append(am,w,sw);return r;};
   const fillTop=(id,pillId,arr,cls,empty)=>{const el=$(id);el.innerHTML="";$(pillId).textContent=arr.length?"by wallet":"";
     if(!arr.length){el.innerHTML='<div class="empty">'+empty+'</div>';return;}
     arr.slice(0,15).forEach(h=>el.appendChild(walletRow(h,cls)));};
@@ -1406,7 +1419,7 @@ async function loadBasePressure(){
   try{
     const res=await fetchBaseSwaps();
     if(!res){ renderBasePressure(null); return; }
-    renderBasePressure(analyzeBaseSwaps(res.logs), res.latest, res.start);
+    renderBasePressure(analyzeBaseSwaps(res.logs,res.ref), res.latest, res.start);
   }catch(e){ renderBasePressure(null); }
 }
 // renderiza un panel de bridge de Base (out o in)
