@@ -1,0 +1,246 @@
+{
+  "updated": "2026-07-29T20:11:44Z",
+  "since": "2026-05-01",
+  "days": [
+    {
+      "date": "2026-05-03",
+      "unlocked": 10010,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-05-04",
+      "unlocked": 66160,
+      "jailed": 66160,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-05-14",
+      "unlocked": 100000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-05-17",
+      "unlocked": 0,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-05-18",
+      "unlocked": 100,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-05-19",
+      "unlocked": 410000,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-05-20",
+      "unlocked": 378008,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-05-28",
+      "unlocked": 5000000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-05-29",
+      "unlocked": 2521599,
+      "jailed": 2521599,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-01",
+      "unlocked": 118,
+      "jailed": 118,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-02",
+      "unlocked": 51398,
+      "jailed": 49000,
+      "unbonds": 7
+    },
+    {
+      "date": "2026-06-05",
+      "unlocked": 20900,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-06",
+      "unlocked": 218080,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-09",
+      "unlocked": 100,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-10",
+      "unlocked": 998746,
+      "jailed": 0,
+      "unbonds": 3
+    },
+    {
+      "date": "2026-06-11",
+      "unlocked": 336,
+      "jailed": 286,
+      "unbonds": 9
+    },
+    {
+      "date": "2026-06-14",
+      "unlocked": 1500580,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-06-15",
+      "unlocked": 1000000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-16",
+      "unlocked": 250000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-17",
+      "unlocked": 50000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-19",
+      "unlocked": 1000000,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-06-25",
+      "unlocked": 36090,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-06-28",
+      "unlocked": 1980100,
+      "jailed": 0,
+      "unbonds": 3
+    },
+    {
+      "date": "2026-07-01",
+      "unlocked": 2429269,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-07-08",
+      "unlocked": 777313,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-07-14",
+      "unlocked": 53000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-07-15",
+      "unlocked": 2127100,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-07-17",
+      "unlocked": 2524421,
+      "jailed": 161,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-07-20",
+      "unlocked": 302531,
+      "jailed": 302531,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-07-22",
+      "unlocked": 292375,
+      "jailed": 292375,
+      "unbonds": 3
+    },
+    {
+      "date": "2026-07-24",
+      "unlocked": 5314910,
+      "jailed": 0,
+      "unbonds": 3
+    },
+    {
+      "date": "2026-07-27",
+      "unlocked": 500000,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-07-28",
+      "unlocked": 2001724,
+      "jailed": 1353274,
+      "unbonds": 17
+    },
+    {
+      "date": "2026-07-29",
+      "unlocked": 83360,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-07-30",
+      "unlocked": 1214011,
+      "jailed": 860110,
+      "unbonds": 6
+    },
+    {
+      "date": "2026-07-31",
+      "unlocked": 93931,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-08-01",
+      "unlocked": 6020,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-08-02",
+      "unlocked": 100000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-08-04",
+      "unlocked": 300000,
+      "jailed": 0,
+      "unbonds": 1
+    },
+    {
+      "date": "2026-08-05",
+      "unlocked": 10000,
+      "jailed": 0,
+      "unbonds": 1
+    }
+  ]
+}
