@@ -108,6 +108,9 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .chartsvg .dot{fill:var(--teal)}
 .chartsvg .lbl{fill:var(--faint);font-family:var(--mono);font-size:10px}
 .chartsvg .val{fill:var(--muted);font-family:var(--mono);font-size:10px}
+.chartsvg .barpast{fill:var(--node);opacity:.5}
+.chartsvg .barfut{fill:var(--warn)}
+.chartsvg .todayline{stroke:var(--ink);stroke-width:1;stroke-dasharray:3 3;opacity:.6}
 .mcard.click{cursor:pointer;transition:border-color .12s}.mcard.click:hover{border-color:var(--muted)}
 .modbreak{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;margin-top:11px}
 .mbtitle{font-family:var(--display);font-weight:700;font-size:13px;color:var(--ink);margin-bottom:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
@@ -360,6 +363,14 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
     <div class="mcard"><div class="ml">Cross-venue spread</div><div class="mv" id="ov_spread">—</div><div class="ms" id="ov_spread_sub">Osmosis vs Base · arbitrage gap</div></div>
     <div class="mcard"><div class="ml">Sellable supply overhang</div><div class="mv" id="ov_overhang">—</div><div class="ms" id="ov_overhang_sub">off-chain float that could sell</div></div>
     <div class="mcard"><div class="ml">Imminent unlock ≤7d</div><div class="mv" id="ov_unlock">—</div><div class="ms" id="ov_unlock_sub">staked L1 unlocking soon</div></div>
+  </div>
+
+  <div class="chartbox" data-tabs="summary">
+    <div class="charthead">
+      <div class="charttitle">Unstaking — unlocked & upcoming <span class="pill" id="unstakeChartPill"></span></div>
+    </div>
+    <div id="unstakeChart"><div class="empty">Loading unstaking history…</div></div>
+    <div class="mbnote" id="unstakeChartNote"></div>
   </div>
 
   <div class="metrics" data-tabs="pressure">
@@ -1495,6 +1506,55 @@ function svgLineChart(points, opts){
     grid+ylbl+'<path class="parea" d="'+area+'"/><path class="pline" d="'+path+'"/>'+dots+xlbl+'</svg>';
 }
 let BASE_HISTORY=null;
+// --- Unstaking history: barras diarias (pasado liberado + futuro programado) ---
+async function fetchUnstakingHistory(){
+  try{
+    const url=cfg.genSnapshotUrl.replace("genesis_holders.json","unstaking_history.json");
+    const r=await fetch(url,{headers:{accept:"application/json"}});
+    if(!r.ok) return null;
+    return await r.json();
+  }catch{ return null; }
+}
+function renderUnstakingChart(hist){
+  const box=$("unstakeChart");if(!box)return;
+  if(!hist||!hist.days||!hist.days.length){ box.innerHTML='<div class="empty">No unstaking history yet — the daily snapshot builds it.</div>'; return; }
+  const today=new Date().toISOString().slice(0,10);
+  // rango completo de días (desde since hasta el último desbloqueo futuro), rellenando ceros
+  const map={}; for(const d of hist.days) map[d.date]=d;
+  const first=hist.since||hist.days[0].date;
+  const last=hist.days[hist.days.length-1].date>today?hist.days[hist.days.length-1].date:today;
+  const days=[]; let cur=new Date(first+"T00:00:00Z");
+  const end=new Date(last+"T00:00:00Z");
+  while(cur<=end){ const k=cur.toISOString().slice(0,10); days.push({date:k, ...(map[k]||{unlocked:0,jailed:0,unbonds:0})}); cur.setUTCDate(cur.getUTCDate()+1); }
+  // dimensiones
+  const W=980,H=240,pad={l:56,r:14,t:14,b:30};
+  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+  const ymax=Math.max(...days.map(d=>d.unlocked),1);
+  const bw=Math.max(2,iw/days.length-1.5);
+  const xOf=(i)=>pad.l+iw*i/days.length;
+  const yOf=(v)=>pad.t+ih-(v/ymax)*ih;
+  let bars="",grid="",ylbl="",xlbl="",todayLine="";
+  for(let k=0;k<=3;k++){const v=ymax*k/3;const y=yOf(v);
+    grid+='<line class="grid" x1="'+pad.l+'" y1="'+y+'" x2="'+(W-pad.r)+'" y2="'+y+'"/>';
+    ylbl+='<text class="val" x="'+(pad.l-6)+'" y="'+(y+3)+'" text-anchor="end">'+fmt(v)+'</text>';}
+  let upcoming7=0;
+  const wk=new Date(Date.now()+7*864e5).toISOString().slice(0,10);
+  days.forEach((d,i)=>{
+    const fut=d.date>today, isToday=d.date===today;
+    if(d.date>today&&d.date<=wk) upcoming7+=d.unlocked;
+    if(isToday) todayLine='<line class="todayline" x1="'+(xOf(i)+bw/2)+'" y1="'+pad.t+'" x2="'+(xOf(i)+bw/2)+'" y2="'+(pad.t+ih)+'"/><text class="lbl" x="'+(xOf(i)+bw/2)+'" y="'+(pad.t-3)+'" text-anchor="middle">today</text>';
+    if(d.unlocked>0){
+      bars+='<rect class="'+(fut?"barfut":"barpast")+'" x="'+xOf(i)+'" y="'+yOf(d.unlocked)+'" width="'+bw+'" height="'+(pad.t+ih-yOf(d.unlocked))+'" rx="1"><title>'+d.date+": "+fmt(d.unlocked)+" L1 ("+d.unbonds+" unbonds)"+(d.jailed?" · "+fmt(d.jailed)+" from jailed":"")+'</title></rect>';
+    }
+  });
+  // etiquetas x: primera, cada ~1/4, hoy y última
+  const marks=[0,Math.floor(days.length*0.25),Math.floor(days.length*0.5),Math.floor(days.length*0.75),days.length-1];
+  for(const i of new Set(marks)) xlbl+='<text class="lbl" x="'+(xOf(i)+bw/2)+'" y="'+(H-8)+'" text-anchor="middle">'+days[i].date.slice(5)+'</text>';
+  box.innerHTML='<svg class="chartsvg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+grid+ylbl+bars+todayLine+xlbl+'</svg>';
+  $("unstakeChartPill").textContent=upcoming7>0?fmt(upcoming7)+" L1 unlocking in next 7d":"nothing scheduled ahead";
+  const upd=hist.updated?new Date(hist.updated).toISOString().slice(0,16).replace("T"," ")+" UTC":"";
+  $("unstakeChartNote").innerHTML='Reconstructed on-chain from every MsgUndelegate since '+(hist.since||"May 2026")+' — grouped by unlock date. <span style="color:var(--node)">Blue</span> = already unlocked · <span style="color:var(--warn)">amber</span> = scheduled ahead (sell-risk window). Auto-updates daily'+(upd?' · last '+upd:'')+'.';
+}
 async function fetchBaseHistory(){
   try{
     const url=cfg.genSnapshotUrl.replace("genesis_holders.json","base_history.json");
@@ -1800,6 +1860,7 @@ async function run(){
     fetchHolders().then(renderHolders);
     fetchGenHolders().then(renderGenHolders);
     fetchBaseHolders().then(renderBaseHolders);
+    fetchUnstakingHistory().then(renderUnstakingChart);
     loadBaseMarketSummary();
     loadBasePressure();
     let calData=null;
