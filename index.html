@@ -204,6 +204,27 @@ header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:22p
 .row .arrow{color:var(--faint)}
 .empty{color:var(--faint);font-size:13px;padding:13px 2px 15px}.empty b{color:var(--muted)}
 .collapsed{display:none}
+/* ---- Flows tab ---- */
+.ftwrap{overflow:auto;max-height:520px;border:1px solid var(--line);border-radius:10px;margin-top:4px}
+.ftable{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+.ftable th{position:sticky;top:0;z-index:1;background:var(--panel);color:var(--faint);font-weight:600;text-align:right;padding:8px 10px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;user-select:none}
+.ftable th:first-child,.ftable td:first-child{text-align:left}
+.ftable th.on{color:var(--teal)}
+.ftable td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;color:var(--muted);white-space:nowrap}
+.ftable tr:hover td{background:var(--card)}
+.ftable td.addr,.ftable td.addr a{color:var(--ink)}
+.tagchip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:10.5px;border:1px solid var(--line);color:var(--muted);background:var(--card);vertical-align:middle}
+.tagchip.t-staked{color:var(--buy);border-color:var(--buy)}
+.tagchip.t-osmosis{color:var(--sell);border-color:var(--sell)}
+.tagchip.t-liquid{color:var(--warn);border-color:var(--warn)}
+.tagchip.t-evm{color:var(--node);border-color:var(--node)}
+.fbars{display:flex;flex-direction:column;gap:7px;margin-top:8px}
+.fbar{display:flex;align-items:center;gap:10px;font-size:12px;font-family:var(--mono)}
+.fbar .fl{flex:0 0 150px;text-align:right;overflow:hidden;white-space:nowrap}
+.fbar .ft{flex:1;height:12px;background:var(--card);border-radius:6px;overflow:hidden}
+.fbar .ft i{display:block;height:100%;background:linear-gradient(90deg,var(--node),var(--teal))}
+.fbar .fv{flex:0 0 150px;color:var(--ink)}
+
 .depth{display:flex;flex-direction:column;gap:0}
 .dbar{height:6px;border-radius:4px;background:var(--panel2);overflow:hidden;margin-top:5px}
 .dbar i{display:block;height:100%;background:linear-gradient(90deg,var(--node),var(--teal))}
@@ -282,6 +303,7 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
     <button class="tabbtn" data-tab="overhang">L1 in Osmosis</button>
     <button class="tabbtn" data-tab="genesis">GenesisL1</button>
     <button class="tabbtn" data-tab="bridges">Bridges</button>
+    <button class="tabbtn" data-tab="flows">Flows</button>
     <button class="tabbtn" data-tab="baseholders">Base holders</button>
     <button class="tabbtn" data-tab="diag">Diagnostics</button>
   </div>
@@ -449,7 +471,62 @@ footer a{color:var(--teal);text-decoration:none}footer a:hover{text-decoration:u
     <div class="ohnote" id="genNote">Daily snapshot of unstaked L1 balances on GenesisL1 (≈622k holders, too many to enumerate live). System module accounts and the IBC escrow are excluded. Most small holders are structured airdrop allocations (11 L1 per ATOM staker, 5 per Evmos staker), mostly untouched; the real overhang is the few hundred active wallets shown. Table lists the largest above the threshold.</div>
   </div>
 
+  <!-- ================= FLOWS ================= -->
+  <div class="chartbox" data-tabs="flows">
+    <div class="charthead"><div class="charttitle">🧭 Unstaking flows — where unlocked L1 actually went <span class="pill">on-chain research</span></div></div>
+    <div class="mbnote">Full-history trace of every <b>MsgUndelegate</b> on genesis_29-2: each unstaker wallet is followed after its first unbond (re-delegations, IBC to Osmosis, wraps, transfers), recipient wallets are traced one hop further, and the Base side is reconstructed from wL1 transfers and Uniswap v3 pool events with router de-attribution. Everything shown is public on-chain state; outcome tags are heuristic reading aids, not judgements. Bridge &amp; market data refresh daily, wallet traces weekly.</div>
+  </div>
+
+  <div class="metrics" data-tabs="flows">
+    <div class="mcard"><div class="ml">Unbonded all-time</div><div class="mv" id="fk_unb">—</div><div class="ms" id="fk_unb_s">full history</div></div>
+    <div class="mcard"><div class="ml">Staked today (same wallets)</div><div class="mv" id="fk_stk">—</div><div class="ms">rotation, not exit</div></div>
+    <div class="mcard"><div class="ml">IBC → Osmosis (hist.)</div><div class="mv" id="fk_ibc">—</div><div class="ms">pre-bridge sell route</div></div>
+    <div class="mcard"><div class="ml">Bridged to Base (net)</div><div class="mv" id="fk_bridge">—</div><div class="ms" id="fk_bridge_s">via Hyperlane</div></div>
+    <div class="mcard"><div class="ml">Community-pool LP</div><div class="mv" id="fk_lp">—</div><div class="ms" id="fk_lp_s">in Uniswap v3 position</div></div>
+    <div class="mcard"><div class="ml">Base net flow since launch</div><div class="mv" id="fk_net">—</div><div class="ms" id="fk_net_s">buys − sells in pool</div></div>
+  </div>
+
+  <div class="chartbox" data-tabs="flows">
+    <div class="charthead"><div class="charttitle">Where it went — dominant outcome per wallet <span class="pill" id="fDestPill"></span></div></div>
+    <div class="fbars" id="fDestBars"><div class="empty">Loading unstaking_flows.json…</div></div>
+  </div>
+
+  <div class="chartbox" data-tabs="flows">
+    <div class="charthead"><div class="charttitle">🔵 Hyperlane bridge — daily flow <span class="pill" id="fBridgePill"></span></div></div>
+    <div id="fBridgeChart"><div class="empty">Loading base_bridge_flow.json…</div></div>
+    <div class="mbnote"><span style="color:var(--node)">Blue</span> = L1 → Base · <span style="color:var(--teal)">teal</span> = returning to GenesisL1. The 2M spike on 07-22 is the community-pool liquidity deployment.</div>
+  </div>
+
+  <div class="chartbox" data-tabs="flows">
+    <div class="charthead"><div class="charttitle">🔵 Base pool — daily sells vs buys <span class="pill" id="fMarketPill"></span></div></div>
+    <div id="fMarketChart"><div class="empty">Loading base_market_flows.json…</div></div>
+    <div class="mbnote"><span style="color:var(--sell)">Red</span> = wL1 sold into the pool · <span style="color:var(--buy)">green</span> = wL1 bought out of it. USDC sitting in the pool is realised bid-side depth under the current price.</div>
+  </div>
+
   <div class="grid">
+    <div class="panel full" data-tabs="flows"><div class="ptitle">🧾 Unstaker wallets — full trace <span class="pill" id="fUnstPill"></span></div>
+      <div class="ftwrap"><table class="ftable" id="fUnstakers"></table></div>
+      <div class="ohnote">Every wallet that ever unbonded: activity after its first unbond and state today. Amounts can exceed the unbonded figure because prior balances, rewards and re-buys mix in. Click a column header to sort.</div>
+    </div>
+
+    <div class="panel full" data-tabs="flows"><div class="ptitle">⏳ Pending unlocks <span class="pill" id="fPendPill"></span></div>
+      <div class="ftwrap" style="max-height:280px"><table class="ftable" id="fPending"></table></div>
+    </div>
+
+    <div class="panel full" data-tabs="flows"><div class="ptitle">📦 Hop-2 — wallets that received from unstakers <span class="pill" id="fHopPill"></span></div>
+      <div class="ftwrap"><table class="ftable" id="fHop2"></table></div>
+      <div class="ohnote">Recipients of ≥5,000 L1 sent by unstaker wallets, with their own full history and current state. “forwarder” mostly means wrap-and-bridge preparation, not distribution.</div>
+    </div>
+
+    <div class="panel full" data-tabs="flows"><div class="ptitle">🔴 Base — final sellers (de-routed) <span class="pill" id="fSellPill"></span></div>
+      <div class="ftwrap"><table class="ftable" id="fSellers"></table></div>
+      <div class="ohnote">Router and aggregator hops are collapsed back to the originating wallet; USDC is allocated pro-rata within each transaction, so per-wallet average price is an estimate.</div>
+    </div>
+
+    <div class="panel full" data-tabs="flows"><div class="ptitle">🟢 Base — final buyers (de-routed) <span class="pill" id="fBuyPill"></span></div>
+      <div class="ftwrap"><table class="ftable" id="fBuyers"></table></div>
+    </div>
+
     <div class="panel" data-tabs="pressure"><div class="ptitle">🎯 Top sellers <span class="pill" id="topPill"></span></div><div id="topList"><div class="empty">No sells yet.</div></div></div>
     <div class="panel" data-tabs="pressure"><div class="ptitle">🎯 Top buyers <span class="pill" id="topBuyPill"></span></div><div id="topBuyList"><div class="empty">No buys yet.</div></div></div>
 
@@ -1863,6 +1940,7 @@ async function run(){
     fetchUnstakingHistory().then(renderUnstakingChart);
     loadBaseMarketSummary();
     loadBasePressure();
+    loadFlows();
     let calData=null;
     if(cfg.gl1Rpc){ try{ calData=await fetchCalendar(); renderCalendar(calData); }catch{ renderCalendar(null); } }
     // signals panel: cargar histórico del overhang y pintar los factores
@@ -1929,6 +2007,145 @@ function markTf(){document.querySelectorAll("#tfbtns button").forEach(b=>b.datas
 document.querySelectorAll("#tfbtns button").forEach(b=>b.onclick=()=>{cfg.hours=Number(b.dataset.h);cfg.blocks=0;saveCfg(cfg);markTf();run();});
 $("auditTitle").onclick=()=>$("auditList").classList.toggle("collapsed");
 let liveTimer=null;$("liveBtn").onclick=()=>{const b=$("liveBtn"),on=b.dataset.on==="1";b.dataset.on=on?"0":"1";if(on){clearInterval(liveTimer);liveTimer=null;}else{run();liveTimer=setInterval(run,30000);}};
+
+// ================= FLOWS TAB: unstaking research =================
+let FLOWS_DONE=false;
+const FWL1C="genesis1txs48s8aglrvruc940dcqv9fp23sq8lz6uhfnu"; // wL1 wrapper contract (bech32)
+const FTAGMAP={"RE-STAKED":["restaked","t-staked"],"SIGUE STAKEADO":["still staked","t-staked"],"STAKED":["staked","t-staked"],"OSMOSIS(venta?)":["\u2192 Osmosis","t-osmosis"],"EVM/BASE":["\u2192 EVM/Base","t-evm"],"OTRA WALLET":["\u2192 other wallet",""],"REPARTIDOR":["forwarder",""],"LIQUIDO(riesgo)":["liquid","t-liquid"],"LIQUIDO":["liquid","t-liquid"],"DESBLOQUEANDO":["unbonding","t-liquid"],"MIXTO":["mixed",""]};
+const fesc=(s)=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function ftag(t){const m=FTAGMAP[t]||[fesc((t||"\u2014")).toLowerCase(),""];return '<span class="tagchip '+m[1]+'">'+m[0]+'</span>';}
+function faddr(a){if(!a)return "\u2014";const s=a.slice(0,10)+"\u2026"+a.slice(-4);const h=a.indexOf("0x")===0?"https://basescan.org/address/"+a:EXP_GL1+"/account/"+a;return '<a href="'+h+'" target="_blank" rel="noopener" title="'+fesc(a)+'">'+s+'</a>';}
+async function ffetch(name){const r=await fetch(cfg.genSnapshotUrl.replace("genesis_holders.json",name),{cache:"no-store"});if(!r.ok)throw new Error("HTTP "+r.status);return r.json();}
+function fmissT(id,name){const el=$(id);if(el)el.innerHTML='<tbody><tr><td style="text-align:left"><div class="empty">'+name+' not published yet \u2014 run the research scripts and push.</div></td></tr></tbody>';}
+function fmiss(id,name){const el=$(id);if(el)el.innerHTML='<div class="empty">'+name+' not published yet \u2014 run the research scripts and push.</div>';}
+function ftable(id,cols,rows,sortK){
+  const el=$(id);if(!el)return;
+  let k=sortK,dir=-1;
+  const draw=()=>{
+    const rs=[...rows].sort((a,b)=>{let x=a[k],y=b[k];
+      if(typeof x==="string"||typeof y==="string")return dir*String(x==null?"":x).localeCompare(String(y==null?"":y));
+      x=Number(x)||0;y=Number(y)||0;return dir*(x-y);});
+    let html='<thead><tr>'+cols.map(c=>'<th data-k="'+c.k+'" class="'+(c.k===k?"on":"")+'">'+c.l+(c.k===k?(dir<0?" \u2193":" \u2191"):"")+'</th>').join("")+'</tr></thead><tbody>';
+    for(const r of rs) html+='<tr>'+cols.map(c=>'<td class="'+(c.cls||"")+'">'+(c.f?c.f(r):fmt(r[c.k]||0))+'</td>').join("")+'</tr>';
+    el.innerHTML=html+'</tbody>';
+    el.querySelectorAll("th").forEach(th=>th.onclick=()=>{const nk=th.dataset.k;if(nk===k)dir=-dir;else{k=nk;dir=-1;}draw();});
+  };
+  draw();
+}
+function fbarsChart(labels,series){
+  const n=labels.length;if(!n)return '<div class="empty">No data.</div>';
+  const W=980,H=210,pad={l:56,r:14,t:14,b:26};
+  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+  let ymax=1;for(const s of series)for(const v of s.data)if(v>ymax)ymax=v;
+  const slot=iw/n, bw=Math.max(2,(slot-3)/series.length);
+  const yOf=v=>pad.t+ih-(v/ymax)*ih;
+  let grid="",ylbl="",bars="",xlbl="";
+  for(let j=0;j<=3;j++){const v=ymax*j/3,y=yOf(v);
+    grid+='<line class="grid" x1="'+pad.l+'" y1="'+y+'" x2="'+(W-pad.r)+'" y2="'+y+'"/>';
+    ylbl+='<text class="val" x="'+(pad.l-6)+'" y="'+(y+3)+'" text-anchor="end">'+fmt(v)+'</text>';}
+  labels.forEach((d,i)=>{series.forEach((s,si)=>{const v=s.data[i]||0;if(v<=0)return;
+    const x=pad.l+slot*i+1.5+si*bw;
+    bars+='<rect x="'+x.toFixed(1)+'" y="'+yOf(v).toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+(pad.t+ih-yOf(v)).toFixed(1)+'" rx="1" fill="'+s.color+'"><title>'+d+' \u00b7 '+s.name+': '+fmt(v)+'</title></rect>';});});
+  const marks=[...new Set([0,Math.floor(n*0.33),Math.floor(n*0.66),n-1])];
+  for(const i of marks) if(labels[i]!==undefined) xlbl+='<text class="lbl" x="'+(pad.l+slot*i+slot/2)+'" y="'+(H-8)+'" text-anchor="middle">'+labels[i]+'</text>';
+  return '<svg class="chartsvg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet">'+grid+ylbl+bars+xlbl+'</svg>';
+}
+function fdestBars(byTag,total){
+  const el=$("fDestBars");if(!el)return;
+  const ent=Object.entries(byTag||{}).sort((a,b)=>b[1]-a[1]);
+  if(!ent.length){el.innerHTML='<div class="empty">No data yet.</div>';return;}
+  const mx=ent[0][1]||1;
+  el.innerHTML=ent.map(([t,v])=>'<div class="fbar"><span class="fl">'+ftag(t)+'</span><span class="ft"><i style="width:'+(v/mx*100).toFixed(1)+'%"></i></span><span class="fv">'+fmt(v)+' <span style="color:var(--faint)">('+(total?(v/total*100).toFixed(1):"0")+'%)</span></span></div>').join("");
+  const p=$("fDestPill");if(p)p.textContent=fmt(total)+" L1 unbonded all-time";
+}
+async function loadFlows(){
+  if(FLOWS_DONE)return;FLOWS_DONE=true;
+  const res=await Promise.allSettled([ffetch("unstaking_flows.json"),ffetch("unstaking_dest.json"),ffetch("base_bridge_flow.json"),ffetch("base_market_flows.json"),ffetch("base_market_attrib.json")]);
+  const FL=res[0].status==="fulfilled"?res[0].value:null;
+  const DST=res[1].status==="fulfilled"?res[1].value:null;
+  const BR=res[2].status==="fulfilled"?res[2].value:null;
+  const MK=res[3].status==="fulfilled"?res[3].value:null;
+  const AT=res[4].status==="fulfilled"?res[4].value:null;
+  if(FL&&FL.wallets){
+    const ws=FL.wallets;const S=(k)=>ws.reduce((a,w)=>a+(Number(w[k])||0),0);
+    const tot=FL.total_unbonded||S("unbonded");
+    $("fk_unb").textContent=fmt(tot);
+    $("fk_unb_s").textContent=ws.length+" wallets \u00b7 full history";
+    $("fk_stk").textContent=fmt(S("staked"));
+    $("fk_ibc").textContent=fmt(S("ibc_out"));
+    fdestBars(FL.by_tag,tot);
+    ftable("fUnstakers",[
+      {k:"del",l:"wallet",cls:"addr",f:r=>faddr(r.del)},
+      {k:"unbonded",l:"unbonded"},
+      {k:"staked",l:"staked now"},
+      {k:"liquid",l:"liquid now"},
+      {k:"unbonding",l:"unbonding"},
+      {k:"restaked_after",l:"re-delegated"},
+      {k:"ibc_out",l:"\u2192 Osmosis"},
+      {k:"sent_out",l:"sent out"},
+      {k:"wrapped",l:"wrapped"},
+      {k:"tag",l:"outcome",f:r=>ftag(r.tag)}
+    ],ws,"unbonded");
+    $("fUnstPill").textContent=ws.length+" wallets";
+    const pend=ws.filter(w=>(Number(w.unbonding)||0)>0.5);
+    ftable("fPending",[
+      {k:"del",l:"wallet",cls:"addr",f:r=>faddr(r.del)},
+      {k:"unbonding",l:"L1 unlocking"},
+      {k:"tag",l:"history",f:r=>ftag(r.tag)}
+    ],pend,"unbonding");
+    $("fPendPill").textContent=fmt(pend.reduce((a,w)=>a+(Number(w.unbonding)||0),0))+" L1 in the pipe";
+  }else{fmiss("fDestBars","unstaking_flows.json");fmissT("fUnstakers","unstaking_flows.json");fmissT("fPending","unstaking_flows.json");}
+  if(DST&&DST.rows){
+    ftable("fHop2",[
+      {k:"addr",l:"recipient",cls:"addr",f:r=>faddr(r.addr)+(r.addr===FWL1C?' <span class="tagchip t-evm">wL1 contract</span>':(r.interna?' <span class="tagchip">cohort</span>':""))+(r.label?' <span style="color:var(--faint);font-size:11px">'+fesc(r.label)+'</span>':"")},
+      {k:"recibido",l:"received"},
+      {k:"n_senders",l:"senders",f:r=>String(r.n_senders||0)},
+      {k:"staked",l:"staked now"},
+      {k:"liquid",l:"liquid now"},
+      {k:"ibc_out",l:"\u2192 Osmosis"},
+      {k:"sent_out",l:"sent on"},
+      {k:"tag",l:"behavior",f:r=>r.addr===FWL1C?'<span class="tagchip t-evm">bridge collateral</span>':ftag(r.tag)}
+    ],DST.rows,"recibido");
+    $("fHopPill").textContent=DST.rows.length+" recipients \u00b7 \u2265 "+fmt(DST.min_dest||5000)+" L1";
+  }else fmissT("fHop2","unstaking_dest.json");
+  if(BR&&BR.daily){
+    const days=Object.keys(BR.daily).sort();
+    $("fBridgeChart").innerHTML=fbarsChart(days,[
+      {data:days.map(d=>BR.daily[d][0]||0),color:"var(--node)",name:"\u2192 Base"},
+      {data:days.map(d=>BR.daily[d][1]||0),color:"var(--teal)",name:"\u2190 back"}]);
+    const t=BR.totals||{};
+    $("fBridgePill").textContent=fmt(t.out||0)+" out \u00b7 "+fmt(t.back||0)+" back";
+    $("fk_bridge").textContent=fmt((t.out||0)-(t.back||0));
+    $("fk_bridge_s").textContent="gross "+fmt(t.out||0)+" \u00b7 returned "+fmt(t.back||0);
+  }else{fmiss("fBridgeChart","base_bridge_flow.json");}
+  if(MK&&MK.daily){
+    const days=Object.keys(MK.daily).sort();
+    $("fMarketChart").innerHTML=fbarsChart(days,[
+      {data:days.map(d=>MK.daily[d][2]||0),color:"var(--sell)",name:"sold"},
+      {data:days.map(d=>MK.daily[d][3]||0),color:"var(--buy)",name:"bought"}]);
+    const t=MK.totals||{};
+    const net=(t.comprado||0)-(t.vendido||0);
+    $("fMarketPill").textContent="price $"+(MK.price!=null?Number(MK.price).toFixed(4):"\u2014")+" \u00b7 pool "+fmt(MK.pool_wl1||0)+" wL1 + "+fmt(MK.pool_usdc||0)+" USDC";
+    $("fk_net").textContent=(net>=0?"+":"")+fmt(net);
+    $("fk_net_s").textContent=fmt(t.vendido||0)+" sold \u00b7 "+fmt(t.comprado||0)+" bought";
+    $("fk_lp").textContent=fmt(t.lp_add||0);
+    $("fk_lp_s").textContent=(t.lp_out||0)>0.5?fmt(t.lp_out)+" withdrawn":"0 sold \u00b7 0 withdrawn \u2014 intact";
+  }else{fmiss("fMarketChart","base_market_flows.json");}
+  if(AT&&(AT.sellers||AT.buyers)){
+    const cols=[
+      {k:"addr",l:"wallet",cls:"addr",f:r=>faddr(r.addr)+(r.label?' <span style="color:var(--faint);font-size:11px">'+fesc(r.label)+'</span>':"")},
+      {k:"wl1",l:"wL1"},
+      {k:"usd",l:"USDC"},
+      {k:"avg",l:"avg $",f:r=>r.wl1>0?"$"+(r.usd/r.wl1).toFixed(4):"\u2014"}
+    ];
+    const prep=(arr)=>(arr||[]).filter(r=>(Number(r.wl1)||0)>=100).map(r=>({...r,avg:r.wl1>0?r.usd/r.wl1:0}));
+    ftable("fSellers",cols,prep(AT.sellers),"wl1");
+    ftable("fBuyers",cols,prep(AT.buyers),"wl1");
+    const T=AT.totals||{};
+    $("fSellPill").textContent=fmt(T.sold||0)+" wL1 \u2192 "+fmt(T.sold_usd||0)+" USDC";
+    $("fBuyPill").textContent=fmt(T.bought||0)+" wL1 \u2190 "+fmt(T.bought_usd||0)+" USDC";
+  }else{fmissT("fSellers","base_market_attrib.json");fmissT("fBuyers","base_market_attrib.json");}
+}
 // ---- tabs: mostrar/ocultar paneles según el tab activo ----
 function showTab(t){
   document.querySelectorAll("#tabbar .tabbtn").forEach(b=>b.classList.toggle("active",b.dataset.tab===t));
