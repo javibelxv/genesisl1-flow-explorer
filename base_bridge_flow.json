@@ -1,15 +1,15 @@
 {
- "latest": 13374918,
- "start_block": 13262272,
+ "latest": 13377368,
+ "start_block": 13262277,
  "start_date": "2026-07-10",
  "totals": {
-  "supply": 2597630.7,
-  "router_wl1": 2588687.5,
-  "collateral": 2597630.7,
+  "supply": 2512418.9,
+  "router_wl1": 2503470.2,
+  "collateral": 2512418.9,
   "router_native": 0.0,
-  "out": 2881230.2,
-  "back": 293196.0,
-  "wrap": 2880257.2
+  "out": 2896729.4,
+  "back": 393912.5,
+  "wrap": 2895691.4
  },
  "daily": {
   "07-10": [
@@ -103,9 +103,14 @@
    0.0
   ],
   "07-30": [
-   9669.1,
-   9.0,
-   9669.0
+   24285.3,
+   100725.5,
+   25103.2
+  ],
+  "07-31": [
+   883.0,
+   0.0,
+   0.0
   ]
  },
  "top_bridgers": [
@@ -155,6 +160,11 @@
    "label": "HOP2 genesis1jkz3a9.."
   },
   {
+   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
+   "l1": 24203.4,
+   "label": ""
+  },
+  {
    "addr": "0xcb6f24f6beae33b161145503e998a93f3633892b",
    "l1": 22122.4,
    "label": ""
@@ -172,11 +182,6 @@
   {
    "addr": "0x7f9297ac4b472f3d47d97c9310cb3887ad68c628",
    "l1": 18399.0,
-   "label": ""
-  },
-  {
-   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
-   "l1": 17068.9,
    "label": ""
   },
   {
@@ -205,14 +210,19 @@
    "label": ""
   },
   {
+   "addr": "0x786726cec11025559adaaa4ae390d8d7c9287225",
+   "l1": 8780.0,
+   "label": "HOP2 genesis10pnjdn.."
+  },
+  {
    "addr": "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074",
    "l1": 6994.0,
    "label": ""
   },
   {
-   "addr": "0x786726cec11025559adaaa4ae390d8d7c9287225",
-   "l1": 6500.0,
-   "label": "HOP2 genesis10pnjdn.."
+   "addr": "0x061b8335e1d2042975c4ed849943334bd07fb504",
+   "l1": 6019.7,
+   "label": ""
   },
   {
    "addr": "0x1ee9f9955af7f89225d0cf5d10adb8594fe0b16d",
@@ -266,7 +276,7 @@
   },
   {
    "addr": "0xf4e1aa6f26b7da48eead9b24a97927303eea07b8",
-   "l1": 265.0,
+   "l1": 330.0,
    "label": ""
   },
   {
