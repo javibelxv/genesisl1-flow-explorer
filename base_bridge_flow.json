@@ -1,15 +1,15 @@
 {
- "latest": 13377368,
- "start_block": 13262277,
+ "latest": 13382860,
+ "start_block": 13262286,
  "start_date": "2026-07-10",
  "totals": {
-  "supply": 2512418.9,
-  "router_wl1": 2503470.2,
-  "collateral": 2512418.9,
+  "supply": 2343509.2,
+  "router_wl1": 2334557.3,
+  "collateral": 2343509.2,
   "router_native": 0.0,
-  "out": 2896729.4,
-  "back": 393912.5,
-  "wrap": 2895691.4
+  "out": 2967546.5,
+  "back": 633642.5,
+  "wrap": 2966507.7
  },
  "daily": {
   "07-10": [
@@ -103,14 +103,14 @@
    0.0
   ],
   "07-30": [
-   24285.3,
+   25168.3,
    100725.5,
    25103.2
   ],
   "07-31": [
-   883.0,
-   0.0,
-   0.0
+   70817.1,
+   239730.0,
+   70816.3
   ]
  },
  "top_bridgers": [
@@ -120,14 +120,14 @@
    "label": ""
   },
   {
+   "addr": "0x5081697f1be8eefa6f672606d6916aa80e00e5ca",
+   "l1": 240390.0,
+   "label": "HOP2 genesis12zqkjl.."
+  },
+  {
    "addr": "0xc19e516c1ccc7461ad2adae494deb41eeb5ad7ed",
    "l1": 200829.1,
    "label": "COHORTE genesis1cx09zm.."
-  },
-  {
-   "addr": "0x5081697f1be8eefa6f672606d6916aa80e00e5ca",
-   "l1": 200000.0,
-   "label": "HOP2 genesis12zqkjl.."
   },
   {
    "addr": "0x81de7b504b8508f2e6ba8f9d28b0f3cd84b85ded",
@@ -142,6 +142,11 @@
   {
    "addr": "0x88a80784e8ab48bbda70493bfe7e94d862d2a8c3",
    "l1": 44488.6,
+   "label": ""
+  },
+  {
+   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
+   "l1": 34465.4,
    "label": ""
   },
   {
@@ -160,8 +165,8 @@
    "label": "HOP2 genesis1jkz3a9.."
   },
   {
-   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
-   "l1": 24203.4,
+   "addr": "0x7f9297ac4b472f3d47d97c9310cb3887ad68c628",
+   "l1": 23399.0,
    "label": ""
   },
   {
@@ -178,11 +183,6 @@
    "addr": "0x62343beb052cd3b8d3d597d520a8b6a8b8a42305",
    "l1": 18999.0,
    "label": "HOP2 genesis1vg6rh6.."
-  },
-  {
-   "addr": "0x7f9297ac4b472f3d47d97c9310cb3887ad68c628",
-   "l1": 18399.0,
-   "label": ""
   },
   {
    "addr": "0x474654d48fac0295b2204e003fd04636b16c6fe3",
@@ -211,12 +211,17 @@
   },
   {
    "addr": "0x786726cec11025559adaaa4ae390d8d7c9287225",
-   "l1": 8780.0,
+   "l1": 11530.0,
    "label": "HOP2 genesis10pnjdn.."
   },
   {
    "addr": "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074",
-   "l1": 6994.0,
+   "l1": 11024.0,
+   "label": ""
+  },
+  {
+   "addr": "0x91ddfcf6f90904f4575b3a1c746d20f36ab6dc55",
+   "l1": 8385.1,
    "label": ""
   },
   {
