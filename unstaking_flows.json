@@ -1,17 +1,17 @@
 {
  "generated": true,
- "total_unbonded": 6132673.7,
+ "total_unbonded": 6132686.2,
  "by_tag": {
   "OTRA WALLET": 3157784.1,
   "SIGUE STAKEADO": 542353.9,
   "RE-STAKED": 954851.8,
   "MIXTO": 484480.1,
   "OSMOSIS(venta?)": 550632.4,
-  "LIQUIDO(riesgo)": 292714.3,
-  "DESBLOQUEANDO": 127006.1,
-  "EVM/BASE": 22851.0
+  "LIQUIDO(riesgo)": 388118.4,
+  "DESBLOQUEANDO": 31012.5,
+  "EVM/BASE": 23453.0
  },
- "excluded_module_flows": 3090733.0,
+ "excluded_module_flows": 3114072.3,
  "wallets": [
   {
    "del": "genesis10yu8w9p4p0szf2xwhtndmfjnp0gfk4j7yr6ylu",
@@ -111,11 +111,11 @@
     "2026-07-24"
    ],
    "staked": 410274.2,
-   "liquid": 40392.4,
+   "liquid": 2.4,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 350010.0,
+   "sent_out": 390400.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
@@ -143,7 +143,7 @@
     "2026-07-27"
    ],
    "staked": 850116.2,
-   "liquid": 30024.7,
+   "liquid": 15169.7,
    "unbonding": 0,
    "restaked_after": 443268.1,
    "ibc_out": 510125.7,
@@ -382,10 +382,10 @@
     "2026-07-08",
     "2026-07-08"
    ],
-   "staked": 451775.8,
+   "staked": 451995.2,
    "liquid": 358.3,
    "unbonding": 0,
-   "restaked_after": 227158.5,
+   "restaked_after": 227377.9,
    "ibc_out": 0.0,
    "sent_out": 78277.0,
    "wrapped": 0.0,
@@ -458,11 +458,11 @@
     "2026-06-19"
    ],
    "staked": 75459.5,
-   "liquid": 0.1,
+   "liquid": 0.8,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 102378.0,
+   "sent_out": 102496.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
@@ -503,10 +503,10 @@
     "2026-05-19",
     "2026-07-24"
    ],
-   "staked": 13030.0,
-   "liquid": 3,
+   "staked": 13073.2,
+   "liquid": 3.0,
    "unbonding": 0,
-   "restaked_after": 81662.9,
+   "restaked_after": 81706.2,
    "ibc_out": 73158.3,
    "sent_out": 12751.8,
    "wrapped": 0.0,
@@ -550,8 +550,8 @@
     "2026-07-30"
    ],
    "staked": 0.8,
-   "liquid": 80176.4,
-   "unbonding": 86011,
+   "liquid": 166187.4,
+   "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
@@ -560,7 +560,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "DESBLOQUEANDO"
+   "tag": "LIQUIDO(riesgo)"
   },
   {
    "del": "genesis1s0mcdnsp74relctt3nyfyx4zkuwfn5wfl45cr6",
@@ -715,7 +715,7 @@
     "2025-02-20"
    ],
    "staked": 292380.5,
-   "liquid": 1000.4,
+   "liquid": 1609.7,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 195013.4,
@@ -740,7 +740,7 @@
     "2025-02-20"
    ],
    "staked": 52029.8,
-   "liquid": 79.6,
+   "liquid": 187.9,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 70438.7,
@@ -866,11 +866,11 @@
     "2026-04-27"
    ],
    "staked": 1448980.4,
-   "liquid": 43.3,
+   "liquid": 968.9,
    "unbonding": 0,
    "restaked_after": 1270673.4,
    "ibc_out": 198979.8,
-   "sent_out": 13292.0,
+   "sent_out": 16742.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
@@ -936,11 +936,11 @@
     "2026-08-06"
    ],
    "staked": 246772.8,
-   "liquid": 240.6,
+   "liquid": 22.2,
    "unbonding": 10000,
    "restaked_after": 11103.9,
    "ibc_out": 763.0,
-   "sent_out": 13446.0,
+   "sent_out": 13896.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
@@ -999,11 +999,11 @@
     "2026-07-28"
    ],
    "staked": 60299.9,
-   "liquid": 10703.7,
+   "liquid": 10051.1,
    "unbonding": 0,
    "restaked_after": 30000.0,
    "ibc_out": 0.0,
-   "sent_out": 39835.1,
+   "sent_out": 40635.1,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
@@ -1044,15 +1044,15 @@
     "2026-07-29"
    ],
    "staked": 20043.0,
-   "liquid": 8385.5,
+   "liquid": 0,
    "unbonding": 0,
    "restaked_after": 29123.9,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 8385.5,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1j8wleahepyz0g46m8gw8gmfq7d4tdhz4mutwy6",
    "osmo_receivers": [],
    "tag": "RE-STAKED"
   },
@@ -1130,8 +1130,8 @@
     "2026-07-30"
    ],
    "staked": 5997.4,
-   "liquid": 34985.9,
-   "unbonding": 7000,
+   "liquid": 41985.9,
+   "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
@@ -1216,7 +1216,7 @@
     "2026-07-30"
    ],
    "staked": 15120.9,
-   "liquid": 6023.1,
+   "liquid": 10.1,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
@@ -1278,8 +1278,8 @@
     "2026-07-31"
    ],
    "staked": 0.0,
-   "liquid": 55.3,
-   "unbonding": 9393.1,
+   "liquid": 9448.4,
+   "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
@@ -1288,7 +1288,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "DESBLOQUEANDO"
+   "tag": "LIQUIDO(riesgo)"
   },
   {
    "del": "genesis1cffqlxsq87myua4mxunv47jz65ly8maklnh67h",
@@ -1606,8 +1606,8 @@
     "2026-08-01"
    ],
    "staked": 0,
-   "liquid": 0.3,
-   "unbonding": 602,
+   "liquid": 602.3,
+   "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
@@ -1616,7 +1616,7 @@
    "bridge_txs": 1,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "DESBLOQUEANDO"
+   "tag": "EVM/BASE"
   },
   {
    "del": "genesis18tg85xnwmdfnmev254cv35scusfxspyu8ffjvm",
@@ -2504,6 +2504,26 @@
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
    "tag": "OTRA WALLET"
+  },
+  {
+   "del": "genesis1ah8nl8yh7j3fg9e8rcqr70g5r2u7rwv7wqxlm0",
+   "eth": "0xedcf3f9c97f4a29417271e003f3d141ab9e1b99e",
+   "unbonded": 12.5,
+   "cts": [
+    "2026-08-08"
+   ],
+   "staked": 0.5,
+   "liquid": 0.8,
+   "unbonding": 12.5,
+   "restaked_after": 0.0,
+   "ibc_out": 0.0,
+   "sent_out": 0.0,
+   "wrapped": 0.0,
+   "evm_txs": 0,
+   "bridge_txs": 0,
+   "top_dest": "",
+   "osmo_receivers": [],
+   "tag": "DESBLOQUEANDO"
   },
   {
    "del": "genesis1zpw2rcj292pfpqr2ezdqa3mur7jj2lwxqx4xq2",
