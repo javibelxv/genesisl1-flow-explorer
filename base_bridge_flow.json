@@ -1,15 +1,15 @@
 {
- "latest": 13393839,
- "start_block": 13262288,
+ "latest": 13399406,
+ "start_block": 13262197,
  "start_date": "2026-07-10",
  "totals": {
-  "supply": 2360734.5,
-  "router_wl1": 2347858.1,
-  "collateral": 2360734.5,
+  "supply": 2474495.7,
+  "router_wl1": 2438873.4,
+  "collateral": 2474495.7,
   "router_native": 0.0,
-  "out": 2992247.9,
-  "back": 645043.1,
-  "wrap": 2991210.6
+  "out": 3117042.6,
+  "back": 678822.6,
+  "wrap": 3116004.0
  },
  "daily": {
   "07-10": [
@@ -121,6 +121,11 @@
    11158.0,
    9832.6,
    11158.0
+  ],
+  "08-03": [
+   124794.7,
+   33779.4,
+   124793.5
   ]
  },
  "top_bridgers": [
@@ -140,6 +145,11 @@
    "label": "COHORTE genesis1cx09zm.."
   },
   {
+   "addr": "0x854dce939b6e296cfd35d1a27973be1d03675382",
+   "l1": 110000.0,
+   "label": ""
+  },
+  {
    "addr": "0x81de7b504b8508f2e6ba8f9d28b0f3cd84b85ded",
    "l1": 78270.6,
    "label": "HOP2 genesis1s808k5.."
@@ -156,8 +166,13 @@
   },
   {
    "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
-   "l1": 36034.2,
+   "l1": 40832.2,
    "label": ""
+  },
+  {
+   "addr": "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41",
+   "l1": 36238.2,
+   "label": "HOP2 genesis18fsyu8.."
   },
   {
    "addr": "0x7f9297ac4b472f3d47d97c9310cb3887ad68c628",
@@ -168,11 +183,6 @@
    "addr": "0x2d288dbc47bc7c7b77356c79f21623f7896938d7",
    "l1": 28811.7,
    "label": ""
-  },
-  {
-   "addr": "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41",
-   "l1": 26241.5,
-   "label": "HOP2 genesis18fsyu8.."
   },
   {
    "addr": "0x95851e95c50d3ab86887707a9a74570ee2510b8f",
