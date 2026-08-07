@@ -196,5 +196,11 @@
     "osmo_overhang": 1137791,
     "gen_liquid": 9776528,
     "gen_active": 4427475
+  },
+  {
+    "date": "2026-08-07",
+    "osmo_overhang": 1129891,
+    "gen_liquid": 9752923,
+    "gen_active": 4406961
   }
 ]
