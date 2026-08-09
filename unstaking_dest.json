@@ -27,14 +27,14 @@
    "interna": false,
    "label": "",
    "staked": 150000.0,
-   "liquid": 9.9,
+   "liquid": 568.2,
    "unbonding": 0.0,
    "restk": 150000.0,
    "ibc_out": 0.0,
    "sent_out": 240390.0,
    "wrapped": 240390.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -61,12 +61,12 @@
    "interna": true,
    "label": "",
    "staked": 181472.3,
-   "liquid": 384.9,
-   "unbonding": 30000.0,
+   "liquid": 850.7,
+   "unbonding": 0.0,
    "restk": 211472.3,
    "ibc_out": 0.0,
-   "sent_out": 200829.1,
-   "wrapped": 200829.1,
+   "sent_out": 231213.6,
+   "wrapped": 231213.6,
    "osmo_receivers": [],
    "tag": "STAKED",
    "truncado": false
@@ -155,7 +155,7 @@
    "osmo_receivers": [
     "osmo1rqrvynakzp3mkaeldzpy9held9snlfupd2nhq8"
    ],
-   "tag": "OSMOSIS(venta?)",
+   "tag": "OSMOSIS",
    "truncado": false
   },
   {
@@ -215,10 +215,10 @@
    "n_senders": 1,
    "interna": false,
    "label": "",
-   "staked": 876671.6,
-   "liquid": 528.1,
+   "staked": 877492.6,
+   "liquid": 1187.4,
    "unbonding": 0.0,
-   "restk": 645840.1,
+   "restk": 646661.0,
    "ibc_out": 0.0,
    "sent_out": 5564.2,
    "wrapped": 0.0,
@@ -233,14 +233,14 @@
    "interna": false,
    "label": "",
    "staked": 57147.1,
-   "liquid": 50000.0,
+   "liquid": 20500.0,
    "unbonding": 0.0,
    "restk": 57147.1,
    "ibc_out": 0.0,
-   "sent_out": 3002.0,
-   "wrapped": 3002.0,
+   "sent_out": 32502.0,
+   "wrapped": 32502.0,
    "osmo_receivers": [],
-   "tag": "MIXTO",
+   "tag": "MIXED",
    "truncado": false
   },
   {
@@ -274,7 +274,7 @@
    "sent_out": 0.0,
    "wrapped": 0.0,
    "osmo_receivers": [],
-   "tag": "MIXTO",
+   "tag": "MIXED",
    "truncado": false
   },
   {
@@ -291,7 +291,7 @@
    "sent_out": 78275.6,
    "wrapped": 78275.6,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -308,7 +308,7 @@
    "sent_out": 76999.0,
    "wrapped": 76999.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -361,7 +361,7 @@
    "osmo_receivers": [
     "osmo1g0j9kmdn4a0dje9czsx0ggdzk9fsmh8rr7xvfa"
    ],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -370,12 +370,12 @@
    "n_senders": 1,
    "interna": true,
    "label": "",
-   "staked": 1448980.4,
-   "liquid": 968.9,
-   "unbonding": 0.0,
-   "restk": 1328314.4,
+   "staked": 1423862.4,
+   "liquid": 476.4,
+   "unbonding": 26000.0,
+   "restk": 1329196.4,
    "ibc_out": 219519.8,
-   "sent_out": 19342.0,
+   "sent_out": 20592.0,
    "wrapped": 0.0,
    "osmo_receivers": [
     "osmo16aypymlama0lk5s8c9s30s09eacpvwnav7ewjv"
@@ -407,14 +407,14 @@
    "interna": false,
    "label": "",
    "staked": 0.0,
-   "liquid": 2355934.9,
+   "liquid": 2084384.8,
    "unbonding": 0.0,
    "restk": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 625339.1,
+   "sent_out": 1116969.9,
    "wrapped": 0.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -431,7 +431,7 @@
    "sent_out": 0.0,
    "wrapped": 0.0,
    "osmo_receivers": [],
-   "tag": "MIXTO",
+   "tag": "MIXED",
    "truncado": false
   },
   {
@@ -445,10 +445,10 @@
    "unbonding": 0.0,
    "restk": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 26241.5,
-   "wrapped": 26241.5,
+   "sent_out": 36238.2,
+   "wrapped": 36238.2,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -465,7 +465,7 @@
    "sent_out": 18999.0,
    "wrapped": 18999.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -482,7 +482,7 @@
    "sent_out": 25262.0,
    "wrapped": 25262.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -501,7 +501,7 @@
    "osmo_receivers": [
     "osmo1yw97y5jma4azfyhky62t56nn2jfp2ana24ws4w"
    ],
-   "tag": "OSMOSIS(venta?)",
+   "tag": "OSMOSIS",
    "truncado": false
   },
   {
@@ -518,7 +518,7 @@
    "sent_out": 13845.0,
    "wrapped": 13845.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -552,7 +552,7 @@
    "sent_out": 12781.9,
    "wrapped": 12781.9,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -562,14 +562,14 @@
    "interna": false,
    "label": "",
    "staked": 100.0,
-   "liquid": 52.1,
+   "liquid": 42.1,
    "unbonding": 0.0,
    "restk": 100.0,
    "ibc_out": 0.0,
-   "sent_out": 13915.0,
-   "wrapped": 13125.0,
+   "sent_out": 15175.0,
+   "wrapped": 14385.0,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -586,7 +586,7 @@
    "sent_out": 8385.1,
    "wrapped": 8385.1,
    "osmo_receivers": [],
-   "tag": "REPARTIDOR",
+   "tag": "FORWARDER",
    "truncado": false
   },
   {
@@ -596,7 +596,7 @@
    "interna": false,
    "label": "",
    "staked": 91536.2,
-   "liquid": 50.2,
+   "liquid": 340.9,
    "unbonding": 0.0,
    "restk": 0.0,
    "ibc_out": 74737.4,

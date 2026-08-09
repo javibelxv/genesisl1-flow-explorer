@@ -2,16 +2,14 @@
  "generated": true,
  "total_unbonded": 6132686.2,
  "by_tag": {
-  "OTRA WALLET": 3157784.1,
-  "SIGUE STAKEADO": 542353.9,
-  "RE-STAKED": 954851.8,
-  "MIXTO": 484480.1,
-  "OSMOSIS(venta?)": 550632.4,
-  "LIQUIDO(riesgo)": 388118.4,
-  "DESBLOQUEANDO": 31012.5,
-  "EVM/BASE": 23453.0
+  "OTHER_WALLET": 4238729.1,
+  "RESTAKED": 954851.8,
+  "OSMOSIS": 550632.4,
+  "LIQUID": 334007.4,
+  "UNBONDING": 31012.5,
+  "EVM_BASE": 23453.0
  },
- "excluded_module_flows": 3114072.3,
+ "excluded_module_flows": 36752.7,
  "wallets": [
   {
    "del": "genesis10yu8w9p4p0szf2xwhtndmfjnp0gfk4j7yr6ylu",
@@ -26,13 +24,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 500001.0,
+   "sent_out": 516517.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis1macfmy56a9t3s2xane75x47nappkhd9jqz0hsk",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1xr70nnhr9w7yqhw7rtthzmmxqc2q7ecxjhfx8h",
@@ -80,7 +78,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1gtj4dhkcdl6ewah3euq8q4crh34gehyq69l57c",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis13k072z6ua8258533glfrrsep4ff6f4j5yr3hnl",
@@ -95,13 +93,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 77000.0,
+   "sent_out": 524935.2,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1d0pas5rc99lagdlugr7q986mdcylrvy3dp59sx",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "SIGUE STAKEADO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1v2z9rwxt5y98pnrs6ryhqp08ay5azzvmchdgpu",
@@ -115,13 +113,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 390400.0,
+   "sent_out": 406400.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis12zqkjlcmarh05mm8ycrddyt24q8qpew2k94a5y",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
@@ -147,16 +145,16 @@
    "unbonding": 0,
    "restaked_after": 443268.1,
    "ibc_out": 510125.7,
-   "sent_out": 17947.0,
+   "sent_out": 620750.9,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1jkz3a9w9p5ats6y8wpaf5azhpm39zzu024acug",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1ag940t2gd4sn0wey7xgfjl83x2t5v62m6629pc",
     "osmo1jpz5j46mavhrz8v6l58t7zxkpag35rz6p66rsf"
    ],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis12960s7qmmxcewmtyh5gf95dlg3yl7vh2u58ryp",
@@ -172,13 +170,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 300605.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1kv2eaefa2vzzcry7keunuhmpwsl2ef0dnaynkd",
@@ -198,7 +196,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis106u67v85lvc3yuh75dlpnzsyxt38ejkygvu4zt",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1c6u8nz9elm3mhyw2mtmgx6ejg85x3xkk9j6s0k",
@@ -223,7 +221,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis10ue05mak7nmegh74j2g002u8p8zmtexypflk4y",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1kyly26j3kpac52d5chqar82c7m9eukfmjxefvl",
@@ -237,13 +235,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 208808.0,
+   "sent_out": 222382.9,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis1cx09zmque36xrtf2mtjffh45rm4444ldhapcje",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis17jhgvcwtqawr50xmpepeu0h0sjrj5y5xasv2l5",
@@ -260,15 +258,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 173317.4,
-   "sent_out": 14002.0,
+   "sent_out": 187319.4,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1yw97y5jma4azfyhky62t56nn2jfp2anau8fk8f",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo17jhgvcwtqawr50xmpepeu0h0sjrj5y5xtztvdn"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1g6zstj3qxu463chcgy878v9jh66culnvskqfm6",
@@ -289,13 +287,13 @@
    "unbonding": 0,
    "restaked_after": 132661.0,
    "ibc_out": 0.0,
-   "sent_out": 220270.0,
+   "sent_out": 220273.3,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis1uxx7lczky6nc2tcuw26wsekns8akrkfyh90tra",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1u7hgklj5vhfdrqjd0eewmh2dqwvkx72ljsqntr",
@@ -326,7 +324,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1qza8me8jj68w9jx33yf26xxgm022fc3t0kjrup",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1jlhl7tt5n98z35aknv2s80vu9y4jmayqa9azdg",
@@ -340,13 +338,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 144250.0,
+   "sent_out": 144251.8,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis1rqrvynakzp3mkaeldzpy9held9snlfupmc53jq",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1p4n3fy8wqmn4ja0fp4lenaemyzlxrp6y5ma6w5",
@@ -360,13 +358,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 148957.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1tlan9udzf8ud5xjgcyl7w293yjmnkz5m7l4c72",
@@ -393,7 +391,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1s808k5zts5y09e4637wj3v8nekztsh0d3c27c7",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1krm86uqhvgrtpxhuatk64ckrn95aqf57llhvwr",
@@ -420,7 +418,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis135xqhuaewx99vfedya8pzeknwnut8utcaf6tem",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1g30u4aqscx086t9gfd94xvufq3h3dagkanmt9c",
@@ -447,7 +445,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis10cxgzds6gjnm2d7qfydgsm0nvg0xzg6ut32lpj",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1jxyxqzs0eg53gf2vjs5ekx7ewgduf4gquehckf",
@@ -468,7 +466,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1qsagnxelevekw4vlqe6n62mjaw0rggw09c7akq",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis182lpnqqq0umc07hut7xp7j23k32ss3panncd5g",
@@ -482,13 +480,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 4831.5,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis19h65cmarqlpaz80ja26jtn4gamuvwla0e3g0ga",
@@ -508,15 +506,15 @@
    "unbonding": 0,
    "restaked_after": 81706.2,
    "ibc_out": 73158.3,
-   "sent_out": 12751.8,
+   "sent_out": 85934.1,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1648647lpzy2hamf9hw9ja52q9g8eyyss5cq6gw",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo19h65cmarqlpaz80ja26jtn4gamuvwla00r0f66"
    ],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis19xy57c4f7fdt6c56r0mksmsuv8epk9m00hcc4y",
@@ -532,15 +530,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 91611.7,
-   "sent_out": 0.0,
+   "sent_out": 91611.7,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo19xy57c4f7fdt6c56r0mksmsuv8epk9m0e9l78r"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1yta84dql30lgxnqlkrvswc2j7264lww2rhmxpy",
@@ -560,7 +558,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1s0mcdnsp74relctt3nyfyx4zkuwfn5wfl45cr6",
@@ -586,13 +584,13 @@
    "unbonding": 10000,
    "restaked_after": 217661.0,
    "ibc_out": 0.0,
-   "sent_out": 26241.9,
+   "sent_out": 36294.1,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis18fsyu8vsjyhlk3fph4dfs5hdgegvt66p3djr4a",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis174n8stp47kqyq4q0e0wnxr9enuru3m4qsx5y79",
@@ -616,7 +614,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1v7mkepxzj5ywqn6axvh2ckc6gxueauzdzxrvmk",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1lsrucrcvj5jm86xcpzt7e9l60mvhqrks42r9h6",
@@ -640,7 +638,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shflyn393e4mxvuv2n5s0qqjqrfd5nu73w0ka5",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1wylqq8gs9jm8gc644jgvdxyduxttgml3q9aduc",
@@ -654,15 +652,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 67966.9,
-   "sent_out": 0.0,
+   "sent_out": 67966.9,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1wylqq8gs9jm8gc644jgvdxyduxttgml3kh6twl"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1nvfs6cvlelpp6rgguh8r3n6z5ha7yvxthx8q26",
@@ -677,13 +675,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 63162.2,
+   "sent_out": 192746.4,
    "wrapped": 0.0,
    "evm_txs": 70,
    "bridge_txs": 0,
-   "top_dest": "genesis15pafk2cyfacsp9ulnfdfkhp5yufvpsymm2vswc",
+   "top_dest": "genesis1vqu8rska6swzdmnhf90zuv0xmelej4lqnm3zsa",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1yw97y5jma4azfyhky62t56nn2jfp2anau8fk8f",
@@ -697,15 +695,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 64897.3,
-   "sent_out": 0.0,
+   "sent_out": 64897.3,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1yw97y5jma4azfyhky62t56nn2jfp2ana24ws4w"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1nzgxusarw7tn3w9pz9mtxplwu8jnwrhl7yx85t",
@@ -719,18 +717,18 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 195013.4,
-   "sent_out": 25000.0,
+   "sent_out": 232844.4,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1vg6rh6c99nfm3574jl2jp29k4zu2ggc9c9ruvp",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1nzgxusarw7tn3w9pz9mtxplwu8jnwrhlgkppxv",
     "osmo1sr05ce344s86n0f90pew3wy3xdkrzjnkqlf5sz",
     "osmo1u57ekxxqsjrqe4k9yucv786tvc6yjj265a4cqm",
     "osmo1vmjdd0uh783h6068nvjsvw0uvs57v5h50793hw"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1vmjdd0uh783h6068nvjsvw0uvs57v5h5evzh9f",
@@ -744,16 +742,16 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 70438.7,
-   "sent_out": 2.0,
+   "sent_out": 74645.7,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1auspt4raa2z442mm3xvgsg40nl738husl5766h",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1u57ekxxqsjrqe4k9yucv786tvc6yjj265a4cqm",
     "osmo1vmjdd0uh783h6068nvjsvw0uvs57v5h50793hw"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1wqfvpdzudz3vqemyfwwnuhw6q6yjc62hg2ks0z",
@@ -773,7 +771,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1arn2sngceqr86w7hf624tpydz5q74cc28qmwq5",
@@ -793,7 +791,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1hks9cv4ddms48jx957xl5jxhhgjkjnl2ggp9vq",
@@ -813,7 +811,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1afvvw56w2uq64qmsurawkxdhu9r98e5uajuhsx",
@@ -827,13 +825,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 111.0,
+   "sent_out": 113934.1,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1w98n2l5z7yzuj6ytmm4wurweae3vjnct8r5th4",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
@@ -853,7 +851,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis16aypymlama0lk5s8c9s30s09eacpvwna6v7gqt",
@@ -870,15 +868,15 @@
    "unbonding": 0,
    "restaked_after": 1270673.4,
    "ibc_out": 198979.8,
-   "sent_out": 16742.0,
+   "sent_out": 274320.2,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis10pnjdnkpzqj4txk64f9w8yxc6lyjsu39qf7kul",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo16aypymlama0lk5s8c9s30s09eacpvwnav7ewjv"
    ],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1zgpk47fdq32rc6wh8s0qh9wcz0wut0apw0883d",
@@ -893,15 +891,15 @@
    "unbonding": 0,
    "restaked_after": 21808.4,
    "ibc_out": 21817.0,
-   "sent_out": 0.0,
+   "sent_out": 25019.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1zgpk47fdq32rc6wh8s0qh9wcz0wut0apcaqpr2"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis19x53pcdduljg9sfn8fzfalkt0g4l988q7jprxm",
@@ -923,7 +921,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1vljxnjjswftq2lczttt5tkue6tmvq4kxrg3wl9",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1hgp002gnpvas3jz0xawh8ek39nghjycxk6qd47",
@@ -940,15 +938,15 @@
    "unbonding": 10000,
    "restaked_after": 11103.9,
    "ibc_out": 763.0,
-   "sent_out": 13896.0,
+   "sent_out": 40704.6,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1hthr72kslqp5t2ezwsa34uas53dzsrw57faqeq",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1hgp002gnpvas3jz0xawh8ek39nghjycxqg8t8e"
    ],
-   "tag": "SIGUE STAKEADO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1cx09zmque36xrtf2mtjffh45rm4444ldhapcje",
@@ -968,7 +966,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "DESBLOQUEANDO"
+   "tag": "UNBONDING"
   },
   {
    "del": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
@@ -1003,13 +1001,13 @@
    "unbonding": 0,
    "restaked_after": 30000.0,
    "ibc_out": 0.0,
-   "sent_out": 40635.1,
+   "sent_out": 79862.1,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis16aypymlama0lk5s8c9s30s09eacpvwna6v7gqt",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1k0qvnqlugjf543vf6uf3cz98y4zwhwfw5hvdqx",
@@ -1029,7 +1027,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1uy0kmccvyhqehj7052g5v86lluna744yt3l09d",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1u33qfp6wq93m76hwvygfesfgkagr2y2uspu9uy",
@@ -1054,7 +1052,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1j8wleahepyz0g46m8gw8gmfq7d4tdhz4mutwy6",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1hkh87f4xu54l93yfjan8zp48au6e8wfkg846nq",
@@ -1071,15 +1069,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 14779.3,
-   "sent_out": 0.0,
+   "sent_out": 14779.3,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1hkh87f4xu54l93yfjan8zp48au6e8wfk74jup8"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis10rx8lxl33tuz08jf94z7ullf6lxx7mg8844d65",
@@ -1093,13 +1091,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 59035.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1w7p0fqtmxa6r6uuwntuy90m5h4g0yq27nqe34a",
@@ -1119,7 +1117,7 @@
    "bridge_txs": 2,
    "top_dest": "genesis1h8uj22du0ka3ylq6rnx00cupey9y6e4jm5y87x",
    "osmo_receivers": [],
-   "tag": "EVM/BASE"
+   "tag": "EVM_BASE"
   },
   {
    "del": "genesis12wnme7z2eu6upc00m4nxvf57wpeuvtctqlv7yv",
@@ -1134,13 +1132,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 6650.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1cru83slnu2scwn32dkkgp4pfu4famvx4x7nssv",
@@ -1154,13 +1152,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 34031.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1322arrjrekzf88utfxxj9jfsaenfsju3yfw50y",
@@ -1180,7 +1178,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis18hq49d3v4lq8mm7dnyk5dj90njt8jtu3v8ahjt",
@@ -1205,7 +1203,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1u4p9y3a80pxd8nk56z6j507x79peykkzaq3uv2",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1p4r5lv6pdchdnxw9ekqjwa08kzefrcrgaf9v9p",
@@ -1220,13 +1218,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 11490.9,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "SIGUE STAKEADO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis19q8epway9ag8zpjhudkx64d5vvru778dfzu9uu",
@@ -1248,7 +1246,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis15z5fvkqv25zcpkp5hrceapazyn3dkynrwx6880",
@@ -1262,13 +1260,13 @@
    "unbonding": 0,
    "restaked_after": 75.7,
    "ibc_out": 0.0,
-   "sent_out": 10.0,
+   "sent_out": 12675.4,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "genesis1566f897wyxakygqwj985r0ehrev5pw6pmnftlg",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1wjsduffyh43a87xlh22x3t9p85x2eqjq04dhc4",
@@ -1288,7 +1286,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1cffqlxsq87myua4mxunv47jz65ly8maklnh67h",
@@ -1303,15 +1301,15 @@
    "unbonding": 0,
    "restaked_after": 1400.0,
    "ibc_out": 5430.0,
-   "sent_out": 0.0,
+   "sent_out": 6871.7,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1cffqlxsq87myua4mxunv47jz65ly8makfpsuvs"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1qxsjc902kmlul29zpq75s6urfsd506xg20duzx",
@@ -1332,7 +1330,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1hvan9p4ghg6xz26ksgw9vkhghkvxfq0sn0sn5v",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1uck0t7qfnn5y4g5e2e5djnayzv7wn0a2jeyc9z",
@@ -1352,7 +1350,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1nas9xydhufh8vdqyy0h6l0j79m785zmurgry0u",
@@ -1366,13 +1364,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 8267.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1q82vtum6cmft2jx5qundtmjrsq268w7hf2h26y",
@@ -1386,13 +1384,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 3174.6,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1qyfled5ulf6wmu2u4smstn8rlzazanmqx6mjnx",
@@ -1406,15 +1404,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 7431.9,
-   "sent_out": 0.0,
+   "sent_out": 7431.9,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1qyfled5ulf6wmu2u4smstn8rlzazanmqsgu5pp"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis10kn3t58pvyayg878umwyjcga02jsuvddaze6pl",
@@ -1434,7 +1432,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1uacumx6pkemysvdwwana6suad0lnhm9rllzty6",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1hlk25xdu92u3e8nl0mg6txnzwwx2y30uzu69ww",
@@ -1454,7 +1452,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis13uup3md785lsd74aws4hx2et052mferw3paz0v",
@@ -1474,7 +1472,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1t6y45x5dw4sxjmvuln2fzp40jcz88nkk0uhglx",
@@ -1494,7 +1492,7 @@
    "bridge_txs": 1,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "EVM/BASE"
+   "tag": "EVM_BASE"
   },
   {
    "del": "genesis1fmmh47668k05rj2muv3868xfsmxtvxp4uykwq9",
@@ -1508,13 +1506,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 4487.9,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1qt98pflkzr862accqps3llhwqhvg4yzl75qchl",
@@ -1528,13 +1526,13 @@
    "unbonding": 0,
    "restaked_after": 100.0,
    "ibc_out": 0.0,
-   "sent_out": 2089.0,
+   "sent_out": 2089.5,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis1gzn6edx0r2mwavr4rxxzghumhyl77q68gag24w",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1knfdnjttp4uj6zmhuu286ujvc8uqrtjce36hs0",
@@ -1554,7 +1552,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis107ff0tztguhn637e0jf3pjecs7kk333gaprfj3",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1q5k5vgppd3esjjhzpzezr78cuyfva2rhtjm7ht",
@@ -1574,7 +1572,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "DESBLOQUEANDO"
+   "tag": "UNBONDING"
   },
   {
    "del": "genesis1lvzks4cryhyu8un02836qlzcae2s08jxx48jsy",
@@ -1596,7 +1594,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1mcq3gddr8f7y2zmk5jfpu6wfkjk8wed3756yjv",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1gar9f4y04spftv3qfcqrl5zxx6ckcmlr5jrfns",
@@ -1616,7 +1614,7 @@
    "bridge_txs": 1,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "EVM/BASE"
+   "tag": "EVM_BASE"
   },
   {
    "del": "genesis18tg85xnwmdfnmev254cv35scusfxspyu8ffjvm",
@@ -1631,15 +1629,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 551.0,
-   "sent_out": 0.0,
+   "sent_out": 551.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo18tg85xnwmdfnmev254cv35scusfxspyu3mw57u"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1e8597agptv59rnvl3rvk4pyjylm8syq6l63ezg",
@@ -1659,7 +1657,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1fu2p20fw8fhm6cclzqal6t5jd9q4yx499thmdq",
@@ -1679,7 +1677,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis126tfcp59w789c5hv6dj7gujqveknud84kly438",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1rsntu55zwhlhcfghh2wtzsxkr67qszupcys22v",
@@ -1695,13 +1693,13 @@
    "unbonding": 0,
    "restaked_after": 28.6,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 226.2,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1v92dav3kyarp8dsjqve9wqfvyhm5xxqg0mu3x8",
@@ -1724,7 +1722,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1jst6seuaspcqpkwggk0kvxmglfykvgzwxp2xe6",
@@ -1738,15 +1736,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 99.8,
-   "sent_out": 0.0,
+   "sent_out": 99.8,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1jst6seuaspcqpkwggk0kvxmglfykvgzwsndqta"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis19g4478jj95v9xln85j684gc6ek7khcgn2e97re",
@@ -1766,7 +1764,7 @@
    "bridge_txs": 1,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "EVM/BASE"
+   "tag": "EVM_BASE"
   },
   {
    "del": "genesis1cxmzj73ysxqnx2xnv868fkjkt0ly4szycfm00y",
@@ -1786,7 +1784,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis148vmqxzgp4yc996pasredy3v9sw8sxzs9vn69a",
@@ -1800,15 +1798,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 84.6,
-   "sent_out": 0.0,
+   "sent_out": 169.2,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo148vmqxzgp4yc996pasredy3v9sw8sxzsn75uh6"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis1qctsnew9jprsk2jdngu6ddemgd3h4f49x6jrnq",
@@ -1822,15 +1820,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 71.2,
-   "sent_out": 0.0,
+   "sent_out": 71.2,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1qctsnew9jprsk2jdngu6ddemgd3h4f49sg49p8"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis18lnewh6qt2q7gljxuh48hc9zfaxcgec7tygkmj",
@@ -1850,7 +1848,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1czxfjwladw79wrzjsjhxtphxmcutmtxx7asdrw",
@@ -1873,7 +1871,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1p80y4t4ct57sv70kmdyxalmrkhp6ssdt5y9zww",
@@ -1893,7 +1891,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis15g59rhklnfjqgd34fqmhdgh9w787ntmf6wyvkx",
@@ -1914,7 +1912,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis15pafk2cyfacsp9ulnfdfkhp5yufvpsymm2vswc",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1j8pf05c6vn4pa0xf755ug6p37yfc403xym8vcx",
@@ -1934,7 +1932,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1kjh9u07x4lquc7rrn6msfq7qvmy6xuvr7jy749",
@@ -1954,7 +1952,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1aedaw6l8emqaclg352xhuh6mt935tzcgugfw3s",
@@ -1974,7 +1972,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1kjh9u07x4lquc7rrn6msfq7qvmy6xuvr7jy749",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis15vhalwk5m77uql6h664xckrzak5g6rkrwkgxdp",
@@ -1995,7 +1993,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis16kg6ktyx4hxlyq9t9zumadykea7lkxr87dcmdw",
@@ -2015,7 +2013,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1cl8aha73dj69dq7dqhh7vyj8kmdhyr4y3jx6yh",
@@ -2035,7 +2033,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1agprce4jnftapsg2k4vkyqq3ez6dpjdl76cad2",
@@ -2055,7 +2053,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1x8tcv75ut45zw9y2dcxrda6u4evmhtppdhsntc",
@@ -2075,7 +2073,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis137w8w3cszp6u2u8rfjk5a54ycq0fktpg5qxdj5",
@@ -2095,7 +2093,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1fyja53h45tls4yrf0mwka4wzgn46q5av96rqt5",
@@ -2117,7 +2115,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1kmnugkq0c0yqs0ycutpr8kpkrqj8tr9rr8asfx",
@@ -2137,7 +2135,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis160gfcu9x287p3nyrkz88s0pq7vjf5klz9ap3ln",
@@ -2157,7 +2155,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1s49d0qgengsj6xwaqvhnsfrep3czs5v30n9wj5",
@@ -2177,7 +2175,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1g0j9kmdn4a0dje9czsx0ggdzk9fsmh8r4vp2m6",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis12e7x392uux4xx3suzf7xmhnzdmwalzumtvva3c",
@@ -2198,7 +2196,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis18qz8ecysetqqhyv4qs9tlw5ylpgnx9ymh3ewsv",
@@ -2218,7 +2216,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1xpyqxhyg742e4p9323676mqqzwe730e9qezsxd",
@@ -2232,15 +2230,15 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 17.8,
-   "sent_out": 0.0,
+   "sent_out": 17.8,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [
     "osmo1xpyqxhyg742e4p9323676mqqzwe730e9kt9k52"
    ],
-   "tag": "OSMOSIS(venta?)"
+   "tag": "OSMOSIS"
   },
   {
    "del": "genesis19vqjj6a4wcsnd82v50y9payde726f5kel74a6j",
@@ -2260,7 +2258,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis15pafk2cyfacsp9ulnfdfkhp5yufvpsymm2vswc",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1ens8hvwve26lesh3cp4ntapmefs4kk7gnzqf9l",
@@ -2280,7 +2278,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1u66w5gwnwtf5pf726mjgq6aau6xuk8wles7zef",
@@ -2300,7 +2298,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1wnlvwnumm7crl8eqk9pkztzjus0s74xr53hdxv",
@@ -2321,7 +2319,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1g0j9kmdn4a0dje9czsx0ggdzk9fsmh8r4vp2m6",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1xc8nvj9wrkrvcye0kku48tv4tzl0nx4qtnh6uh",
@@ -2341,7 +2339,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1nd99gv737ee8gf5hhmu5pngudh0wdl4la3h9ks",
@@ -2362,7 +2360,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis16r8masj94zav9fhwg00z9vkx2rpvd9d49s2r9p",
@@ -2382,7 +2380,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis15dymd0ms29fgngte4n7aadeapyjvx6tqmmux5v",
@@ -2402,7 +2400,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1ey43h3axumrkhctrjss6qfm7h9a7argplgmrdj",
@@ -2422,7 +2420,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis15tk5lzt82dgc637kw9hnnl4l6ynaknzhsx809d",
@@ -2442,7 +2440,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1ejnpzu8e667zm24merulfs0v2zegfjasxva33g",
@@ -2462,7 +2460,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1n8v2344t67y5npryavxlwtzjawc95zalml29pt",
@@ -2482,7 +2480,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1m7khcm73sn5k06r3gmqhd4a3tjya7cmug5lqaf",
@@ -2503,7 +2501,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1ah8nl8yh7j3fg9e8rcqr70g5r2u7rwv7wqxlm0",
@@ -2523,7 +2521,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "DESBLOQUEANDO"
+   "tag": "UNBONDING"
   },
   {
    "del": "genesis1zpw2rcj292pfpqr2ezdqa3mur7jj2lwxqx4xq2",
@@ -2543,7 +2541,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1mgll8lfmpdyadctt2ga5vza0dtw3gtpyjjqtwh",
@@ -2565,7 +2563,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1fj8d32l98legw3l23ag5gl6ulc64akfrum8hcu",
@@ -2585,7 +2583,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1pp3latgjznq3r8j8agmmyfsuf5h8krymswf6ln",
@@ -2606,7 +2604,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1g0j9kmdn4a0dje9czsx0ggdzk9fsmh8r4vp2m6",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis15y7zxmgfe0us999xj8cpcxprq0wd0p9yf2gag6",
@@ -2626,7 +2624,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1u0mwg4z3etpa2aesleq8l5fp3cpacwqh77gw2w",
@@ -2646,7 +2644,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis15g6mlp83l9ra85clj8ymhe2vn6v6emgkdk72nh",
@@ -2669,7 +2667,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis17aqvdxgtwcugryz3elh0duamh0hjyth8zuzurc",
@@ -2689,7 +2687,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1lt402x43cpmmseg9e2jaqrzfxlyhjhrqy345ha",
@@ -2709,7 +2707,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1tr9m49d9gw25a3ytdye909n2l0h90tuy8v4x79",
@@ -2729,7 +2727,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1xp9vpjdzx08uh7llkl46upc3cefmn4kprmeq3n",
@@ -2749,7 +2747,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1yqu4yyprdjkuhr3jaufz4xvj2pghkk4340kj40",
@@ -2769,7 +2767,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis18vashg4h5gmkwt6kf4hkkeehkksazlq0seqw2q",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis13usnadvzl8utxn99hqwf5c4efpmm03h5flppr4",
@@ -2789,7 +2787,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis16zu0qrkcxeu85fljydssf5yamd39hzp6syhx2d",
@@ -2809,7 +2807,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis18p3x6n6a5g8fv60tgpa8zgd9mjvwrcvfxd6dp2",
@@ -2829,7 +2827,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis19gm4nf8xm396kfe7m6zfuylte279rg9nrw0dqg",
@@ -2849,7 +2847,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis19jzcv8ak98a7u0wf7apgrfk9rggh3kx56xr882",
@@ -2869,7 +2867,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1csf3up94qheqz88fvvlwjl7vc5sdymart3rfmu",
@@ -2889,7 +2887,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1eu6yf2wjl45qqk4qyj9u9eruy78dk7wg5ug2mk",
@@ -2903,13 +2901,13 @@
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 24.7,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1kq2rzz6fq2q7fsu75a9g7cpzjeanmk68kv3flp",
    "osmo_receivers": [],
-   "tag": "MIXTO"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1f3jz57wxl9g0lamdwup6886pl9nzyrsc6p3mhc",
@@ -2929,7 +2927,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1n8v2344t67y5npryavxlwtzjawc95zalml29pt",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1jf7u589sr24ae47stkfl93t5xkjut3srzfcv3z",
@@ -2949,7 +2947,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1k6vtz5salf7ed9r90vfcamtxpxt6zvw99cljju",
@@ -2969,7 +2967,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1kx3ayfwgfessksvg56ehccnh8w7vzqzwr04z8j",
@@ -2989,7 +2987,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1l50xgw8fccuscvtnjmvyutxadryglfplvtw0lx",
@@ -3009,7 +3007,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1myhtnd4aghfvt7anv5d5dxnv5540vjsap4k3nj",
@@ -3029,7 +3027,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1qnlxnneluedfg3lusv8r36t5c0s4r2p0mdh4cq",
@@ -3049,7 +3047,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1td8ff94w5shav28r2vmfhwjr5sf5ttv4dd9uzr",
@@ -3069,7 +3067,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1unn3gpqktjeenk56rgz4j3jqthj2exrsywe50l",
@@ -3089,7 +3087,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis12upz8dny2gn93qmjl5zyr9gqwqqlr6e6m7xxma",
@@ -3110,7 +3108,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1xc9cm2dkx4xmna0emqur0dprg3clgtypuhmhnw",
@@ -3131,7 +3129,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1lm59f9w6hte7wz83d4dxw5t40hz8cehznwjjc2",
@@ -3147,13 +3145,13 @@
    "unbonding": 0,
    "restaked_after": 304.2,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 490.0,
    "wrapped": 0.0,
    "evm_txs": 24,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1vqu8rska6swzdmnhf90zuv0xmelej4lqnm3zsa",
    "osmo_receivers": [],
-   "tag": "RE-STAKED"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1an7untm0j46parl25rymd3pewmqpycvkuz5n43",
@@ -3173,7 +3171,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1q8qpw9cww02urxmlkk2nqvmn83h9etgs0h65mz",
@@ -3194,7 +3192,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis15pafk2cyfacsp9ulnfdfkhp5yufvpsymm2vswc",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1j9ju9vazz6z6c6h8fwx5ydzwy9h5qpgf3ztxdc",
@@ -3214,7 +3212,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1xu3exndcrwjy9w6x6zxar224hxwa4s66mj4pce",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1h7zx0vgqahwd276qhjnznkh8zf4nfjl3dmyghh",
@@ -3234,7 +3232,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1d7qtzdlxtj06xymmcst256sfkrk6g9fe7vdrwf",
@@ -3254,7 +3252,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUIDO(riesgo)"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis1j9x0s4wemqkzxunj3vdk27z4qy9kfwl7wmyvez",
@@ -3274,7 +3272,7 @@
    "bridge_txs": 0,
    "top_dest": "genesis1shdta480hdqtyp2n9f2re7w9ptq9gg7ulaug5r",
    "osmo_receivers": [],
-   "tag": "OTRA WALLET"
+   "tag": "OTHER_WALLET"
   }
  ],
  "osmo_receivers": {
