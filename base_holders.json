@@ -1,11 +1,11 @@
 {
-  "updated": "2026-08-08T03:31:20Z",
-  "block": 49685249,
-  "total_supply": 2078896,
-  "pool_wl1": 1351282,
+  "updated": "2026-08-09T03:32:48Z",
+  "block": 49728493,
+  "total_supply": 2074154,
+  "pool_wl1": 1342509,
   "pool_addr": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
-  "holder_count": 96,
-  "total_in_wallets": 627726,
+  "holder_count": 100,
+  "total_in_wallets": 631757,
   "unlisted": 99888,
   "holders": [
     {
@@ -113,6 +113,10 @@
       "v": 1973
     },
     {
+      "a": "0x7198d6ca07f2846586ee101c8efbc5cc8c65e36c",
+      "v": 1815
+    },
+    {
       "a": "0x38a29f7c2f59ec1a0daa08a9a00175adb3427775",
       "v": 1700
     },
@@ -123,6 +127,14 @@
     {
       "a": "0xda4c6f985421fae044aace7f4b0ced4e1bb1dd64",
       "v": 1230
+    },
+    {
+      "a": "0x44dce632229c130eaa9c7dc6fddc7a0331598a1a",
+      "v": 1167
+    },
+    {
+      "a": "0x4c4b431637baaff45cb57f1358dd7539402b9e36",
+      "v": 1032
     },
     {
       "a": "0xb08054edef332a4eaf11b49ee51d25ded84d51e7",
@@ -223,6 +235,10 @@
     {
       "a": "0x2016dc54428e9b97b3aa497df7106b07ed85243c",
       "v": 18
+    },
+    {
+      "a": "0x5f8894786fbcdbe39e85110f18dd3e76e5a5e673",
+      "v": 17
     },
     {
       "a": "0x20f6ee51340adeed01a59b0e65cb3703f3dc860c",

@@ -1,17 +1,17 @@
 {
-  "updated": "2026-08-08T03:30:39Z",
-  "total_liquid": 9716485.533982193,
+  "updated": "2026-08-09T03:32:06Z",
+  "total_liquid": 9752065.163701544,
   "wallets": 621632,
-  "active_liquid": 4370479.918918143,
+  "active_liquid": 4406003.470254161,
   "active_wallets": 582,
-  "dormant_liquid": 5346005.61506405,
+  "dormant_liquid": 5346061.693447382,
   "dormant_wallets": 621050,
   "concentration": {
-    "top1": 3.956924534327255,
-    "top3": 8.146725124262472,
-    "top5": 11.221205336525085,
-    "top10": 16.942236718022922,
-    "top20": 23.826392837294783
+    "top1": 3.9424880116630296,
+    "top3": 8.117002449272002,
+    "top5": 11.180265666396094,
+    "top10": 16.88042432250197,
+    "top20": 24.074058516922594
   },
   "holders": [
     {
@@ -67,6 +67,10 @@
       "v": 86728
     },
     {
+      "a": "genesis1rauj88e8ew7f8clvlsmse5wvc3j6hurhnarvsd",
+      "v": 77688
+    },
+    {
       "a": "genesis1huvdx7ank8ras26ze4f7j8wshntpyskd9rvdwu",
       "v": 66567
     },
@@ -101,10 +105,6 @@
     {
       "a": "genesis12wnme7z2eu6upc00m4nxvf57wpeuvtctqlv7yv",
       "v": 41911
-    },
-    {
-      "a": "genesis1rauj88e8ew7f8clvlsmse5wvc3j6hurhnarvsd",
-      "v": 41849
     },
     {
       "a": "genesis1afvvw56w2uq64qmsurawkxdhu9r98e5uajuhsx",
@@ -283,16 +283,16 @@
       "v": 11671
     },
     {
+      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
+      "v": 11483
+    },
+    {
       "a": "genesis1da4lpc7dnpstuv99ke3f9ryl32gxcg8y8439gy",
       "v": 11278
     },
     {
       "a": "genesis1msknwuq9kfhfmycdvgl6gm3lmctt63wcvmyage",
       "v": 11179
-    },
-    {
-      "a": "genesis1ag940t2gd4sn0wey7xgfjl83x2t5v62mvgdrnl",
-      "v": 11136
     },
     {
       "a": "genesis1tkc8p47a4fvwej0wcp5jd3y623mhctdnxyu4d2",
@@ -380,7 +380,7 @@
     },
     {
       "a": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
-      "v": 9459
+      "v": 9485
     },
     {
       "a": "genesis1vc0e9lze2qpqc745zz6ltwdr7s5lfxh9yetntg",
@@ -823,16 +823,16 @@
       "emptied": 17432,
       "increased": 49405,
       "intact_l1": 3773682.0,
-      "active_l1": 853687.87,
+      "active_l1": 853118.91,
       "intact_pct": 80.6
     },
     "evmos": {
       "total": 213907,
-      "intact": 201468,
-      "moved": 8608,
+      "intact": 201466,
+      "moved": 8610,
       "emptied": 3741,
       "increased": 90,
-      "intact_l1": 1007340.0,
+      "intact_l1": 1007330.0,
       "active_l1": 191961.34,
       "intact_pct": 94.2
     }
