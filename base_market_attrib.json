@@ -1,25 +1,25 @@
 {
  "totals": {
-  "sold": 2700738.3,
-  "sold_usd": 499685.1,
-  "bought": 3448327.9,
-  "bought_usd": 561366.0
+  "sold": 3061292.0,
+  "sold_usd": 539395.3,
+  "bought": 3722036.3,
+  "bought_usd": 591028.0
  },
  "routers": {
   "0x4409921ae43a39a11d90f7b7f96cfd0b8093d9fc": 4.5,
-  "0x411d2c093e4c2e69bf0d8e94be1bf13dadd879c6": 32026.6,
+  "0x411d2c093e4c2e69bf0d8e94be1bf13dadd879c6": 32334.5,
   "0xc0269fc72c0138a3a551ccf07f0819adabaa8973": 14.5,
-  "0x8f10b468b06c6fd214b65f87778827f7d113f996": 584551.7,
+  "0x8f10b468b06c6fd214b65f87778827f7d113f996": 654654.6,
   "0xb92fe925dc43a0ecde6c8b1a2709c170ec4fff4f": 252717.6,
-  "0xd0a40c6526acdebd4f6d87931098ff37a9f8e4bf": 807607.1,
-  "0x7747f8d2a76bd6345cc29622a946a929647f2359": 50799.6,
-  "0xc10ee9031f2a0b84766a86b55a8d90f357910fb4": 7229.8,
+  "0xd0a40c6526acdebd4f6d87931098ff37a9f8e4bf": 837991.6,
+  "0x7747f8d2a76bd6345cc29622a946a929647f2359": 59004.0,
+  "0xc10ee9031f2a0b84766a86b55a8d90f357910fb4": 7257.2,
   "0xf24e4ddeee6a582c4ba52526497b23a19b30c289": 5.8,
   "0xc02068632730fa98d684b657b05a84633c73794f": 341227.9,
   "0x1ce3712395ee4798ac9548b3e0220ea6a2b61e79": 10123.9,
   "0xc8f6b8ba0dc0f175b568b99440b0867f69a29265": 27.6,
   "0xb300000b72deaeb607a12d5f54773d1c19c7028d": 8723.8,
-  "0x09ad820aac5779683b481c4674208a4e1b024afa": 23319.7,
+  "0x09ad820aac5779683b481c4674208a4e1b024afa": 24677.7,
   "0x111111125421ca6dc452d289314280a0f8842a65": 317.9,
   "0x8407699e359ae158bd7ec0668600cc19a79f17c3": 27.7,
   "0x11111605b53ecef22726df86881e4d6d40b5ca11": 3976.1,
@@ -28,7 +28,7 @@
   "0x9b824dd3ec24280e40ef43015ccf3073bf4cc7a9": 6000.0,
   "0x3d90f66b534dd8482b181e24655a9e8265316be9": 1218.8,
   "0x9a972d8c3a8dd27e5811cbcb75ebdac924fb53a1": 8553.6,
-  "0xfdf682f51fe81aa4898f0ae2163d8a55c127fbc7": 27310.4,
+  "0xfdf682f51fe81aa4898f0ae2163d8a55c127fbc7": 28255.0,
   "0x05101e05062cdd189f2d4431e46e82b3ed311ba4": 1451.3,
   "0x2d3524b9b5dae34b646614eebb1e038d403e4cac": 5106.9,
   "0x6b6e87d2cc438c287a5550a8732c302454e4382b": 30041.5,
@@ -39,11 +39,15 @@
   "0x3f768398d267ace37ee18a54c4f9061fe9b2d418": 290.8,
   "0xafa8dff3da05e34026a44e9862d72a1d840af5fd": 672.5,
   "0x274602a953847d807231d2370072f5f4e4594b44": 1277.8,
-  "0xc7827556424769df987a55464f22e0390e70b29a": 7118.0,
+  "0xc7827556424769df987a55464f22e0390e70b29a": 10864.1,
   "0x649cbf4fd4efb3cca89cbb9982114bcf22fad9ff": 19.0,
-  "0xe7dc29344d750e48e70d4003a1decbd065781c73": 5043.5,
+  "0xe7dc29344d750e48e70d4003a1decbd065781c73": 13428.6,
   "0xfcc305fb9cd2eba69bc792bd240e071b2f242bc2": 249.3,
-  "0x337685fdab40d39bd02028545a4ffa7d287cc3e2": 10.0
+  "0x337685fdab40d39bd02028545a4ffa7d287cc3e2": 10.0,
+  "0x0a2854fbbd9b3ef66f17d47284e7f899b9509330": 1715.6,
+  "0x111116053f09d34a7eae8102887004445176ca11": 16.0,
+  "0x6a2754867af13749ec3f1974e072f8bdb6e9f993": 6770.0,
+  "0xb3f97be836e535232b54b5f933c5f724951f676d": 25000.1
  },
  "sellers": [
   {
@@ -65,6 +69,12 @@
    "label": ""
   },
   {
+   "addr": "0x854dce939b6e296cfd35d1a27973be1d03675382",
+   "wl1": 110000.0,
+   "usd": 11979.1,
+   "label": "bridger GL1"
+  },
+  {
    "addr": "0x6bc3d85078297fd437fc40fc029f5b6e09f1b091",
    "wl1": 85116.6,
    "usd": 13626.0,
@@ -72,9 +82,15 @@
   },
   {
    "addr": "0xc412fcdfbd3db0d1a8da076c78f6656ab999ffef",
-   "wl1": 78358.1,
-   "usd": 15701.3,
+   "wl1": 82104.2,
+   "usd": 16130.2,
    "label": ""
+  },
+  {
+   "addr": "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41",
+   "wl1": 79502.8,
+   "usd": 13431.5,
+   "label": "HOP2 genesis18fsyu8.."
   },
   {
    "addr": "0xe781b28e02ed5fc4b989905cb6848d318f4735fd",
@@ -92,6 +108,12 @@
    "addr": "0x11e8c97b1cfaa0b633803a503cdd034a6a970693",
    "wl1": 68281.1,
    "usd": 13664.7,
+   "label": ""
+  },
+  {
+   "addr": "0x762c25e26601390464a4e2e380fa7be47039463c",
+   "wl1": 60384.4,
+   "usd": 9378.4,
    "label": ""
   },
   {
@@ -131,22 +153,34 @@
    "label": ""
   },
   {
+   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
+   "wl1": 48404.3,
+   "usd": 5500.3,
+   "label": "bridger GL1"
+  },
+  {
+   "addr": "0x25ae7dd27de417f92c704893a10129ea0f175000",
+   "wl1": 47343.4,
+   "usd": 5230.4,
+   "label": ""
+  },
+  {
    "addr": "0x88a80784e8ab48bbda70493bfe7e94d862d2a8c3",
    "wl1": 44486.6,
    "usd": 8391.5,
    "label": "bridger GL1"
   },
   {
+   "addr": "0xbaee3f2ad0f80345ab22743b1af3b0a45a280dd4",
+   "wl1": 40767.5,
+   "usd": 3945.9,
+   "label": "HOP2 genesis1hthr72.."
+  },
+  {
    "addr": "0xdf2968383a3872e5036cd73fb411d0dabb224253",
    "wl1": 39401.2,
    "usd": 8571.6,
    "label": ""
-  },
-  {
-   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
-   "wl1": 36034.2,
-   "usd": 4132.1,
-   "label": "bridger GL1"
   },
   {
    "addr": "0x193e75b60a4ca8bc842dc28604afc6c41afe972a",
@@ -173,10 +207,16 @@
    "label": ""
   },
   {
-   "addr": "0x762c25e26601390464a4e2e380fa7be47039463c",
-   "wl1": 29999.9,
-   "usd": 6097.5,
-   "label": ""
+   "addr": "0xe08094fe42984ac2e2d6cf88aa5a4d718b638675",
+   "wl1": 30000.0,
+   "usd": 2946.5,
+   "label": "HOP2 genesis1uzqffl.."
+  },
+  {
+   "addr": "0x474654d48fac0295b2204e003fd04636b16c6fe3",
+   "wl1": 29982.0,
+   "usd": 3267.5,
+   "label": "COHORTE genesis1gar9f4.."
   },
   {
    "addr": "0xc37ac3b699566698d1af6b92075cc4c99fc58ebb",
@@ -191,21 +231,9 @@
    "label": ""
   },
   {
-   "addr": "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41",
-   "wl1": 26241.5,
-   "usd": 7184.5,
-   "label": "HOP2 genesis18fsyu8.."
-  },
-  {
    "addr": "0x848a004f67d3f814f8ce33a3d2cbd7c59626a202",
    "wl1": 24561.1,
    "usd": 5052.4,
-   "label": ""
-  },
-  {
-   "addr": "0x25ae7dd27de417f92c704893a10129ea0f175000",
-   "wl1": 23537.0,
-   "usd": 2457.3,
    "label": ""
   },
   {
@@ -213,6 +241,12 @@
    "wl1": 23396.6,
    "usd": 5253.4,
    "label": ""
+  },
+  {
+   "addr": "0xa99d7eaa76f98c0325b65185031a9d82e0d32dbe",
+   "wl1": 23161.6,
+   "usd": 3231.5,
+   "label": "bridger GL1"
   },
   {
    "addr": "0x8d4fbf807aefecffc824aaef7d738703b6cf24eb",
@@ -251,6 +285,12 @@
    "label": ""
   },
   {
+   "addr": "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074",
+   "wl1": 20221.0,
+   "usd": 2289.8,
+   "label": "bridger GL1"
+  },
+  {
    "addr": "0xd03da4452bf9478c67a54c56d46678d55a8d9483",
    "wl1": 19788.0,
    "usd": 1763.4,
@@ -261,12 +301,6 @@
    "wl1": 17447.4,
    "usd": 3455.1,
    "label": ""
-  },
-  {
-   "addr": "0xbaee3f2ad0f80345ab22743b1af3b0a45a280dd4",
-   "wl1": 17215.0,
-   "usd": 1545.8,
-   "label": "HOP2 genesis1hthr72.."
   },
   {
    "addr": "0xfd062131d55ce2afd2b072051cbfa754203a07a4",
@@ -297,12 +331,6 @@
    "wl1": 13736.5,
    "usd": 1795.1,
    "label": ""
-  },
-  {
-   "addr": "0xa99d7eaa76f98c0325b65185031a9d82e0d32dbe",
-   "wl1": 13713.6,
-   "usd": 2042.6,
-   "label": "bridger GL1"
   },
   {
    "addr": "0xef4f72422c222f2ee68a8f1292e6ce4c809616cc",
@@ -365,10 +393,22 @@
    "label": ""
   },
   {
+   "addr": "0xb1fe8d7274efcad6571f11465709a7df0521b2a9",
+   "wl1": 11222.8,
+   "usd": 1595.5,
+   "label": ""
+  },
+  {
    "addr": "0x02b0c14d2c03852ccebd1b2e66ab3c075a57711d",
    "wl1": 10805.3,
    "usd": 1915.7,
    "label": ""
+  },
+  {
+   "addr": "0x786726cec11025559adaaa4ae390d8d7c9287225",
+   "wl1": 10716.7,
+   "usd": 1676.8,
+   "label": "HOP2 genesis10pnjdn.."
   },
   {
    "addr": "0xa667a51bdcb32dabc8a9396a4523b5fef314ebe7",
@@ -407,22 +447,10 @@
    "label": ""
   },
   {
-   "addr": "0x786726cec11025559adaaa4ae390d8d7c9287225",
-   "wl1": 9456.7,
-   "usd": 1521.9,
-   "label": "HOP2 genesis10pnjdn.."
-  },
-  {
    "addr": "0x6aeea3bb92d21397fbd46d76922023ba33f9a768",
    "wl1": 9420.4,
    "usd": 2622.3,
    "label": ""
-  },
-  {
-   "addr": "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074",
-   "wl1": 9024.0,
-   "usd": 1107.0,
-   "label": "bridger GL1"
   },
   {
    "addr": "0x62343beb052cd3b8d3d597d520a8b6a8b8a42305",
@@ -447,6 +475,12 @@
    "wl1": 8395.2,
    "usd": 1206.1,
    "label": ""
+  },
+  {
+   "addr": "0x91ddfcf6f90904f4575b3a1c746d20f36ab6dc55",
+   "wl1": 8385.1,
+   "usd": 1040.7,
+   "label": "HOP2 genesis1j8wlea.."
   },
   {
    "addr": "0x0a41a43012f609c4123619313b8486bb63d00a38",
@@ -659,12 +693,6 @@
    "label": ""
   },
   {
-   "addr": "0xb1fe8d7274efcad6571f11465709a7df0521b2a9",
-   "wl1": 4452.8,
-   "usd": 832.3,
-   "label": ""
-  },
-  {
    "addr": "0x9719cadd39ca85677def712e37a2d217c8e08f4e",
    "wl1": 4446.1,
    "usd": 940.4,
@@ -848,6 +876,12 @@
    "addr": "0xac4f4e12db160ab71aec33a37aaa37a8caf4800b",
    "wl1": 3150.9,
    "usd": 635.7,
+   "label": ""
+  },
+  {
+   "addr": "0xc05f82d73d03d532e1dacaaccedebf20dee79f98",
+   "wl1": 3014.9,
+   "usd": 313.6,
    "label": ""
   },
   {
@@ -1095,6 +1129,12 @@
    "wl1": 1458.0,
    "usd": 342.6,
    "label": "bridger GL1"
+  },
+  {
+   "addr": "0xf1e74489b9a1e8fdd5f4961a40366fc562936652",
+   "wl1": 1446.8,
+   "usd": 150.0,
+   "label": ""
   },
   {
    "addr": "0x75a4393dedd02f9e7e4d928c5fbf38730732c81f",
@@ -1379,6 +1419,12 @@
    "label": ""
   },
   {
+   "addr": "0x36c342f6f4c09af0dbf87071fea2e6c662d8ad5c",
+   "wl1": 756.2,
+   "usd": 93.2,
+   "label": ""
+  },
+  {
    "addr": "0x6c41356d781c3ca81cda4696e935151d0349a369",
    "wl1": 750.5,
    "usd": 170.8,
@@ -1565,6 +1611,12 @@
    "label": ""
   },
   {
+   "addr": "0xad29bdfe031899b6d57a6990e0994aaf2cb69cba",
+   "wl1": 414.5,
+   "usd": 48.0,
+   "label": ""
+  },
+  {
    "addr": "0xb4e07b5b6b16f848ce47798081e52df878d2beef",
    "wl1": 364.4,
    "usd": 32.0,
@@ -1604,6 +1656,12 @@
    "addr": "0xfe0f24f021314f3701dd94a727a61e1a33840f34",
    "wl1": 315.1,
    "usd": 59.7,
+   "label": ""
+  },
+  {
+   "addr": "0x84d95566ff07b62e009d2924b22c9c8d77f33ca5",
+   "wl1": 297.1,
+   "usd": 31.0,
    "label": ""
   },
   {
@@ -1688,6 +1746,12 @@
    "addr": "0xfceafc1a8f5552b3c32361c7ee5881cced7f8975",
    "wl1": 226.8,
    "usd": 53.1,
+   "label": ""
+  },
+  {
+   "addr": "0xcd9f1e731c83a1ad7a875a48a8a4fe03fe623690",
+   "wl1": 223.5,
+   "usd": 26.1,
    "label": ""
   },
   {
@@ -1859,6 +1923,12 @@
    "label": ""
   },
   {
+   "addr": "0xf2211baaa16c0259a8c60cb3e68249817ad52fe3",
+   "wl1": 116.4,
+   "usd": 13.1,
+   "label": ""
+  },
+  {
    "addr": "0x7eba4a604d16dd8ac8a9a6708c9931087aff82ae",
    "wl1": 113.1,
    "usd": 23.2,
@@ -1967,6 +2037,12 @@
    "label": ""
   },
   {
+   "addr": "0x7198d6ca07f2846586ee101c8efbc5cc8c65e36c",
+   "wl1": 60.0,
+   "usd": 6.5,
+   "label": ""
+  },
+  {
    "addr": "0x498581ff718922c3f8e6a244956af099b2652b2b",
    "wl1": 59.4,
    "usd": 15.5,
@@ -2027,6 +2103,12 @@
    "label": ""
   },
   {
+   "addr": "0x546b44177af4fbe84dd12ecdf7b8c20395b7ba91",
+   "wl1": 26.2,
+   "usd": 3.2,
+   "label": ""
+  },
+  {
    "addr": "0xff071c85e3314e541b3cf47ead1097c719899539",
    "wl1": 25.8,
    "usd": 4.6,
@@ -2075,6 +2157,12 @@
    "label": ""
   },
   {
+   "addr": "0xfc28faf4567bcf4678bd61f60d2586135d69aaf5",
+   "wl1": 22.5,
+   "usd": 2.2,
+   "label": ""
+  },
+  {
    "addr": "0x4578dfb0ea0635aa1a91a9f4779f2dc73000e482",
    "wl1": 22.0,
    "usd": 2.5,
@@ -2099,6 +2187,12 @@
    "label": ""
   },
   {
+   "addr": "0xeaa6371ca7bfbcbe40a1610a692e739a4429439a",
+   "wl1": 16.0,
+   "usd": 1.9,
+   "label": ""
+  },
+  {
    "addr": "0xbd3e9c7c196411d317094931d309c1259f07324b",
    "wl1": 14.9,
    "usd": 3.1,
@@ -2117,6 +2211,12 @@
    "label": ""
   },
   {
+   "addr": "0xadb345f242fff17616e9d32dbe5c4e615806e8e8",
+   "wl1": 10.4,
+   "usd": 1.7,
+   "label": ""
+  },
+  {
    "addr": "0xad01c20d5886137e056775af56915de824c8fce5",
    "wl1": 9.8,
    "usd": 1.1,
@@ -2126,12 +2226,6 @@
    "addr": "0x19fc1b709326fa9f5767d64a154e1c9080cebecb",
    "wl1": 9.6,
    "usd": 2.2,
-   "label": ""
-  },
-  {
-   "addr": "0xadb345f242fff17616e9d32dbe5c4e615806e8e8",
-   "wl1": 8.3,
-   "usd": 1.5,
    "label": ""
   },
   {
@@ -2150,12 +2244,6 @@
    "addr": "0xea947368ba47d9acd4d99640df03163dc6ac283d",
    "wl1": 7.5,
    "usd": 1.3,
-   "label": ""
-  },
-  {
-   "addr": "0x546b44177af4fbe84dd12ecdf7b8c20395b7ba91",
-   "wl1": 7.3,
-   "usd": 0.9,
    "label": ""
   },
   {
@@ -2195,6 +2283,12 @@
    "label": ""
   },
   {
+   "addr": "0xe62636055afd19fde4bbfd2b251bc8b5cffc3166",
+   "wl1": 4.9,
+   "usd": 0.8,
+   "label": ""
+  },
+  {
    "addr": "0xccc16a17fd63b7f1372b89cc80483c29f89fee3e",
    "wl1": 4.8,
    "usd": 0.6,
@@ -2216,12 +2310,6 @@
    "addr": "0x4e3c0b0afd38d79bc05b0a09f59ad2a397314e00",
    "wl1": 4.3,
    "usd": 0.8,
-   "label": ""
-  },
-  {
-   "addr": "0xe62636055afd19fde4bbfd2b251bc8b5cffc3166",
-   "wl1": 3.9,
-   "usd": 0.7,
    "label": ""
   },
   {
@@ -2262,6 +2350,12 @@
   },
   {
    "addr": "0x86f61862332b8eea127248934ad25a6ada58bf1b",
+   "wl1": 1.0,
+   "usd": 0.1,
+   "label": ""
+  },
+  {
+   "addr": "0xb8c3d377b0bf6d8e04ab16bc964370b4f9e28d0a",
    "wl1": 1.0,
    "usd": 0.1,
    "label": ""
@@ -2327,6 +2421,12 @@
    "label": ""
   },
   {
+   "addr": "0x79aad49a049a89d7fe4d8a5e4c2af06e839b6c56",
+   "wl1": 0.0,
+   "usd": 0.0,
+   "label": ""
+  },
+  {
    "addr": "0xb00cf708461eb4688b0c50bb04960abd58f92636",
    "wl1": 0.0,
    "usd": 0.0,
@@ -2342,8 +2442,8 @@
   },
   {
    "addr": "0x1f79239f27cbbc93e3ecfc370cd1ccc465abf077",
-   "wl1": 214460.4,
-   "usd": 24510.2,
+   "wl1": 288234.5,
+   "usd": 32312.6,
    "label": ""
   },
   {
@@ -2372,8 +2472,8 @@
   },
   {
    "addr": "0x25ae7dd27de417f92c704893a10129ea0f175000",
-   "wl1": 86888.9,
-   "usd": 8582.6,
+   "wl1": 97165.9,
+   "usd": 9783.7,
    "label": ""
   },
   {
@@ -2407,6 +2507,12 @@
    "label": ""
   },
   {
+   "addr": "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41",
+   "wl1": 68264.8,
+   "usd": 8007.8,
+   "label": "HOP2 genesis18fsyu8.."
+  },
+  {
    "addr": "0x60289ad360193c9aa557a7f66409ff4cc4126692",
    "wl1": 60235.4,
    "usd": 11438.8,
@@ -2416,6 +2522,12 @@
    "addr": "0xe2114b9bc4ee596668d4228cf78277e90537bd4f",
    "wl1": 59226.6,
    "usd": 13361.0,
+   "label": ""
+  },
+  {
+   "addr": "0xe0624c169cebf04ccbb109f1751fc528d38f9a95",
+   "wl1": 54461.2,
+   "usd": 5749.9,
    "label": ""
   },
   {
@@ -2438,8 +2550,14 @@
   },
   {
    "addr": "0x57a026d6022336db75738de0560133e82f95400b",
-   "wl1": 47187.2,
-   "usd": 3900.0,
+   "wl1": 48131.8,
+   "usd": 4000.0,
+   "label": ""
+  },
+  {
+   "addr": "0xb8c3d377b0bf6d8e04ab16bc964370b4f9e28d0a",
+   "wl1": 45306.9,
+   "usd": 4859.5,
    "label": ""
   },
   {
@@ -2497,15 +2615,21 @@
    "label": ""
   },
   {
+   "addr": "0xbaee3f2ad0f80345ab22743b1af3b0a45a280dd4",
+   "wl1": 26922.5,
+   "usd": 2976.8,
+   "label": "HOP2 genesis1hthr72.."
+  },
+  {
+   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
+   "wl1": 24602.8,
+   "usd": 2710.0,
+   "label": "bridger GL1"
+  },
+  {
    "addr": "0x848a004f67d3f814f8ce33a3d2cbd7c59626a202",
    "wl1": 24561.1,
    "usd": 4959.0,
-   "label": ""
-  },
-  {
-   "addr": "0xb8c3d377b0bf6d8e04ab16bc964370b4f9e28d0a",
-   "wl1": 23794.5,
-   "usd": 2415.7,
    "label": ""
   },
   {
@@ -2563,12 +2687,6 @@
    "label": ""
   },
   {
-   "addr": "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41",
-   "wl1": 16664.7,
-   "usd": 2499.0,
-   "label": "HOP2 genesis18fsyu8.."
-  },
-  {
    "addr": "0x7c5b3ab1d5cc8790b021c77730052e6a73be177f",
    "wl1": 16595.7,
    "usd": 3813.6,
@@ -2579,12 +2697,6 @@
    "wl1": 16584.8,
    "usd": 2861.4,
    "label": ""
-  },
-  {
-   "addr": "0x104c5f269101702e018ba54e3fb0fd9cfe0fa46e",
-   "wl1": 15716.2,
-   "usd": 1710.0,
-   "label": "bridger GL1"
   },
   {
    "addr": "0x43b700f3394bb9a371ff683d43ea62a890c64b41",
@@ -2639,6 +2751,12 @@
    "wl1": 12985.4,
    "usd": 2836.8,
    "label": ""
+  },
+  {
+   "addr": "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074",
+   "wl1": 12663.6,
+   "usd": 1397.0,
+   "label": "bridger GL1"
   },
   {
    "addr": "0x06fd902fe7301500214c13fd79811cee9cf27e89",
@@ -2827,6 +2945,12 @@
    "label": ""
   },
   {
+   "addr": "0xd0f1f397d1c9dfd2bac5654c72c435e68873488a",
+   "wl1": 6971.2,
+   "usd": 750.0,
+   "label": "bridger GL1"
+  },
+  {
    "addr": "0xa5b1a8d25ee37dbb704c1fb37564eb0b99676ac0",
    "wl1": 6854.2,
    "usd": 1906.7,
@@ -2995,6 +3119,12 @@
    "label": ""
   },
   {
+   "addr": "0x05679521ed74249e0ad6628314a67cc73b4dc5b2",
+   "wl1": 4981.9,
+   "usd": 550.0,
+   "label": ""
+  },
+  {
    "addr": "0x711281c1b26aaed86e40e4caaf76c1962b45e161",
    "wl1": 4827.1,
    "usd": 977.6,
@@ -3011,12 +3141,6 @@
    "wl1": 4652.8,
    "usd": 1274.0,
    "label": ""
-  },
-  {
-   "addr": "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074",
-   "wl1": 4608.2,
-   "usd": 499.2,
-   "label": "bridger GL1"
   },
   {
    "addr": "0x8fd620f88276636053f6c1c182d458027386252d",
@@ -3209,12 +3333,6 @@
    "wl1": 3479.9,
    "usd": 667.6,
    "label": ""
-  },
-  {
-   "addr": "0xbaee3f2ad0f80345ab22743b1af3b0a45a280dd4",
-   "wl1": 3376.0,
-   "usd": 300.0,
-   "label": "HOP2 genesis1hthr72.."
   },
   {
    "addr": "0xdde00b1559868463ae6a82778778f0463ff41432",
@@ -3421,9 +3539,21 @@
    "label": ""
   },
   {
+   "addr": "0x7198d6ca07f2846586ee101c8efbc5cc8c65e36c",
+   "wl1": 1875.2,
+   "usd": 206.1,
+   "label": ""
+  },
+  {
    "addr": "0xc0b110808ad28bc6d4dac1f0cfb3b50f28723b85",
    "wl1": 1866.5,
    "usd": 381.5,
+   "label": ""
+  },
+  {
+   "addr": "0xd0f50ffcb725a32341066a3d047628d87754e5f8",
+   "wl1": 1767.0,
+   "usd": 195.3,
    "label": ""
   },
   {
@@ -3448,6 +3578,12 @@
    "addr": "0x61fc4e803e2ac2c6d4b536e6b6abbfd86628e03d",
    "wl1": 1701.2,
    "usd": 343.4,
+   "label": ""
+  },
+  {
+   "addr": "0x38a29f7c2f59ec1a0daa08a9a00175adb3427775",
+   "wl1": 1699.7,
+   "usd": 198.2,
    "label": ""
   },
   {
@@ -3511,16 +3647,16 @@
    "label": "bridger GL1"
   },
   {
+   "addr": "0x00000dd20e55654faf951c521dc2e89b02cc83f6",
+   "wl1": 1376.0,
+   "usd": 263.6,
+   "label": "bridger GL1"
+  },
+  {
    "addr": "0x75a4393dedd02f9e7e4d928c5fbf38730732c81f",
    "wl1": 1371.2,
    "usd": 199.0,
    "label": ""
-  },
-  {
-   "addr": "0x00000dd20e55654faf951c521dc2e89b02cc83f6",
-   "wl1": 1364.1,
-   "usd": 262.1,
-   "label": "bridger GL1"
   },
   {
    "addr": "0xca2511f740c67b656c3a003f07ec100be4df4eb7",
@@ -3595,6 +3731,12 @@
    "label": ""
   },
   {
+   "addr": "0x44dce632229c130eaa9c7dc6fddc7a0331598a1a",
+   "wl1": 1166.7,
+   "usd": 128.7,
+   "label": ""
+  },
+  {
    "addr": "0x62bf402e020f08aea52ff199971b2aba0a29afcc",
    "wl1": 1157.9,
    "usd": 152.5,
@@ -3652,6 +3794,12 @@
    "addr": "0x03ad9259a227e44886c6b1c1833c2e79379b976a",
    "wl1": 1048.7,
    "usd": 190.8,
+   "label": ""
+  },
+  {
+   "addr": "0x4c4b431637baaff45cb57f1358dd7539402b9e36",
+   "wl1": 1031.6,
+   "usd": 113.6,
    "label": ""
   },
   {
@@ -3809,6 +3957,12 @@
    "wl1": 757.1,
    "usd": 131.2,
    "label": "bridger GL1"
+  },
+  {
+   "addr": "0x36c342f6f4c09af0dbf87071fea2e6c662d8ad5c",
+   "wl1": 756.2,
+   "usd": 93.8,
+   "label": ""
   },
   {
    "addr": "0x6c41356d781c3ca81cda4696e935151d0349a369",
@@ -4279,6 +4433,12 @@
    "label": ""
   },
   {
+   "addr": "0xe6bb8230a308a29c028860452848e74fe66a3ea2",
+   "wl1": 160.2,
+   "usd": 18.3,
+   "label": ""
+  },
+  {
    "addr": "0xea03edba925fb36271f170d79f127095df2f4906",
    "wl1": 160.0,
    "usd": 45.8,
@@ -4288,6 +4448,12 @@
    "addr": "0xb6c0770e0e2ab7458e6c43b3ea94066c1b3650c3",
    "wl1": 159.2,
    "usd": 33.5,
+   "label": ""
+  },
+  {
+   "addr": "0x0c8408f0a50c1e4165175028c4fef12bccc433e5",
+   "wl1": 153.4,
+   "usd": 17.3,
    "label": ""
   },
   {
@@ -4357,6 +4523,12 @@
    "label": ""
   },
   {
+   "addr": "0xc427eb594bf7e6f83a522bc47007d6276ebaed14",
+   "wl1": 98.5,
+   "usd": 13.4,
+   "label": ""
+  },
+  {
    "addr": "0x05003eecbd2c1b5aa83e7cf7a6fc441427329e08",
    "wl1": 93.7,
    "usd": 19.7,
@@ -4420,12 +4592,6 @@
    "addr": "0x8a2953f87bcfcb881800df187f7339ed7a336efb",
    "wl1": 74.2,
    "usd": 14.9,
-   "label": ""
-  },
-  {
-   "addr": "0xc427eb594bf7e6f83a522bc47007d6276ebaed14",
-   "wl1": 72.2,
-   "usd": 10.4,
    "label": ""
   },
   {
@@ -4531,6 +4697,12 @@
    "label": ""
   },
   {
+   "addr": "0x546b44177af4fbe84dd12ecdf7b8c20395b7ba91",
+   "wl1": 26.4,
+   "usd": 3.3,
+   "label": ""
+  },
+  {
    "addr": "0xff071c85e3314e541b3cf47ead1097c719899539",
    "wl1": 25.8,
    "usd": 5.0,
@@ -4609,9 +4781,21 @@
    "label": ""
   },
   {
+   "addr": "0x5f8894786fbcdbe39e85110f18dd3e76e5a5e673",
+   "wl1": 17.3,
+   "usd": 1.9,
+   "label": ""
+  },
+  {
    "addr": "0x73fc76cf0367a899e643b9d649ebfc01fb7d1ee5",
    "wl1": 16.3,
    "usd": 3.4,
+   "label": ""
+  },
+  {
+   "addr": "0xeaa6371ca7bfbcbe40a1610a692e739a4429439a",
+   "wl1": 16.0,
+   "usd": 2.0,
    "label": ""
   },
   {
@@ -4675,12 +4859,6 @@
    "label": ""
   },
   {
-   "addr": "0x546b44177af4fbe84dd12ecdf7b8c20395b7ba91",
-   "wl1": 7.4,
-   "usd": 0.9,
-   "label": ""
-  },
-  {
    "addr": "0x3fd929e3c946a882280e73dc672f39dc77e37078",
    "wl1": 7.1,
    "usd": 2.1,
@@ -4723,6 +4901,12 @@
    "label": ""
   },
   {
+   "addr": "0xe62636055afd19fde4bbfd2b251bc8b5cffc3166",
+   "wl1": 5.5,
+   "usd": 0.9,
+   "label": ""
+  },
+  {
    "addr": "0x31f9c413f5f4e3929e05e071185b3daa02b9985b",
    "wl1": 5.2,
    "usd": 1.3,
@@ -4756,18 +4940,6 @@
    "addr": "0x949daa44d333a150082f5d5f3cfdf0a670b8ddd2",
    "wl1": 4.5,
    "usd": 1.1,
-   "label": ""
-  },
-  {
-   "addr": "0xe62636055afd19fde4bbfd2b251bc8b5cffc3166",
-   "wl1": 4.5,
-   "usd": 0.7,
-   "label": ""
-  },
-  {
-   "addr": "0x0c8408f0a50c1e4165175028c4fef12bccc433e5",
-   "wl1": 4.4,
-   "usd": 1.0,
    "label": ""
   },
   {
@@ -4834,6 +5006,12 @@
    "addr": "0x544238f091bcd407c2033ac6ebb13d6370ae8c49",
    "wl1": 0.6,
    "usd": 0.1,
+   "label": ""
+  },
+  {
+   "addr": "0xf1c6e5f20f9186434a856163092f428614c93e2a",
+   "wl1": 0.5,
+   "usd": 0.0,
    "label": ""
   },
   {
