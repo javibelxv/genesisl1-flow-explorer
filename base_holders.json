@@ -1,12 +1,12 @@
 {
-  "updated": "2026-08-09T03:32:48Z",
-  "block": 49728493,
-  "total_supply": 2074154,
-  "pool_wl1": 1342509,
+  "updated": "2026-08-10T03:32:31Z",
+  "block": 49771684,
+  "total_supply": 2077848,
+  "pool_wl1": 1346172,
   "pool_addr": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
   "holder_count": 100,
-  "total_in_wallets": 631757,
-  "unlisted": 99888,
+  "total_in_wallets": 631761,
+  "unlisted": 99915,
   "holders": [
     {
       "a": "0xda4e7511061969a7b098e39cdfe3c46c4615bc7f",
@@ -190,7 +190,7 @@
     },
     {
       "a": "0xc427eb594bf7e6f83a522bc47007d6276ebaed14",
-      "v": 98
+      "v": 103
     },
     {
       "a": "0x1ee9f9955af7f89225d0cf5d10adb8594fe0b16d",
