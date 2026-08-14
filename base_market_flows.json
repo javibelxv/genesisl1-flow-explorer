@@ -1,8 +1,8 @@
 {
  "pool": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
- "price": 0.103446,
- "pool_wl1": 1387623.1,
- "pool_usdc": 46199.4,
+ "price": 0.100514,
+ "pool_wl1": 1408348.9,
+ "pool_usdc": 44096.3,
  "factory_diag": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
  "daily": {
   "07-10": [
@@ -190,13 +190,19 @@
    161.4,
    22628.8,
    0.0
+  ],
+  "08-13": [
+   1393.0,
+   0.0,
+   27796.8,
+   7071.0
   ]
  },
  "totals": {
-  "puente_in": 3250574.5,
+  "puente_in": 3251967.5,
   "puente_out": 1143595.0,
-  "vendido": 3119989.5,
-  "comprado": 3732201.1,
+  "vendido": 3147786.3,
+  "comprado": 3739272.1,
   "lp_add": 2000000.0,
   "lp_out": 0.0
  },
@@ -260,7 +266,7 @@
   },
   "0x3a604e1d90912ffb4521bd5a9852ed4650c5eb41": {
    "puente_in": 36238.2,
-   "vendido": 79502.8,
+   "vendido": 104502.8,
    "comprado": 43264.7,
    "recibido": 25000.0
   },
@@ -281,12 +287,12 @@
   "0x8f10b468b06c6fd214b65f87778827f7d113f996": {
    "comprado": 454707.3,
    "enviado": 454707.4,
-   "recibido": 201975.1,
-   "vendido": 201975.0
+   "recibido": 204585.9,
+   "vendido": 204585.7
   },
   "0xb92fe925dc43a0ecde6c8b1a2709c170ec4fff4f": {
-   "recibido": 579771.8,
-   "enviado": 428247.2,
+   "recibido": 580765.5,
+   "enviado": 429240.8,
    "comprado": 57764.0,
    "vendido": 209288.7
   },
@@ -321,7 +327,7 @@
    "enviado": 12193.9
   },
   "0x786726cec11025559adaaa4ae390d8d7c9287225": {
-   "comprado": 311.7,
+   "comprado": 735.0,
    "vendido": 15152.7,
    "puente_in": 20470.0,
    "enviado": 5634.0
@@ -374,7 +380,7 @@
   },
   "0x25ae7dd27de417f92c704893a10129ea0f175000": {
    "recibido": 106518.7,
-   "enviado": 52325.6
+   "enviado": 53319.3
   },
   "0x96bfacb12d414f10eedf2d0cb6eaf9a05d7f75cc": {
    "recibido": 2972.8,
@@ -1511,9 +1517,9 @@
    "vendido": 240390.0
   },
   "0x95a2ca8a2c8d5896da53f118ccf92e6a4fdc1074": {
-   "puente_in": 24115.0,
+   "puente_in": 25508.0,
    "puente_out": 14663.6,
-   "enviado": 22115.0,
+   "enviado": 23508.0,
    "recibido": 12663.6
   },
   "0xf69b075d1df427c8e042245fe697dd0e243ec724": {
@@ -1539,7 +1545,7 @@
    "vendido": 13428.6
   },
   "0xb8c3d377b0bf6d8e04ab16bc964370b4f9e28d0a": {
-   "comprado": 45804.2,
+   "comprado": 52451.8,
    "vendido": 1.0
   },
   "0x21fcc69e1512134c3d42e0e261b786927573c445": {
