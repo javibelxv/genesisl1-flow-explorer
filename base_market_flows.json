@@ -1,8 +1,8 @@
 {
  "pool": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
- "price": 0.09751,
- "pool_wl1": 1430516.1,
- "pool_usdc": 41908.4,
+ "price": 0.0925,
+ "pool_wl1": 1469887.4,
+ "pool_usdc": 38183.8,
  "factory_diag": "0xde9ba4084bf0733a9d69e42e71e5fd140179df71",
  "daily": {
   "07-10": [
@@ -202,13 +202,25 @@
    1.0,
    22267.1,
    99.8
+  ],
+  "08-15": [
+   17180.0,
+   0.0,
+   45176.5,
+   5904.2
+  ],
+  "08-16": [
+   1185.7,
+   0.0,
+   99.0,
+   0.0
   ]
  },
  "totals": {
-  "puente_in": 3278469.5,
+  "puente_in": 3296835.2,
   "puente_out": 1143596.0,
-  "vendido": 3170053.4,
-  "comprado": 3739372.0,
+  "vendido": 3215328.9,
+  "comprado": 3745276.1,
   "lp_add": 2000000.0,
   "lp_out": 0.0
  },
@@ -263,7 +275,7 @@
    "puente_in": 78270.6
   },
   "0xe08094fe42984ac2e2d6cf88aa5a4d718b638675": {
-   "puente_in": 42502.0,
+   "puente_in": 53502.0,
    "vendido": 42502.0
   },
   "0x411d2c093e4c2e69bf0d8e94be1bf13dadd879c6": {
@@ -293,12 +305,12 @@
   "0x8f10b468b06c6fd214b65f87778827f7d113f996": {
    "comprado": 454707.3,
    "enviado": 454707.4,
-   "recibido": 208028.7,
-   "vendido": 208028.6
+   "recibido": 247025.2,
+   "vendido": 247025.1
   },
   "0xb92fe925dc43a0ecde6c8b1a2709c170ec4fff4f": {
-   "recibido": 584208.3,
-   "enviado": 432683.7,
+   "recibido": 623204.8,
+   "enviado": 471680.2,
    "comprado": 57764.0,
    "vendido": 209288.7
   },
@@ -335,8 +347,8 @@
   },
   "0x786726cec11025559adaaa4ae390d8d7c9287225": {
    "comprado": 735.0,
-   "vendido": 21976.0,
-   "puente_in": 26870.0,
+   "vendido": 28156.0,
+   "puente_in": 33050.0,
    "enviado": 5634.0
   },
   "0x7a4df480866980b3dcc706ea4f4b1b88fbae4f03": {
@@ -387,7 +399,7 @@
   },
   "0x25ae7dd27de417f92c704893a10129ea0f175000": {
    "recibido": 106518.7,
-   "enviado": 56762.2
+   "enviado": 95758.6
   },
   "0x96bfacb12d414f10eedf2d0cb6eaf9a05d7f75cc": {
    "recibido": 2972.8,
@@ -1552,7 +1564,7 @@
    "vendido": 13428.6
   },
   "0xb8c3d377b0bf6d8e04ab16bc964370b4f9e28d0a": {
-   "comprado": 52451.8,
+   "comprado": 58356.0,
    "vendido": 1.0
   },
   "0x21fcc69e1512134c3d42e0e261b786927573c445": {
@@ -1634,7 +1646,7 @@
   "0xd0f50ffcb725a32341066a3d047628d87754e5f8": {
    "comprado": 1767.0,
    "puente_out": 1767.0,
-   "puente_in": 1800.0,
+   "puente_in": 2985.7,
    "vendido": 1800.0
   },
   "0xbb2f1c7cb3a1eefac24fca72cc627162d5413fd7": {

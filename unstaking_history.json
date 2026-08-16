@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-15T03:34:12Z",
+  "updated": "2026-08-16T03:34:12Z",
   "since": "2026-05-01",
   "days": [
     {
@@ -295,6 +295,18 @@
       "unlocked": 50000,
       "jailed": 0,
       "unbonds": 1
+    },
+    {
+      "date": "2026-08-22",
+      "unlocked": 250624,
+      "jailed": 0,
+      "unbonds": 2
+    },
+    {
+      "date": "2026-08-23",
+      "unlocked": 464720,
+      "jailed": 0,
+      "unbonds": 2
     }
   ]
 }
