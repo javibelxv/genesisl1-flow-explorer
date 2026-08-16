@@ -1,17 +1,17 @@
 {
  "generated": true,
- "total_unbonded": 6633206.9,
+ "total_unbonded": 7478515.9,
  "by_tag": {
-  "OTHER_WALLET": 3214946.4,
-  "STILL_STAKED": 542353.9,
-  "RESTAKED": 983851.8,
-  "MIXED": 484480.1,
-  "UNBONDING": 471520.7,
+  "OTHER_WALLET": 3258223.8,
+  "RESTAKED": 1606542.9,
+  "STILL_STAKED": 972977.9,
+  "MIXED": 481532.7,
+  "LIQUID": 433968.6,
   "OSMOSIS": 550632.4,
-  "LIQUID": 331968.6,
-  "EVM_BASE": 53453.0
+  "EVM_BASE": 124637.6,
+  "UNBONDING": 50000.0
  },
- "excluded_module_flows": 3170081.5,
+ "excluded_module_flows": 3190068.9,
  "wallets": [
   {
    "del": "genesis10yu8w9p4p0szf2xwhtndmfjnp0gfk4j7yr6ylu",
@@ -21,10 +21,10 @@
     "2026-05-28",
     "2026-07-24"
    ],
-   "staked": 588211.1,
-   "liquid": 4268.9,
+   "staked": 593875.1,
+   "liquid": 115.1,
    "unbonding": 0,
-   "restaked_after": 0.0,
+   "restaked_after": 5664.0,
    "ibc_out": 0.0,
    "sent_out": 615001.0,
    "wrapped": 0.0,
@@ -33,6 +33,34 @@
    "top_dest": "genesis1macfmy56a9t3s2xane75x47nappkhd9jqz0hsk",
    "osmo_receivers": [],
    "tag": "OTHER_WALLET"
+  },
+  {
+   "del": "genesis16aypymlama0lk5s8c9s30s09eacpvwna6v7gqt",
+   "eth": "0xd748126ffddf5ffb5207c16117c1e5cf70163a7d",
+   "unbonded": 528421,
+   "cts": [
+    "2025-03-01",
+    "2025-03-22",
+    "2026-02-26",
+    "2026-04-27",
+    "2026-08-11",
+    "2026-08-23",
+    "2026-08-23"
+   ],
+   "staked": 968558.4,
+   "liquid": 6176.4,
+   "unbonding": 464720,
+   "restaked_after": 1280971.4,
+   "ibc_out": 198979.8,
+   "sent_out": 42472.0,
+   "wrapped": 0.0,
+   "evm_txs": 0,
+   "bridge_txs": 0,
+   "top_dest": "genesis10pnjdnkpzqj4txk64f9w8yxc6lyjsu39qf7kul",
+   "osmo_receivers": [
+    "osmo16aypymlama0lk5s8c9s30s09eacpvwnav7ewjv"
+   ],
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1xr70nnhr9w7yqhw7rtthzmmxqc2q7ecxjhfx8h",
@@ -91,7 +119,7 @@
     "2026-07-17"
    ],
    "staked": 558709.9,
-   "liquid": 29.0,
+   "liquid": 4595.0,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
@@ -104,6 +132,27 @@
    "tag": "STILL_STAKED"
   },
   {
+   "del": "genesis1r4vvqh77dpr6egfdp2r0lmjexyv32lgcz7rzt7",
+   "eth": "0x1d58c05fde6847aca12d0a86ffee593119157d18",
+   "unbonded": 430624,
+   "cts": [
+    "2026-08-13",
+    "2026-08-22"
+   ],
+   "staked": 463916.5,
+   "liquid": 233392.6,
+   "unbonding": 200624,
+   "restaked_after": 0.0,
+   "ibc_out": 0.0,
+   "sent_out": 0.0,
+   "wrapped": 0.0,
+   "evm_txs": 0,
+   "bridge_txs": 0,
+   "top_dest": "",
+   "osmo_receivers": [],
+   "tag": "STILL_STAKED"
+  },
+  {
    "del": "genesis1v2z9rwxt5y98pnrs6ryhqp08ay5azzvmchdgpu",
    "eth": "0x628451b8cba10a70cc70d0c97005e7e929d1099b",
    "unbonded": 402586.0,
@@ -111,7 +160,7 @@
     "2026-07-24"
    ],
    "staked": 410274.2,
-   "liquid": 2.4,
+   "liquid": 5951.0,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
@@ -143,7 +192,7 @@
     "2026-07-27"
    ],
    "staked": 850116.2,
-   "liquid": 11483.8,
+   "liquid": 14028.3,
    "unbonding": 0,
    "restaked_after": 443268.1,
    "ibc_out": 510125.7,
@@ -226,26 +275,6 @@
    "tag": "OTHER_WALLET"
   },
   {
-   "del": "genesis1r4vvqh77dpr6egfdp2r0lmjexyv32lgcz7rzt7",
-   "eth": "0x1d58c05fde6847aca12d0a86ffee593119157d18",
-   "unbonded": 230000,
-   "cts": [
-    "2026-08-13"
-   ],
-   "staked": 664540.5,
-   "liquid": 607.4,
-   "unbonding": 230000,
-   "restaked_after": 0.0,
-   "ibc_out": 0.0,
-   "sent_out": 0.0,
-   "wrapped": 0.0,
-   "evm_txs": 0,
-   "bridge_txs": 0,
-   "top_dest": "",
-   "osmo_receivers": [],
-   "tag": "UNBONDING"
-  },
-  {
    "del": "genesis1kyly26j3kpac52d5chqar82c7m9eukfmjxefvl",
    "eth": "0xb13e456a51b07b8a29b4c5c1d19d58f6cb9e593b",
    "unbonded": 212700,
@@ -266,16 +295,44 @@
    "tag": "OTHER_WALLET"
   },
   {
+   "del": "genesis1g6zstj3qxu463chcgy878v9jh66culnvskqfm6",
+   "eth": "0x468505ca20372ba8e2f8410fe3b0b2beb58e7e6c",
+   "unbonded": 204636.3,
+   "cts": [
+    "2024-10-04",
+    "2026-07-28",
+    "2026-07-28",
+    "2026-07-28",
+    "2026-07-28",
+    "2026-07-28",
+    "2026-07-28",
+    "2026-07-28",
+    "2026-08-21"
+   ],
+   "staked": 206265.8,
+   "liquid": 1587.8,
+   "unbonding": 50000.0,
+   "restaked_after": 132661.0,
+   "ibc_out": 0.0,
+   "sent_out": 220420.0,
+   "wrapped": 0.0,
+   "evm_txs": 0,
+   "bridge_txs": 0,
+   "top_dest": "genesis1uzqffljznp9v9ckke7y25kjdwx9k8pn4llv7zv",
+   "osmo_receivers": [],
+   "tag": "RESTAKED"
+  },
+  {
    "del": "genesis1fnurwwfpjv0sm0hqevt9w525ye8nhlhc5mgp6k",
    "eth": "0x4cf8373921931f0dbee0cb16575154264f3bfef8",
    "unbonded": 200000.0,
    "cts": [
     "2026-08-13"
    ],
-   "staked": 11972.1,
-   "liquid": 1.0,
-   "unbonding": 200000.0,
-   "restaked_after": 1029.0,
+   "staked": 11988.0,
+   "liquid": 200001.0,
+   "unbonding": 0,
+   "restaked_after": 1045.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
    "wrapped": 0.0,
@@ -283,7 +340,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "UNBONDING"
+   "tag": "LIQUID"
   },
   {
    "del": "genesis17jhgvcwtqawr50xmpepeu0h0sjrj5y5xasv2l5",
@@ -309,33 +366,6 @@
     "osmo17jhgvcwtqawr50xmpepeu0h0sjrj5y5xtztvdn"
    ],
    "tag": "OSMOSIS"
-  },
-  {
-   "del": "genesis1g6zstj3qxu463chcgy878v9jh66culnvskqfm6",
-   "eth": "0x468505ca20372ba8e2f8410fe3b0b2beb58e7e6c",
-   "unbonded": 154636.3,
-   "cts": [
-    "2024-10-04",
-    "2026-07-28",
-    "2026-07-28",
-    "2026-07-28",
-    "2026-07-28",
-    "2026-07-28",
-    "2026-07-28",
-    "2026-07-28"
-   ],
-   "staked": 256265.8,
-   "liquid": 351.8,
-   "unbonding": 0,
-   "restaked_after": 132661.0,
-   "ibc_out": 0.0,
-   "sent_out": 220270.0,
-   "wrapped": 0.0,
-   "evm_txs": 0,
-   "bridge_txs": 0,
-   "top_dest": "genesis1uxx7lczky6nc2tcuw26wsekns8akrkfyh90tra",
-   "osmo_receivers": [],
-   "tag": "RESTAKED"
   },
   {
    "del": "genesis1u7hgklj5vhfdrqjd0eewmh2dqwvkx72ljsqntr",
@@ -422,10 +452,10 @@
     "2026-07-08",
     "2026-07-08"
    ],
-   "staked": 452451.1,
-   "liquid": 531.2,
+   "staked": 453954.1,
+   "liquid": 735.9,
    "unbonding": 0,
-   "restaked_after": 227833.8,
+   "restaked_after": 229336.8,
    "ibc_out": 0.0,
    "sent_out": 78277.0,
    "wrapped": 0.0,
@@ -490,6 +520,28 @@
    "tag": "OTHER_WALLET"
   },
   {
+   "del": "genesis1cx09zmque36xrtf2mtjffh45rm4444ldhapcje",
+   "eth": "0xc19e516c1ccc7461ad2adae494deb41eeb5ad7ed",
+   "unbonded": 100000,
+   "cts": [
+    "2026-08-04",
+    "2026-08-16",
+    "2026-08-17"
+   ],
+   "staked": 111472.3,
+   "liquid": 1048.8,
+   "unbonding": 70000,
+   "restaked_after": 0.0,
+   "ibc_out": 0.0,
+   "sent_out": 100.0,
+   "wrapped": 30384.6,
+   "evm_txs": 8,
+   "bridge_txs": 1,
+   "top_dest": "genesis13jh0dezxl9kr39mvwz5d66hn22acza4c02rnwj",
+   "osmo_receivers": [],
+   "tag": "EVM_BASE"
+  },
+  {
    "del": "genesis1jxyxqzs0eg53gf2vjs5ekx7ewgduf4gquehckf",
    "eth": "0x9188600a0fca2914254c94299b1bd9721bc4d500",
    "unbonded": 100000,
@@ -517,10 +569,10 @@
    "cts": [
     "2026-06-28"
    ],
-   "staked": 235000.9,
-   "liquid": 103786.2,
+   "staked": 335000.9,
+   "liquid": 3249.3,
    "unbonding": 0,
-   "restaked_after": 0.0,
+   "restaked_after": 100000.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
    "wrapped": 0.0,
@@ -528,7 +580,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "LIQUID"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis19h65cmarqlpaz80ja26jtn4gamuvwla0e3g0ga",
@@ -545,8 +597,8 @@
     "2026-08-14"
    ],
    "staked": 10073.2,
-   "liquid": 40.3,
-   "unbonding": 3000,
+   "liquid": 3040.3,
+   "unbonding": 0,
    "restaked_after": 81706.2,
    "ibc_out": 73158.3,
    "sent_out": 12751.8,
@@ -706,32 +758,6 @@
    "tag": "OSMOSIS"
   },
   {
-   "del": "genesis16aypymlama0lk5s8c9s30s09eacpvwna6v7gqt",
-   "eth": "0xd748126ffddf5ffb5207c16117c1e5cf70163a7d",
-   "unbonded": 63701,
-   "cts": [
-    "2025-03-01",
-    "2025-03-22",
-    "2026-02-26",
-    "2026-04-27",
-    "2026-08-11"
-   ],
-   "staked": 1423862.4,
-   "liquid": 476.4,
-   "unbonding": 26000,
-   "restaked_after": 1271555.4,
-   "ibc_out": 198979.8,
-   "sent_out": 17992.0,
-   "wrapped": 0.0,
-   "evm_txs": 0,
-   "bridge_txs": 0,
-   "top_dest": "genesis10pnjdnkpzqj4txk64f9w8yxc6lyjsu39qf7kul",
-   "osmo_receivers": [
-    "osmo16aypymlama0lk5s8c9s30s09eacpvwnav7ewjv"
-   ],
-   "tag": "RESTAKED"
-  },
-  {
    "del": "genesis1nvfs6cvlelpp6rgguh8r3n6z5ha7yvxthx8q26",
    "eth": "0x9b130d619fcfc21d0d08e5ce38cf42a5fbe230cb",
    "unbonded": 58944.5,
@@ -782,7 +808,7 @@
     "2025-02-20"
    ],
    "staked": 292380.5,
-   "liquid": 1792.4,
+   "liquid": 2382.2,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 195013.4,
@@ -800,6 +826,26 @@
    "tag": "OSMOSIS"
   },
   {
+   "del": "genesis1uzqffljznp9v9ckke7y25kjdwx9k8pn4llv7zv",
+   "eth": "0xe08094fe42984ac2e2d6cf88aa5a4d718b638675",
+   "unbonded": 50000.0,
+   "cts": [
+    "2026-08-22"
+   ],
+   "staked": 7147.1,
+   "liquid": 37.5,
+   "unbonding": 50000.0,
+   "restaked_after": 0.0,
+   "ibc_out": 0.0,
+   "sent_out": 0.0,
+   "wrapped": 10999.4,
+   "evm_txs": 6,
+   "bridge_txs": 1,
+   "top_dest": "",
+   "osmo_receivers": [],
+   "tag": "UNBONDING"
+  },
+  {
    "del": "genesis1vmjdd0uh783h6068nvjsvw0uvs57v5h5evzh9f",
    "eth": "0x66e4d6bf97f1e37d3f479b250639fc6429e652f4",
    "unbonded": 50000.0,
@@ -807,7 +853,7 @@
     "2025-02-20"
    ],
    "staked": 52029.8,
-   "liquid": 349.4,
+   "liquid": 453.3,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 70438.7,
@@ -911,18 +957,18 @@
     "2026-08-13",
     "2026-08-13"
    ],
-   "staked": 35199.7,
-   "liquid": 90.1,
-   "unbonding": 40100,
-   "restaked_after": 0.0,
+   "staked": 35503.9,
+   "liquid": 0.9,
+   "unbonding": 0,
+   "restaked_after": 304.2,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 40002.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis127szd4szyvmdkatn3hs9vqfnaqhe2sqteu0xdq",
    "osmo_receivers": [],
-   "tag": "UNBONDING"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1hauvj3muyuswsfn5hc4cqj3zmwe6y33lxrgrr9",
@@ -932,7 +978,7 @@
     "2026-05-20"
    ],
    "staked": 27000.3,
-   "liquid": 9485.6,
+   "liquid": 9564.1,
    "unbonding": 0,
    "restaked_after": 27000.0,
    "ibc_out": 0.0,
@@ -999,10 +1045,10 @@
     "2026-06-16",
     "2026-08-06"
    ],
-   "staked": 246953.2,
-   "liquid": 10526.2,
+   "staked": 248064.3,
+   "liquid": 10026.3,
    "unbonding": 0,
-   "restaked_after": 11284.3,
+   "restaked_after": 12395.5,
    "ibc_out": 763.0,
    "sent_out": 13896.0,
    "wrapped": 0.0,
@@ -1013,26 +1059,6 @@
     "osmo1hgp002gnpvas3jz0xawh8ek39nghjycxqg8t8e"
    ],
    "tag": "STILL_STAKED"
-  },
-  {
-   "del": "genesis1cx09zmque36xrtf2mtjffh45rm4444ldhapcje",
-   "eth": "0xc19e516c1ccc7461ad2adae494deb41eeb5ad7ed",
-   "unbonded": 30000,
-   "cts": [
-    "2026-08-04"
-   ],
-   "staked": 181472.3,
-   "liquid": 850.7,
-   "unbonding": 0,
-   "restaked_after": 0.0,
-   "ibc_out": 0.0,
-   "sent_out": 0.0,
-   "wrapped": 30384.6,
-   "evm_txs": 6,
-   "bridge_txs": 1,
-   "top_dest": "",
-   "osmo_receivers": [],
-   "tag": "EVM_BASE"
   },
   {
    "del": "genesis175rljmqvlrx9ykfkzxzt9azxkascdza4zdhg3t",
@@ -1063,7 +1089,7 @@
     "2026-07-28"
    ],
    "staked": 60299.9,
-   "liquid": 50.6,
+   "liquid": 10050.1,
    "unbonding": 0,
    "restaked_after": 30000.0,
    "ibc_out": 0.0,
@@ -1117,6 +1143,30 @@
    "evm_txs": 0,
    "bridge_txs": 0,
    "top_dest": "genesis1j8wleahepyz0g46m8gw8gmfq7d4tdhz4mutwy6",
+   "osmo_receivers": [],
+   "tag": "RESTAKED"
+  },
+  {
+   "del": "genesis19q8epway9ag8zpjhudkx64d5vvru778dfzu9uu",
+   "eth": "0x280f90bba42f50710657e36c6d55b46307cf78ed",
+   "unbonded": 20883.8,
+   "cts": [
+    "2025-04-21",
+    "2026-02-03",
+    "2026-02-03",
+    "2026-08-16",
+    "2026-08-16"
+   ],
+   "staked": 0.0,
+   "liquid": 5.2,
+   "unbonding": 9965,
+   "restaked_after": 13364.0,
+   "ibc_out": 0.0,
+   "sent_out": 0.0,
+   "wrapped": 0.0,
+   "evm_txs": 0,
+   "bridge_txs": 0,
+   "top_dest": "",
    "osmo_receivers": [],
    "tag": "RESTAKED"
   },
@@ -1293,28 +1343,6 @@
    "tag": "STILL_STAKED"
   },
   {
-   "del": "genesis19q8epway9ag8zpjhudkx64d5vvru778dfzu9uu",
-   "eth": "0x280f90bba42f50710657e36c6d55b46307cf78ed",
-   "unbonded": 10918.8,
-   "cts": [
-    "2025-04-21",
-    "2026-02-03",
-    "2026-02-03"
-   ],
-   "staked": 9890,
-   "liquid": 5.8,
-   "unbonding": 0,
-   "restaked_after": 13289.0,
-   "ibc_out": 0.0,
-   "sent_out": 0.0,
-   "wrapped": 0.0,
-   "evm_txs": 0,
-   "bridge_txs": 0,
-   "top_dest": "",
-   "osmo_receivers": [],
-   "tag": "RESTAKED"
-  },
-  {
    "del": "genesis15z5fvkqv25zcpkp5hrceapazyn3dkynrwx6880",
    "eth": "0xa0a896580c550580d834b8f19e87a224e2db1263",
    "unbonded": 10000,
@@ -1446,7 +1474,7 @@
     "2026-07-14"
    ],
    "staked": 0,
-   "liquid": 3779.0,
+   "liquid": 33.2,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
@@ -1567,18 +1595,18 @@
    "cts": [
     "2026-07-22"
    ],
-   "staked": 0,
-   "liquid": 0.7,
+   "staked": 100.0,
+   "liquid": 10.4,
    "unbonding": 0,
-   "restaked_after": 0.0,
+   "restaked_after": 100.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 5480.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1967yq8zuf2zzvtq8la7s7nyrwyuqru7yhxfu8p",
    "osmo_receivers": [],
-   "tag": "MIXED"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1qt98pflkzr862accqps3llhwqhvg4yzl75qchl",
@@ -1628,17 +1656,17 @@
     "2026-08-15"
    ],
    "staked": 0.0,
-   "liquid": 34.5,
-   "unbonding": 1184.6,
+   "liquid": 0.3,
+   "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
-   "wrapped": 0.0,
-   "evm_txs": 0,
-   "bridge_txs": 0,
+   "wrapped": 1218.7,
+   "evm_txs": 12,
+   "bridge_txs": 2,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "UNBONDING"
+   "tag": "EVM_BASE"
   },
   {
    "del": "genesis1q5k5vgppd3esjjhzpzezr78cuyfva2rhtjm7ht",
@@ -1647,10 +1675,10 @@
    "cts": [
     "2026-08-05"
    ],
-   "staked": 18580.5,
+   "staked": 18608.1,
    "liquid": 1021.0,
    "unbonding": 0,
-   "restaked_after": 84.0,
+   "restaked_after": 111.6,
    "ibc_out": 0.0,
    "sent_out": 0.0,
    "wrapped": 0.0,
@@ -1690,15 +1718,15 @@
     "2026-08-01"
    ],
    "staked": 0,
-   "liquid": 602.3,
+   "liquid": 0.3,
    "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 15412.0,
    "wrapped": 13903.5,
-   "evm_txs": 6,
+   "evm_txs": 16,
    "bridge_txs": 1,
-   "top_dest": "",
+   "top_dest": "genesis1gzn6edx0r2mwavr4rxxzghumhyl77q68gag24w",
    "osmo_receivers": [],
    "tag": "EVM_BASE"
   },
@@ -1773,17 +1801,17 @@
     "2026-08-13"
    ],
    "staked": 5.9,
-   "liquid": 5.9,
-   "unbonding": 230,
+   "liquid": 8.8,
+   "unbonding": 0,
    "restaked_after": 0.0,
    "ibc_out": 0.0,
-   "sent_out": 0.0,
+   "sent_out": 280.0,
    "wrapped": 0.0,
    "evm_txs": 0,
    "bridge_txs": 0,
-   "top_dest": "",
+   "top_dest": "genesis1p897yys9cj2r28w3hljqczsaf2rjde88m4rauc",
    "osmo_receivers": [],
-   "tag": "UNBONDING"
+   "tag": "OTHER_WALLET"
   },
   {
    "del": "genesis1rsntu55zwhlhcfghh2wtzsxkr67qszupcys22v",
@@ -3244,18 +3272,18 @@
    "cts": [
     "2026-08-13"
    ],
-   "staked": 17213,
-   "liquid": 0.4,
-   "unbonding": 6,
-   "restaked_after": 7213.0,
+   "staked": 17348,
+   "liquid": 0.8,
+   "unbonding": 0,
+   "restaked_after": 7348.0,
    "ibc_out": 0.0,
    "sent_out": 0.0,
    "wrapped": 0.0,
-   "evm_txs": 0,
-   "bridge_txs": 0,
+   "evm_txs": 18,
+   "bridge_txs": 1,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "UNBONDING"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1lm59f9w6hte7wz83d4dxw5t40hz8cehznwjjc2",
@@ -3369,10 +3397,10 @@
     "2026-08-14",
     "2026-08-14"
    ],
-   "staked": 0.6,
+   "staked": 0.7,
    "liquid": 2.2,
-   "unbonding": 0.1,
-   "restaked_after": 0.6,
+   "unbonding": 0,
+   "restaked_after": 0.7,
    "ibc_out": 0.0,
    "sent_out": 0.0,
    "wrapped": 0.0,
@@ -3380,7 +3408,7 @@
    "bridge_txs": 0,
    "top_dest": "",
    "osmo_receivers": [],
-   "tag": "UNBONDING"
+   "tag": "RESTAKED"
   },
   {
    "del": "genesis1d7qtzdlxtj06xymmcst256sfkrk6g9fe7vdrwf",
